@@ -1,0 +1,24 @@
+# Apuntes reales y salidas de prueba: material personal, no se publica
+pruebas/escaneos/*
+pruebas/salida/*
+!pruebas/escaneos/.gitkeep
+!pruebas/salida/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# LaTeX (los auxiliares van a un temporal, pero por si acaso)
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Editores / SO
+.vscode/
+.idea/
+.obsidian/
+Thumbs.db
+.DS_Store
