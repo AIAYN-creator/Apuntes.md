@@ -1,0 +1,23 @@
+% Plantilla común para figuras redibujadas (fig-NN-desc.tex).
+% Copiar entera y sustituir solo el cuerpo entre \begin{document} y \end{document}.
+% Compila tal cual en Overleaf o con scripts/tikz2svg.sh.
+%
+% NO añadir la opción "tikz" a standalone: parte cada tikzpicture (y cada
+% \chemfig) en una página distinta y el SVG solo tendría la primera.
+\documentclass[border=4pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[version=4]{mhchem}  % \ce{A + B -> C}
+\usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
+\usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
+\pgfplotsset{compat=1.18}
+
+\begin{document}
+% --- cuerpo de la figura ---
+\begin{tikzpicture}
+  \draw[-Stealth] (0,0) -- (2,0) node[right] {$x$};
+\end{tikzpicture}
+% ---------------------------
+\end{document}
