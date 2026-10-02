@@ -29,11 +29,15 @@ Enlaza la carpeta de la skill en `~/.claude/skills/` con un *junction* (así los
 New-Item -ItemType Junction -Path "$env:USERPROFILE\.claude\skills\apuntes-a-md" -Target "<ruta-al-repo>\skills\apuntes-a-md"
 ```
 
+### Obsidian en modo oscuro
+
+Los SVG son líneas negras sobre fondo transparente. Copia [`svg-modo-oscuro.css`](skills/apuntes-a-md/obsidian/svg-modo-oscuro.css) a `<vault>/.obsidian/snippets/` y actívalo en *Ajustes → Apariencia → Fragmentos CSS*.
+
 ## Estructura
 
 ```
 skills/
-  apuntes-a-md/      SKILL.md, templates/, scripts/
+  apuntes-a-md/      SKILL.md, templates/, scripts/, obsidian/
   enlazar-vault/     SKILL.md (Fase 2)
 pruebas/
   escaneos/          hojas reales de prueba (no se suben)

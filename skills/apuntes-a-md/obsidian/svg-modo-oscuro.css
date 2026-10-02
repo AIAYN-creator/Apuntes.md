@@ -1,0 +1,6 @@
+/* Apuntes a Markdown: hace legibles en tema oscuro los SVG (líneas negras, fondo transparente).
+   Solo afecta a imágenes dentro de carpetas assets/ (moléculas, figuras), no a los recortes PNG.
+   invert + hue-rotate deja el negro en blanco y mantiene el tono aproximado de los colores (O rojo, N azul). */
+.theme-dark img[src*="assets/"][src$=".svg"] {
+  filter: invert(1) hue-rotate(180deg);
+}
