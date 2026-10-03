@@ -19,7 +19,7 @@ Necesitas saber, y si no lo sabes **pregunta antes de escribir nada**:
 
 - La ruta del **escaneo** y, si es un PDF, qué páginas.
 - La ruta del **vault** (o de la carpeta de salida).
-- **Asignatura** y **tema**, si no se leen en la hoja.
+- **Asignatura** y **tema**, si no se leen en la hoja. Si el escaneo es un cuaderno y el título del tema está en una página anterior del mismo PDF, puedes tomarlo de ahí, pero dilo en el `[!warning]` inicial.
 
 ## 2. Dónde va cada cosa
 
@@ -28,7 +28,7 @@ Necesitas saber, y si no lo sabes **pregunta antes de escribir nada**:
 <vault>/<Asignatura>/assets/<tema-slug>/<asset>
 ```
 
-- `tema-slug`: el tema en kebab-case y sin tildes (`ciclo-de-krebs`). Si la nota ya existe, añade `-2`, `-3`… **Nunca sobrescribas una nota existente.**
+- `tema-slug`: el tema en kebab-case y sin tildes (`ciclo-de-krebs`), **como mucho 5 palabras**. Si el título es largo ("Tema 2: Aminoácidos, enlace peptídico, estructuras…"), quédate con el número y el núcleo del contenido de esas páginas (`tema-2-aminoacidos`); el título completo va en `tema`. Si la nota ya existe, añade `-2`, `-3`… **Nunca sobrescribas una nota existente.**
 - Assets: `<tipo>-<NN>[-<desc>].<ext>`.
   - `tipo`: `mol` (`.svg` de RDKit), `fig` (`.tex` + `.svg`, mismo nombre base) o `crop` (`.png`).
   - `NN`: dos dígitos, numeración propia por tipo, en orden de aparición.
@@ -58,13 +58,15 @@ fuente: "bq-krebs.pdf#p3"
    ```bash
    uv run <skill>/scripts/crop.py <escaneo> --page N --render <tmp>/pN-grid.png --grid
    ```
-3. **Inventario antes de escribir.** Recorre la página de arriba abajo y lista cada elemento con su tipo (texto, fórmula, estructura, diagrama, gráfica) y su caja aproximada. No redactes nada todavía.
+   Las coordenadas de `--box` se leen **siempre en esta imagen con cuadrícula**: no las estimes a partir de otra vista de la página, porque cada vista tiene márgenes y escalas distintos.
+3. **Para leer la letra**, recorta la página en 4–5 franjas horizontales a ~160 ppp (`--box 0 Y0 1 Y1 --pad 0 --dpi 160`) y amplía a 300 ppp las líneas dudosas, sobre todo números y subíndices.
+4. **Inventario antes de escribir.** Recorre la página de arriba abajo y lista cada elemento con su tipo (texto, fórmula, estructura, diagrama, gráfica) y su caja aproximada. No redactes nada todavía.
 
 ### Paso 2: escribir la nota, elemento a elemento, en el orden del original
 
 | Elemento | Cómo |
 |---|---|
-| **Texto** | Markdown limpio. Los títulos y subtítulos de la hoja pasan a `#`/`##`/`###`, las listas a listas y lo subrayado o recuadrado a **negrita**. Las abreviaturas se dejan tal como están escritas. |
+| **Texto** | Markdown limpio. Los títulos y subtítulos de la hoja pasan a `#`/`##`/`###`, las listas a listas, y lo subrayado, recuadrado, resaltado con fluorescente o escrito en otro color para destacar pasa a **negrita**. No uses `==resaltado==` para lo que el autor resaltó: está reservado para las dudas. Las abreviaturas y las comillas de "ídem" (`"`) se dejan tal como están escritas. |
 | **Fórmulas** | LaTeX: `$...$` en línea y `$$...$$` en bloque (en líneas propias). En la nota **no uses `\ce{}`**, porque Obsidian no carga mhchem: usa `\rightarrow`, `\rightleftharpoons`, `\xrightarrow{\text{enzima}}`… |
 | **Estructura química** | SMILES → `smiles2svg.py` (sección 6). |
 | **Diagrama sencillo** (flechas, ciclos, rutas cortas, perfil de energía, gráfica, montaje simple) | Redibújalo en TikZ/chemfig → `tikz2svg.sh` (sección 7). |
@@ -163,7 +165,7 @@ El script avisa de todos los estereocentros y dobles enlaces E/Z. Para cada uno:
 
 ## 7. Diagramas redibujados
 
-1. Copia `templates/figura.tex` a `assets/<slug>/fig-NN-desc.tex` y sustituye **solo** el cuerpo. No añadas la opción `tikz` a `standalone`.
+1. Copia `templates/figura.tex` a `assets/<slug>/fig-NN-desc.tex` y sustituye **solo** el cuerpo. No añadas la opción `tikz` a `standalone`. Escribe el `.tex` con la herramienta de escribir ficheros, no con un heredoc de shell: las capas de escape se comen las `\`.
 2. Compila:
    ```bash
    bash <skill>/scripts/tikz2svg.sh <vault>/<Asig>/assets/<slug>/fig-NN-desc.tex --preview
