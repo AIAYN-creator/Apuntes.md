@@ -165,7 +165,7 @@ El script avisa de todos los estereocentros y dobles enlaces E/Z. Para cada uno:
 
 ## 7. Diagramas redibujados
 
-1. Copia `templates/figura.tex` a `assets/<slug>/fig-NN-desc.tex` y sustituye **solo** el cuerpo. No añadas la opción `tikz` a `standalone`. Escribe el `.tex` con la herramienta de escribir ficheros, no con un heredoc de shell: las capas de escape se comen las `\`.
+1. Copia `templates/figura.tex` a `assets/<slug>/fig-NN-desc.tex` y sustituye **solo** el cuerpo. No añadas la opción `tikz` a `standalone`. Escribe el `.tex` con la herramienta de escribir ficheros, no con un heredoc de shell: las capas de escape se comen los saltos de línea `\\` de TikZ.
 2. Compila:
    ```bash
    bash <skill>/scripts/tikz2svg.sh <vault>/<Asig>/assets/<slug>/fig-NN-desc.tex --preview
