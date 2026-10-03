@@ -46,7 +46,7 @@ fuente: "bq-krebs.pdf#p3"
 ---
 ```
 
-- `fecha`: la fecha **escrita en la hoja**. Si no aparece, pon `null` y añade un `[!warning]` al principio de la nota. No uses la fecha de hoy.
+- `fecha`: la fecha **escrita en la hoja**. Si la hoja no lleva fecha, usa la **fecha inmediatamente anterior** del mismo cuaderno o PDF: retrocede página a página hasta encontrar una (los apuntes se fechan al empezar la clase y las páginas siguientes son de la misma sesión). Esto no lleva aviso. Solo si no hay ninguna fecha antes, pon `null` y añade un `[!warning]` al principio de la nota. No uses nunca la fecha de hoy.
 - `fuente`: nombre del archivo, más `#p<N>` o `#p<N>-<M>` si es un PDF.
 - No añadas `tags` ni otros campos: los tags son cosa de la skill `enlazar-vault`.
 
@@ -69,10 +69,10 @@ fuente: "bq-krebs.pdf#p3"
 | **Texto** | Markdown limpio. Los títulos y subtítulos de la hoja pasan a `#`/`##`/`###`, las listas a listas, y lo subrayado, recuadrado, resaltado con fluorescente o escrito en otro color para destacar pasa a **negrita**. No uses `==resaltado==` para lo que el autor resaltó: está reservado para las dudas. Las abreviaturas y las comillas de "ídem" (`"`) se dejan tal como están escritas. |
 | **Fórmulas** | LaTeX: `$...$` en línea y `$$...$$` en bloque (en líneas propias). En la nota **no uses `\ce{}`**, porque Obsidian no carga mhchem: usa `\rightarrow`, `\rightleftharpoons`, `\xrightarrow{\text{enzima}}`… |
 | **Estructura química** | SMILES → `smiles2svg.py` (sección 6). |
-| **Diagrama sencillo** (flechas, ciclos, rutas cortas, perfil de energía, gráfica, montaje simple) | Redibújalo en TikZ/chemfig → `tikz2svg.sh` (sección 7). |
-| **Diagrama complejo o ambiguo**, o dibujo (célula, orgánulo, montaje con muchos elementos) | Recórtalo con `crop.py` y pon un callout `[!todo]` (sección 5c). |
+| **Diagrama o dibujo esquemático** (flechas, ciclos, rutas, perfil de energía, gráfica, montaje, cargas parciales δ⁺/δ⁻ sobre moléculas, micelas, bicapas, hélices, formas de lípidos…) | Redibújalo en TikZ/chemfig → `tikz2svg.sh` (sección 7). |
+| **Diagrama ambiguo**, o dibujo realista (célula, orgánulo, aparato con detalle) | Recórtalo con `crop.py` y pon un callout `[!todo]` (sección 5c). |
 
-**Cuándo redibujar y cuándo recortar:** redibuja si puedes reproducir **todos** los elementos y etiquetas del original sin adivinar ninguno; si no, recorta. Como orientación: más de unos 12 nodos o etiquetas, flechas que se cruzan sin saber hacia dónde van, o dibujos figurativos → recorte.
+**Cuándo redibujar y cuándo recortar:** por defecto, **redibuja**. El usuario prefiere el dibujo limpio al pantallazo, y un dibujo esquemático hecho a mano (aunque sea figurativo: micelas, vesículas, cabezas y colas de lípidos) se puede reproducir con TikZ. Recorta solo si el original es **ambiguo** (no sabes qué representa una flecha o una forma, o falta alguna etiqueta) o si es un dibujo realista que no se puede esquematizar sin perder información. Lo que se lee pero no se entiende va como recorte dentro del `[!warning]`, porque así el arreglo es inmediato.
 
 ### Paso 3: verificar cada asset
 Usa `--preview` en ambos scripts y **compara el PNG de preview con el recorte del original**. Comprueba que los átomos, los enlaces, las flechas y las etiquetas coinciden. Si no coinciden y no sabes corregirlo, cambia ese elemento por recorte + `[!todo]`.
@@ -122,6 +122,8 @@ Límites, que no cambian aunque la confianza sea alta:
 ```
 Si el original parece tener un error (un signo, un subíndice…), **transcribe lo que pone** y añade `> [!warning] Posible errata en el original`. No lo corrijas.
 
+**Pon siempre el recorte del original dentro del `[!warning]`.** Así el usuario resuelve la duda de un vistazo, sin abrir el escaneo.
+
 **c) Diagrama no redibujado:**
 ```markdown
 > [!todo] TODO: redibujar esquema de la cadena de transporte electrónico
@@ -144,6 +146,8 @@ En la nota se escribe así:
 ```
 - El nombre completo, con letras griegas, va en el **alt** de la imagen. `--legend` solo admite ASCII, así que por defecto no lo uses.
 - Escribe el SMILES `canonical` que devuelve el script.
+- Los `*` del SMILES (grupos R) se dibujan como **R, R′, R″…**, y los carbonos quirales sin configuración llevan un **`*`** al lado.
+- Si lo escrito en la hoja **no es un SMILES válido** (p. ej. R–CO–NH₃ sin carga: el N tendría 4 enlaces), no lo "arregles" para que RDKit lo acepte. Dibújalo **tal cual con chemfig** (`fig-NN`, colores O rojo y N azul como RDKit) y sin línea `smiles:`.
 
 ### Regla crítica: estereoquímica
 
@@ -153,8 +157,9 @@ El script avisa de todos los estereocentros y dobles enlaces E/Z. Para cada uno:
 |---|---|
 | Cuñas o guiones, posiciones en Fischer/Haworth, R/S o E/Z **legibles sin duda** | SMILES isomérico + `` `estereo: del dibujo` `` |
 | Sin dibujo claro, pero el **nombre escrito en la hoja** fija la configuración (D-glucosa, L-alanina, α/β, *cis*/*trans*, *(R)*-…) | SMILES isomérico + `` `estereo: por nombre (<nombre tal cual>)` `` |
+| Carbono quiral **sin configuración dibujada** (dibujo plano, sin cuñas ni Fischer/Haworth). Es lo habitual cuando se representan ambos enantiómeros o la configuración da igual | SMILES **sin** estereo; el dibujo sale plano con **`*` en el carbono quiral** (lo pone `smiles2svg.py`) + `` `estereo: sin indicar (C* quiral)` ``. **Sin aviso**: no es una duda, es una convención |
 | El nombre y el dibujo **se contradicen** | SMILES **sin** estereo + `[!warning]` explicando la contradicción |
-| Cualquier otra duda (cuña o guion indistinguible, un centro sin dibujar, un OH borroso en Fischer) | SMILES **sin** estereo (sin `@` ni `/\`) + `[!warning]` + recorte |
+| La configuración **está dibujada pero no se lee** (cuña o guion indistinguible, un OH borroso en Fischer) | SMILES **sin** estereo (sin `@` ni `/\`) + `[!warning]` + recorte |
 
 **Nunca** completes la estereoquímica por tu cuenta ("es la natural", "la habitual"). Solo cuenta lo que pone la hoja, sea en el dibujo o en el nombre.
 
@@ -177,10 +182,14 @@ La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\c
 
 - **Rutas y ciclos metabólicos:** nodos con los metabolitos y la enzima sobre la flecha, **solo con las etiquetas que aparecen en la hoja**. No completes intermedios que no estén escritos.
 - **Gráficas** (Michaelis-Menten, Lineweaver-Burk, curvas de valoración): si la hoja da la ecuación o los valores, dibújala con pgfplots usando esos datos. Si es una curva hecha a mano sin datos, dibuja solo la **forma cualitativa**, con los ejes y las marcas que ponga la hoja (`Vmax`, `Km`…) y sin números inventados en los ejes.
+- **Todas las etiquetas a tamaño normal** (`font=\normalsize`, nunca `\scriptsize` ni `\small`): tienen que leerse igual que los números de los ejes. Si no caben, agranda la escala de la figura (`x=2cm, y=2cm`) en vez de encoger la letra.
+- **Cargas parciales sobre moléculas:** `\chemabove{C}{\delta^+}` en chemfig. Para δ en un extremo de enlace sin átomo, usa `\chemabove{}{\delta^-}`.
+- **Colores:** respeta los del original (p. ej. estructuras en rojo y anotaciones en azul) con `\color{red!80!black}` / `blue!70!black`. El CSS de modo oscuro los mantiene reconocibles.
+- **Dibujos repetitivos** (micelas, bicapas, vesículas): define una macro para la unidad (cabeza + colas) y colócala con `\foreach` en círculo o en fila. Ojo con la orientación: en micelas y en la capa externa de las vesículas, las cabezas van **fuera** y las colas **dentro**.
 
 ## 8. Checklist final
 
-- [ ] Frontmatter con los 4 campos; `fecha` sacada de la hoja o `null` con su aviso.
+- [ ] Frontmatter con los 4 campos; `fecha` sacada de la hoja, o la anterior del cuaderno, o `null` con su aviso.
 - [ ] Todo el contenido de la hoja está, en el mismo orden.
 - [ ] Cada estructura tiene su `smiles:`, y cada SMILES isomérico su línea `estereo:` con el origen.
 - [ ] Cada asset enlazado existe; no hay assets huérfanos en `assets/<slug>/`.
