@@ -6,6 +6,7 @@
 % \chemfig) en una página distinta y el SVG solo tendría la primera.
 \documentclass[border=4pt]{standalone}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}            % fuentes vectoriales: sin esto el texto T1 sale en Type 3 (bitmap) y dvisvgm lo pierde
 \usepackage{amsmath,amssymb}
 \usepackage[version=4]{mhchem}  % \ce{A + B -> C}
 \usepackage{chemfig}            % estructuras y esquemas de reacción

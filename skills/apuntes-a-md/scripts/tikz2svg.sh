@@ -6,6 +6,8 @@
 #
 # Cadena: pdflatex -> dvisvgm --pdf --no-fonts --exact-bbox (fallback: pdftocairo -svg).
 # Los auxiliares (.aux, .log, .pdf) van a un temporal: assets/ solo recibe el .svg.
+# --preview: PNG del SVG FINAL renderizado con Edge/Chrome headless (lo que verá Obsidian).
+# Falla (exit 1) si el PDF lleva fuentes Type 3, porque su texto se perdería en el SVG.
 # stdout: ruta del SVG (y del PNG de preview si se pide).
 # stderr: errores de LaTeX (líneas '!' del log con contexto).
 # Exit: 0 OK, 1 fallo de compilación/conversión, 2 uso incorrecto.
@@ -55,6 +57,15 @@ if [[ ! -s "$pdf" ]]; then
   exit 1
 fi
 
+# Fuentes Type 3 (bitmap): dvisvgm las descarta en silencio y el SVG sale sin texto
+# aunque el PDF se vea bien. Pasa con T1 sin una fuente vectorial (falta \usepackage{lmodern}).
+type3="$(pdffonts "$(winpath "$pdf")" 2>/dev/null | grep -c 'Type 3')"
+if [[ "$type3" != "0" ]]; then
+  echo "ERROR: el PDF usa fuentes Type 3 (bitmap) y el texto se perdería en el SVG." >&2
+  echo "       Añade \\usepackage{lmodern} tras \\usepackage[T1]{fontenc} (la plantilla ya lo trae)." >&2
+  exit 1
+fi
+
 pages="$(pdfinfo "$(winpath "$pdf")" 2>/dev/null | awk '/^Pages:/ {print $2}')"
 if [[ -n "$pages" && "$pages" != "1" ]]; then
   echo "AVISO: el PDF tiene $pages páginas; solo se convierte la primera. ¿Usas la opción 'tikz' de standalone?" >&2
@@ -69,7 +80,27 @@ fi
 winpath "$svg"
 
 if (( preview )); then
-  png_base="$(winpath "$(dirname "$tmp")")\\$name-preview"
-  pdftocairo -png -r 200 -singlefile "$(winpath "$pdf")" "$png_base"
-  echo "$png_base.png"
+  # El preview es del SVG FINAL (lo que verá Obsidian), no del PDF intermedio:
+  # un fallo de conversión (texto perdido) solo se ve aquí. Se renderiza con Edge/Chrome headless.
+  png="$(winpath "$(dirname "$tmp")")\\$name-preview.png"
+  browser=""
+  for b in "/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe" \
+           "/c/Program Files/Microsoft/Edge/Application/msedge.exe" \
+           "/c/Program Files/Google/Chrome/Application/chrome.exe" \
+           "$(command -v chromium 2>/dev/null)" "$(command -v google-chrome 2>/dev/null)"; do
+    [[ -n "$b" && -x "$b" ]] && { browser="$b"; break; }
+  done
+  if [[ -n "$browser" ]]; then
+    # Tamaño de ventana = tamaño del SVG (pt -> px a 96 ppp) más un margen
+    read -r w h < <(head -c 600 "$svg" | sed -n "s/.*width='\([0-9.]*\)pt' height='\([0-9.]*\)pt'.*/\1 \2/p")
+    w=$(awk -v v="${w:-600}" 'BEGIN{printf "%d", v*96/72+20}'); h=$(awk -v v="${h:-400}" 'BEGIN{printf "%d", v*96/72+20}')
+    url="file:///$(winpath "$svg" | tr '\\' '/')"
+    "$browser" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=2 \
+      --window-size="$w,$h" --screenshot="$png" "$url" >/dev/null 2>&1
+  fi
+  if [[ ! -s "$(cygpath -u "$png" 2>/dev/null || echo "$png")" ]]; then
+    echo "AVISO: sin Edge/Chrome; el preview es del PDF y NO garantiza que el SVG tenga todo el texto" >&2
+    pdftocairo -png -r 200 -singlefile "$(winpath "$pdf")" "${png%.png}"
+  fi
+  echo "$png"
 fi

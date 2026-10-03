@@ -177,6 +177,7 @@ El script avisa de todos los estereocentros y dobles enlaces E/Z. Para cada uno:
    ```
    Si falla, el script imprime los errores de LaTeX. Corrige y repite; tras dos intentos fallidos, recorta y pon un `[!todo]`.
 3. En la nota solo enlazas el `.svg`. El `.tex` se queda al lado como fuente.
+4. **Comprueba las anotaciones en el preview.** El `--preview` es del **SVG final** (el que verá Obsidian), no del PDF. Haz una lista de cada palabra o etiqueta escrita a mano dentro o alrededor del dibujo original (ejes, flechas, nombres, "Máxima atracción…") y comprueba que **todas** se leen en el preview. Si falta alguna, la figura no está terminada.
 
 La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\ce{}` sí funciona **dentro** del `.tex`), TikZ y `pgfplots`.
 
@@ -193,6 +194,7 @@ La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\c
 - [ ] Todo el contenido de la hoja está, en el mismo orden.
 - [ ] Cada estructura tiene su `smiles:`, y cada SMILES isomérico su línea `estereo:` con el origen.
 - [ ] Cada asset enlazado existe; no hay assets huérfanos en `assets/<slug>/`.
+- [ ] Cada figura redibujada lleva **todas** las etiquetas de texto del original, comprobado en el preview del SVG.
 - [ ] Ningún dato inventado: lo dudoso está marcado con `(?)`, `[!warning]` o `[!todo]`.
 - [ ] Ninguna palabra corregida, cambiada ni añadida: el contexto solo se ha usado para leer letras ambiguas, y ningún número se ha deducido por contexto.
 - [ ] El resumen final para el usuario incluye las decisiones de estereoquímica.
