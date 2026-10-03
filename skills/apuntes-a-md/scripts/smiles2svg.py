@@ -5,7 +5,10 @@
 """SMILES -> SVG con RDKit, validando y avisando de estereoquímica.
 
 Uso:
-    uv run scripts/smiles2svg.py "<SMILES>" -o <ruta.svg> [--legend TEXTO] [--size 300x220] [--preview]
+    uv run scripts/smiles2svg.py "<SMILES>" -o <ruta.svg> [--legend TEXTO] [--size 300x220] [--preview] [--sin-asterisco]
+
+Los "*" del SMILES se dibujan como R, R', R''... y los carbonos quirales sin
+configuración asignada llevan un "*" al lado (desactivable con --sin-asterisco).
 
 stdout: JSON con el SMILES canónico y la estereoquímica detectada.
 stderr: avisos legibles.
@@ -60,11 +63,25 @@ def stereo_report(mol: Chem.Mol) -> dict:
     }
 
 
+def label_for_drawing(mol: Chem.Mol, report: dict, mark_chiral: bool) -> Chem.Mol:
+    """Copia de la molécula solo para dibujar: R, R', R''... en los '*' y '*' en los quirales sin asignar."""
+    mol = Chem.Mol(mol)
+    dummies = [a for a in mol.GetAtoms() if a.GetAtomicNum() == 0]
+    for i, atom in enumerate(dummies):
+        atom.SetProp("atomLabel", "R" + "'" * i)
+    if mark_chiral:
+        for center in report["stereocenters"]:
+            if center["label"] == "?":
+                mol.GetAtomWithIdx(center["atom"]).SetProp("atomNote", "*")
+    return mol
+
+
 def draw(mol: Chem.Mol, size: tuple[int, int], legend: str, drawer_cls) -> rdMolDraw2D.MolDraw2D:
     drawer = drawer_cls(*size)
     opts = drawer.drawOptions()
     opts.addStereoAnnotation = True  # muestra (R)/(S), (E)/(Z) en el dibujo
     opts.clearBackground = False     # fondo transparente: se ve bien en tema oscuro de Obsidian
+    opts.annotationFontScale = 0.9   # el '*' de carbono quiral, legible
     rdMolDraw2D.PrepareAndDrawMolecule(drawer, mol, legend=legend)
     drawer.FinishDrawing()
     return drawer
@@ -81,6 +98,8 @@ def main() -> int:
     parser.add_argument("--legend", default="")
     parser.add_argument("--size", type=parse_size, default=(300, 220))
     parser.add_argument("--preview", action="store_true", help="genera también un PNG temporal para revisar a ojo")
+    parser.add_argument("--sin-asterisco", action="store_true",
+                        help="no marcar con '*' los carbonos quirales sin configuración asignada")
     args = parser.parse_args()
 
     if args.output.suffix.lower() != ".svg":
@@ -97,14 +116,15 @@ def main() -> int:
         return 1
 
     report = stereo_report(mol)
+    drawn = label_for_drawing(mol, report, mark_chiral=not args.sin_asterisco)
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    svg = draw(mol, args.size, args.legend, rdMolDraw2D.MolDraw2DSVG).GetDrawingText()
+    svg = draw(drawn, args.size, args.legend, rdMolDraw2D.MolDraw2DSVG).GetDrawingText()
     args.output.write_text(svg, encoding="utf-8")
 
     preview = None
     if args.preview:
-        png = draw(mol, (args.size[0] * 2, args.size[1] * 2), args.legend, rdMolDraw2D.MolDraw2DCairo)
+        png = draw(drawn, (args.size[0] * 2, args.size[1] * 2), args.legend, rdMolDraw2D.MolDraw2DCairo)
         preview = Path(tempfile.gettempdir()) / f"{args.output.stem}-preview.png"
         preview.write_bytes(png.GetDrawingText())
 
@@ -116,8 +136,9 @@ def main() -> int:
     n_dbl = len(report["stereo_double_bonds"])
     if n_centers or n_dbl:
         print(f"AVISO: {n_centers} estereocentro(s) ({report['unassigned_stereocenters']} sin asignar) y "
-              f"{n_dbl} doble(s) enlace(s) con posible E/Z. Comprueba contra el original: si no se lee "
-              f"con claridad, SMILES sin estereo + callout [!warning].", file=sys.stderr)
+              f"{n_dbl} doble(s) enlace(s) con posible E/Z. Comprueba contra el original: si la configuración "
+              f"no está dibujada, el dibujo plano con '*' en el C quiral es lo correcto; si está dibujada pero "
+              f"no se lee, SMILES sin estereo + callout [!warning].", file=sys.stderr)
     return 0
 
 
