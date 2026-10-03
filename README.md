@@ -29,9 +29,33 @@ Enlaza la carpeta de la skill en `~/.claude/skills/` con un *junction* (así los
 New-Item -ItemType Junction -Path "$env:USERPROFILE\.claude\skills\apuntes-a-md" -Target "<ruta-al-repo>\skills\apuntes-a-md"
 ```
 
-### Obsidian en modo oscuro
+## Configurar Obsidian
 
-Los SVG son líneas negras sobre fondo transparente. Copia [`svg-modo-oscuro.css`](skills/apuntes-a-md/obsidian/svg-modo-oscuro.css) a `<vault>/.obsidian/snippets/` y actívalo en *Ajustes → Apariencia → Fragmentos CSS*.
+**No necesitas ningún plugin.** Todo lo que generan las skills lo muestra Obsidian de serie:
+
+| En la nota | Obsidian |
+|---|---|
+| Imágenes SVG/PNG con enlace Markdown relativo | ✅ de serie |
+| Fórmulas `$...$` / `$$...$$` | ✅ de serie (MathJax) |
+| Callouts `> [!warning]`, `> [!todo]` | ✅ de serie |
+| Resaltado `==texto (?)==` | ✅ de serie |
+| Diagramas TikZ | Se compilan a SVG antes, así que no hace falta TikZJax |
+
+Solo hay que hacer dos cosas:
+
+1. **Modo oscuro** (si lo usas): los SVG son líneas negras sobre fondo transparente. Copia [`svg-modo-oscuro.css`](skills/apuntes-a-md/obsidian/svg-modo-oscuro.css) a `<vault>/.obsidian/snippets/` y actívalo en *Ajustes → Apariencia → Fragmentos CSS*.
+2. **Ajustes → Archivos y enlaces**:
+   - *Actualizar enlaces internos automáticamente*: **activado**. Si mueves una nota a mano desde Obsidian, se actualizan sus enlaces a los assets.
+   - *Formato de los nuevos enlaces*: **Ruta relativa al archivo**, el mismo formato que generan las skills.
+
+## Ordenar el vault
+
+`ordenar_vault.py` coloca las notas de apuntes en `<vault>/<Asignatura>/` según su frontmatter, moviendo también sus assets. Por defecto solo simula; nunca edita ni sobrescribe notas.
+
+```bash
+uv run skills/apuntes-a-md/scripts/ordenar_vault.py <vault> --desde pruebas/salida
+uv run skills/apuntes-a-md/scripts/ordenar_vault.py <vault> --desde pruebas/salida --aplicar
+```
 
 ## Estructura
 
@@ -45,3 +69,7 @@ pruebas/
 ```
 
 Las convenciones (nombres de assets, frontmatter, marcas de duda, interfaz de los scripts) están documentadas en el propio `SKILL.md`.
+
+## Licencia
+
+[MIT](LICENSE)
