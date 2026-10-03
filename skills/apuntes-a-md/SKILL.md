@@ -186,6 +186,19 @@ La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\c
 - [ ] Ninguna palabra corregida, cambiada ni añadida: el contexto solo se ha usado para leer letras ambiguas, y ningún número se ha deducido por contexto.
 - [ ] El resumen final para el usuario incluye las decisiones de estereoquímica.
 
+## 9. Ordenar el vault
+
+`scripts/ordenar_vault.py` coloca las notas de apuntes en `<vault>/<Asignatura>/`. Para cada nota, decide la carpeta por el `asignatura` del frontmatter y mueve también su carpeta `assets/<nombre>/`, así que los enlaces relativos siguen funcionando. No cambia el nombre del fichero ni edita ninguna nota, y nunca sobrescribe nada.
+
+Úsalo cuando el usuario pida ordenar o colocar las notas, o cuando hayas convertido en una carpeta de trabajo (p. ej. `pruebas/salida/`) y haya que llevar las notas al vault:
+
+```bash
+uv run <skill>/scripts/ordenar_vault.py <vault> [--desde <carpeta-de-trabajo>]            # simulación
+uv run <skill>/scripts/ordenar_vault.py <vault> [--desde <carpeta-de-trabajo>] --aplicar  # mover
+```
+
+**Primero simula siempre** y enséñale el plan al usuario. Solo pasa `--aplicar` cuando el usuario lo confirme. Los `CONFLICTO` (el destino ya existe, o la nota enlaza assets de otra carpeta) no se mueven: explícaselos. Los `AVISO` (asignatura escrita de varias formas, assets que no existen, assets huérfanos) son para que el usuario decida; el script no edita el frontmatter.
+
 ## Nota para Obsidian en modo oscuro
 
 Los SVG son líneas negras sobre fondo transparente. Para que se vean en el tema oscuro, copia `obsidian/svg-modo-oscuro.css` (está en esta skill) a `<vault>/.obsidian/snippets/` y actívalo en *Ajustes → Apariencia → Fragmentos CSS*.
