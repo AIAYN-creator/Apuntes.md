@@ -8,7 +8,7 @@ description: Convierte apuntes y ejercicios escritos a mano y escaneados (PDF o 
 Conviertes un escaneo de apuntes a mano en **una nota `.md` + su carpeta de assets**, lista para Obsidian. Lo que importa, por este orden:
 
 1. **No inventar.** Un dato inventado (sobre todo estereoquímica) es peor que un hueco marcado. Ante la duda, se marca (sección 5).
-2. **Fidelidad al original.** Transcribes, no redactas: no resumes, no reordenas, no "mejoras" el texto, no corriges al autor.
+2. **Fidelidad al original.** Transcribes, no redactas: no resumes, no reordenas, no "mejoras" el texto, no corriges al autor. Para *leer* la letra a mano sí te ayudas del contexto (sección 5a).
 3. **Poco retoque.** La nota debe quedar lista con menos de 5 minutos de revisión humana.
 
 Los scripts están en `scripts/` de esta skill. Lánzalos con la ruta de la skill delante (Python con `uv run`, que instala solo sus dependencias; el `.sh` con `bash`).
@@ -85,9 +85,30 @@ Relee la nota entera contra el escaneo. Después, dale al usuario un resumen cor
 
 Todo lo dudoso tiene que poder encontrarse buscando `[!warning]`, `[!todo]` o `(?)`.
 
-**a) Palabra o símbolo dudoso:** resáltalo con `(?)`. Si es ilegible del todo, escribe `==ilegible (?)==`. No lo adivines por el contexto sin marcarlo.
+**a) Palabras difíciles de leer (letra a mano).** La caligrafía del autor es difícil. **Léela como lo haría un compañero de clase**: las letras que se entienden mal se reconstruyen con el contexto, igual que el texto predictivo completa una palabra a medio escribir. Lo que se reconstruye es la **lectura** (qué palabra escribió el autor), nunca el **contenido** (qué debería haber escrito).
+
+Pistas de contexto, de más a menos fiables:
+1. La **misma palabra escrita más clara** en otra parte de la hoja.
+2. **Lo que hay dibujado o escrito al lado**: la estructura, la enzima sobre la flecha, la fórmula.
+3. El **vocabulario de la asignatura y el tema** (en bioquímica: metabolitos, enzimas, cofactores…).
+4. La **frase**: qué palabra encaja en esa posición gramatical y con ese número de letras.
+
+Según lo seguro que estés, haces una de tres cosas:
+
+| Confianza | Ejemplo | Qué escribes |
+|---|---|---|
+| **Alta**: solo una palabra encaja con las letras visibles y con el contexto | `glu_ól_s_s` en una hoja de rutas metabólicas | La palabra, **sin marca**: `glucólisis` |
+| **Media**: hay una lectura claramente más probable, pero otra es posible | `pir_v_to` junto a una flecha de la glucólisis | La más probable marcada: `==piruvato (?)==` |
+| **Baja**: varias lecturas plausibles, o no se ve forma de palabra | | Las candidatas, `==piruvato / pirimidina (?)==`, o si no hay ninguna, `==ilegible (?)==` |
+
+Límites, que no cambian aunque la confianza sea alta:
+- **Solo se lee, no se edita.** Nada de corregir la ortografía, cambiar palabras por sinónimos, completar frases a medias, añadir palabras que faltan ni reordenar. Si el autor escribió mal una palabra **y se lee claramente**, se transcribe tal cual. El contexto solo decide entre lecturas de letras que realmente son ambiguas.
+- **Abreviaturas tal cual** (`rx`, `enz.`, `cte`): no se expanden.
+- **Números, cargas, subíndices, coeficientes y unidades no se predicen.** El contexto no puede saber si es un 2 o un 3. Si no se lee, va marcado con `(?)`.
+- **Si una lectura reconstruida cambia el significado químico** (un nombre de compuesto que cambiaría el SMILES, un nombre de enzima), no basta la confianza alta: márcalo con `(?)`.
+
 ```markdown
-…la ==piruvato carboxilasa (?)== se activa por acetil-CoA…
+…en la glucólisis, la ==piruvato carboxilasa (?)== se activa por acetil-CoA y el NADH se reoxida en la ==ilegible (?)==…
 ```
 
 **b) Bloque dudoso** (fórmula, estructura, estereoquímica o una posible errata del original): callout con lo que leíste, la alternativa si la hay y el recorte del original.
@@ -162,6 +183,7 @@ La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\c
 - [ ] Cada estructura tiene su `smiles:`, y cada SMILES isomérico su línea `estereo:` con el origen.
 - [ ] Cada asset enlazado existe; no hay assets huérfanos en `assets/<slug>/`.
 - [ ] Ningún dato inventado: lo dudoso está marcado con `(?)`, `[!warning]` o `[!todo]`.
+- [ ] Ninguna palabra corregida, cambiada ni añadida: el contexto solo se ha usado para leer letras ambiguas, y ningún número se ha deducido por contexto.
 - [ ] El resumen final para el usuario incluye las decisiones de estereoquímica.
 
 ## Nota para Obsidian en modo oscuro
