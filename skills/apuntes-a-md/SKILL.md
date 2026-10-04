@@ -234,6 +234,8 @@ Los colores siguen la semántica de los apuntes: **rojo** para lo que el autor d
 - **Gráficas** (Michaelis-Menten, Lineweaver-Burk, curvas de valoración): si la hoja da la ecuación o los valores, dibújala con pgfplots usando esos datos. Si es una curva hecha a mano sin datos, dibuja solo la **forma cualitativa**, con los ejes y las marcas que ponga la hoja (`Vmax`, `Km`…) y sin números inventados en los ejes.
 - **Todas las etiquetas a tamaño normal** (`font=\normalsize`, nunca `\scriptsize` ni `\small`): tienen que leerse igual que los números de los ejes. Si no caben, agranda la escala de la figura (`x=2cm, y=2cm`) en vez de encoger la letra.
 - **Cargas parciales sobre moléculas:** `\chemabove{C}{\delta^+}` en chemfig. Para δ en un extremo de enlace sin átomo, usa `\chemabove{}{\delta^-}`.
+- **Flechas curvas de mecanismo o de resonancia:** `\chemmove` con átomos y enlaces nombrados (`@{n}`). `tikz2svg.sh` compila dos veces cuando lo detecta, porque con una sola pasada las flechas salen descolocadas. Mantén las flechas dentro del dibujo: lo que sobresale del recuadro se corta.
+- **Nombres de variables en `\foreach`:** no uses nombres de comandos de TikZ (`\fill`, `\draw`, `\node`…): se rompen sin dar error.
 - **Colores:** respeta los del original con la paleta (`\color{apRojo}` para estructuras en rojo, `anotacion`/`apAzul` para lo azul). No pongas `color=` en `every picture`: pisaría los `\color` de chemfig. El CSS de modo oscuro los mantiene reconocibles.
 - **Dibujos repetitivos** (micelas, bicapas, vesículas): define una macro para la unidad (cabeza + colas) y colócala con `\foreach` en círculo o en fila. Ojo con la orientación: en micelas y en la capa externa de las vesículas, las cabezas van **fuera** y las colas **dentro**.
 
@@ -275,7 +277,7 @@ Los colores siguen la semántica de los apuntes: **rojo** para lo que el autor d
 | B5 | **Término en negrita** | Patrón "Término: explicación" (`**Cisteína**: …`) |
 | B6 | `> [!formula] Fórmula` | **Solo una ecuación suelta y destacada, de una línea** (una ley, una definición matemática). **Desarrollos de varias líneas, pasos de un ejercicio o ecuaciones encadenadas → bloque `$$…$$` normal, sin callout**, alineado con `\begin{aligned}` si son varias líneas. Ante la duda, sin callout |
 | B7 | **Lista paralela → tabla** | Cada elemento tiene la misma estructura (columna A → columna B). Se conserva el orden de lectura (por filas) |
-| B8 | **Figuras** con ancho uniforme (`\|300` moléculas, `\|560` gráficas) y **pie en cursiva** justo debajo | El pie lleva **solo palabras de la hoja** (las etiquetas escritas junto al dibujo). Sin palabras de la hoja, no hay pie |
+| B8 | **Figuras** con ancho uniforme y **pie en cursiva** justo debajo. Anchos de referencia, tomados de los retoques del usuario: `\|160` grupos y fragmentos, `\|260`–`\|300` moléculas, `\|400`–`\|450` esquemas pequeños, `\|560`–`\|700` gráficas y diagramas anchos. **Dos figuras pequeñas relacionadas van en la misma línea**, una al lado de la otra (p. ej. dos vistas de la misma molécula) | El pie lleva **solo palabras de la hoja** (las etiquetas escritas junto al dibujo). Sin palabras de la hoja, no hay pie |
 | B9 | `> [!ficha]- Ficha` plegable con las líneas `smiles:` y `estereo:` | Debajo de cada molécula |
 | B10 | Paleta: azul = estructura, rojo = importante, verde = definición, gris = metadatos | La pone el CSS (`obsidian/apuntes-estetica.css`); la misma que en las figuras |
 

@@ -46,7 +46,8 @@ def palabras(path: Path) -> list[str]:
             if tipo in ETIQUETAS or titulo.lower() in ETIQUETAS:
                 continue
             s = titulo                                              # [!warning] Dudoso: … sí es contenido
-        s = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", s)                 # imágenes, alt incluido
+        s = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", s)                 # imágenes Markdown, alt incluido
+        s = re.sub(r"!\[\[[^\]]*\]\]", " ", s)                      # imágenes ![[...]] (Obsidian las crea al redimensionar)
         lineas.append(s)
     t = unicodedata.normalize("NFC", "\n".join(lineas))
     t = re.sub(r"[*_=`#|]|:?-{3,}:?", " ", t)                       # marcas de formato y tablas

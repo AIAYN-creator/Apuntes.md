@@ -42,12 +42,18 @@ svg="$dir/$name.svg"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-# Compilar desde el directorio del .tex por si hace \input de algo relativo
-(
-  cd "$dir" &&
-  pdflatex -interaction=nonstopmode -halt-on-error \
-    -output-directory="$(winpath "$tmp")" "$name.tex" >/dev/null 2>&1
-)
+# Compilar desde el directorio del .tex por si hace \input de algo relativo.
+# \chemmove y "remember picture" necesitan DOS pasadas: en la primera las flechas
+# no saben aún dónde están los átomos y salen descolocadas (sin dar error).
+pasadas=1
+grep -qE '\\chemmove|remember picture' "$tex" && pasadas=2
+for ((i = 1; i <= pasadas; i++)); do
+  (
+    cd "$dir" &&
+    pdflatex -interaction=nonstopmode -halt-on-error \
+      -output-directory="$(winpath "$tmp")" "$name.tex" >/dev/null 2>&1
+  )
+done
 pdf="$tmp/$name.pdf"
 if [[ ! -s "$pdf" ]]; then
   echo "ERROR: pdflatex falló al compilar $tex" >&2
