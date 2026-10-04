@@ -82,6 +82,12 @@ def draw(mol: Chem.Mol, size: tuple[int, int], legend: str, drawer_cls) -> rdMol
     opts.addStereoAnnotation = True  # muestra (R)/(S), (E)/(Z) en el dibujo
     opts.clearBackground = False     # fondo transparente: se ve bien en tema oscuro de Obsidian
     opts.annotationFontScale = 0.9   # el '*' de carbono quiral, legible
+    # Paleta Apuntes.md (la misma que las figuras TikZ y el CSS): O rojo, N azul, resto neutro
+    opts.updateAtomPalette({8: (0.714, 0.263, 0.259),    # #B64342
+                            7: (0.059, 0.302, 0.573),    # #0F4D92
+                            6: (0.153, 0.153, 0.153),    # #272727
+                            0: (0.153, 0.153, 0.153)})   # R, R'
+    opts.bondLineWidth = 2
     rdMolDraw2D.PrepareAndDrawMolecule(drawer, mol, legend=legend)
     drawer.FinishDrawing()
     return drawer

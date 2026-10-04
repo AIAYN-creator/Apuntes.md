@@ -186,13 +186,26 @@ El script avisa de todos los estereocentros y dobles enlaces E/Z. Para cada uno:
 3. En la nota solo enlazas el `.svg`. El `.tex` se queda al lado como fuente.
 4. **Comprueba las anotaciones en el preview.** El `--preview` es del **SVG final** (el que verá Obsidian), no del PDF. Haz una lista de cada palabra o etiqueta escrita a mano dentro o alrededor del dibujo original (ejes, flechas, nombres, "Máxima atracción…") y comprueba que **todas** se leen en el preview. Si falta alguna, la figura no está terminada.
 
-La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\ce{}` sí funciona **dentro** del `.tex`), TikZ y `pgfplots`.
+La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\ce{}` sí funciona **dentro** del `.tex`), TikZ y `pgfplots`, además del **estilo Apuntes.md**: letra sans-serif (Helvetica + `sansmath`, como Obsidian), la paleta y estilos con nombre. **Usa siempre los estilos y colores con nombre, nunca colores sueltos** (`red`, `blue!70!black`…): así todas las figuras se ven iguales y el estilo se cambia en un solo sitio.
+
+| Para… | Usa |
+|---|---|
+| La curva o el dato principal | `curva` (rojo, 1,6 pt); `curva secundaria` (azul claro) |
+| Texto escrito a mano alrededor del dibujo | `anotacion` (azul, tamaño normal) |
+| Flechas de anotación / "implica" (⟹) | `flecha` / `implica` |
+| Puntos destacados (pK, máximos…) | `node[marca, label={[anotacion]above:…}]` |
+| Óvalos o círculos que rodean algo | `resalte` |
+| Líneas guía (y = 0, asíntotas) | `referencia` (gris punteado) |
+| Ejes de pgfplots | `\begin{axis}[apuntes, …]` |
+| Colores sueltos | `apAzul`, `apRojo`, `apVerde`, `apGris`, `apNegro` y sus variantes `…Claro` |
+
+Los colores siguen la semántica de los apuntes: **rojo** para lo que el autor dibuja en rojo (curvas, estructuras) y **azul** para sus anotaciones. Es la misma paleta del CSS de Obsidian y de las moléculas de RDKit.
 
 - **Rutas y ciclos metabólicos:** nodos con los metabolitos y la enzima sobre la flecha, **solo con las etiquetas que aparecen en la hoja**. No completes intermedios que no estén escritos.
 - **Gráficas** (Michaelis-Menten, Lineweaver-Burk, curvas de valoración): si la hoja da la ecuación o los valores, dibújala con pgfplots usando esos datos. Si es una curva hecha a mano sin datos, dibuja solo la **forma cualitativa**, con los ejes y las marcas que ponga la hoja (`Vmax`, `Km`…) y sin números inventados en los ejes.
 - **Todas las etiquetas a tamaño normal** (`font=\normalsize`, nunca `\scriptsize` ni `\small`): tienen que leerse igual que los números de los ejes. Si no caben, agranda la escala de la figura (`x=2cm, y=2cm`) en vez de encoger la letra.
 - **Cargas parciales sobre moléculas:** `\chemabove{C}{\delta^+}` en chemfig. Para δ en un extremo de enlace sin átomo, usa `\chemabove{}{\delta^-}`.
-- **Colores:** respeta los del original (p. ej. estructuras en rojo y anotaciones en azul) con `\color{red!80!black}` / `blue!70!black`. El CSS de modo oscuro los mantiene reconocibles.
+- **Colores:** respeta los del original con la paleta (`\color{apRojo}` para estructuras en rojo, `anotacion`/`apAzul` para lo azul). No pongas `color=` en `every picture`: pisaría los `\color` de chemfig. El CSS de modo oscuro los mantiene reconocibles.
 - **Dibujos repetitivos** (micelas, bicapas, vesículas): define una macro para la unidad (cabeza + colas) y colócala con `\foreach` en círculo o en fila. Ojo con la orientación: en micelas y en la capa externa de las vesículas, las cabezas van **fuera** y las colas **dentro**.
 
 ## 8. Checklist final
