@@ -1,5 +1,43 @@
 # Changelog
 
+## v2.0.0 — 2026-10-04
+
+Los 4 primeros temas de Bioquímica, perfectos y conforme a todas las especificaciones de la versión. **Criterio de vida superado:** revisión del usuario aprobada.
+
+### Independiente del agente
+- La skill sigue el formato abierto [Agent Skills](https://agentskills.io): Claude Code, Gemini CLI, Codex…
+- El `SKILL.md` no nombra herramientas de ningún agente.
+- `AGENTS.md` es la fuente de verdad para quien trabaje en el repo; `CLAUDE.md` y `GEMINI.md` lo importan.
+- `instalar.ps1` enlaza la skill en `~/.claude`, `~/.gemini`, `~/.codex` o `~/.agents`.
+
+### Una nota por tema
+- `<Asignatura> - Tema <N>.md`, nombre único en el vault, con alias `Tema <N>`.
+- Frontmatter con `tema`, `titulo`, `fechas`, `fuente` y `aliases`.
+- Índice plegable, marcas de página invisibles y callout de sesión solo cuando hay fecha escrita.
+- Los temas que crecen se amplían al final, sin reconvertir.
+
+### Estética didáctica, sin tocar el contenido
+- Lista blanca de 10 mejoras: definiciones, puntos importantes, fórmulas destacadas (solo ecuaciones sueltas de una línea), términos en negrita, tablas, fichas plegables, anchos de figura y figuras lado a lado. Más la lista negra y las etiquetas fijas.
+- **Dos pasadas** (transcripción fiel y luego estética) y **`verificar_contenido.py`**, que compara palabra por palabra. Una nota que no da OK no se entrega.
+- `obsidian/apuntes-estetica.css`: callouts propios y paleta.
+
+### Figuras
+- Estilo común Apuntes.md (principios de figures4papers, sin copiar código):
+  - Helvetica + `sansmath`;
+  - paleta semántica compartida con el CSS y con RDKit;
+  - estilos con nombre (`curva`, `anotacion`, `marca`…), sin colores sueltos.
+- `tikz2svg.sh`:
+  - falla si el texto se fuera a perder (fuentes Type 3);
+  - el preview es del SVG final;
+  - compila dos veces cuando hay `\chemmove`.
+- `smiles2svg.py`: grupos R como R/R′ y `*` en los carbonos quirales sin configuración.
+
+### Entregable
+- Bioquímica, Temas 1–4 (págs. 2–11): 21 figuras, 9 moléculas y 2 751 palabras verificadas. Publicado en la [galería](galeria/), con las páginas originales, comparativas antes/después y capturas en Obsidian.
+
+### Pendiente → v2.1
+- Los dibujos figurativos (columna de cromatografía, α-hélice…) son la parte más floja. Se sustituyen por iconos con licencia libre o por recortes vectoriales del propio dibujo.
+
 ## v1.0.0 — 2026-10-04
 
 Primera versión: conversión fiel de apuntes escritos a mano y escaneados a notas Markdown para Obsidian.
