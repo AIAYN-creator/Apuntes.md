@@ -10,6 +10,8 @@ No hay API ni app propia: quien lee la hoja es el agente dentro de la sesión. L
 
 ![Apunte a mano vs. figura redibujada por la skill](galeria/proceso/04-van-der-waals-a-mano-vs-tikz.png)
 
+👉 **[Galería](galeria/)**: 4 temas reales de Bioquímica, con las páginas originales y comparativas antes/después.
+
 **Estado: v1.0.0.** Probada con apuntes reales de Bioquímica: una hoja con texto, fórmulas, estructuras y una gráfica se retoca en **menos de 5 minutos**, y la estereoquímica que no está en la hoja no se inventa. Ver [CHANGELOG](CHANGELOG.md).
 
 ## Qué hace

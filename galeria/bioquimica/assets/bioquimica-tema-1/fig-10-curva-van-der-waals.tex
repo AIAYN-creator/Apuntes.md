@@ -1,0 +1,81 @@
+% Plantilla común para figuras redibujadas (fig-NN-desc.tex).
+% Copiar entera y sustituir solo el cuerpo entre las marcas "cuerpo de la figura".
+% Compila tal cual en Overleaf o con scripts/tikz2svg.sh.
+%
+% NO añadir la opción "tikz" a standalone: parte cada tikzpicture (y cada
+% \chemfig) en una página distinta y el SVG solo tendría la primera.
+\documentclass[border=4pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}            % base vectorial: sin fuente vectorial el texto sale en Type 3 y dvisvgm lo pierde
+\usepackage[scaled=0.95]{helvet}% sans-serif tipo Helvetica, como la interfaz de Obsidian
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath,amssymb}
+\usepackage{sansmath}\sansmath  % fórmulas en sans, a juego con el texto
+\usepackage[version=4]{mhchem}  % \ce{A + B -> C}
+\usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
+\usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
+\pgfplotsset{compat=1.18}
+
+% ---- Estilo Apuntes.md --------------------------------------------------
+% Paleta semántica (la misma que el CSS de Obsidian). Principios inspirados en
+% figures4papers (ChenLiu-1996, CC BY-NC 4.0): se adoptan ideas, no código.
+\definecolor{apAzul}{HTML}{0F4D92}       % anotaciones, estructura (el azul del autor)
+\definecolor{apAzulClaro}{HTML}{3775BA}
+\definecolor{apRojo}{HTML}{B64342}       % curvas y datos principales, importante (el rojo del autor)
+\definecolor{apRojoClaro}{HTML}{E9A6A1}
+\definecolor{apVerde}{HTML}{3B7D3B}      % definiciones, "positivo"
+\definecolor{apVerdeClaro}{HTML}{AADCA9}
+\definecolor{apGris}{HTML}{767676}       % apoyo: rejillas, referencias, líneas punteadas
+\definecolor{apGrisClaro}{HTML}{CFCECE}
+\definecolor{apNegro}{HTML}{272727}      % ejes y texto neutro
+
+\tikzset{
+  % sin "color=" global: pisaría los \color{...} de chemfig (estructuras en rojo, etc.)
+  every picture/.append style={line width=0.9pt, >={Stealth[length=2.4mm]}},
+  curva/.style={apRojo, line width=1.6pt},                  % la curva o el dato que importa
+  curva secundaria/.style={apAzulClaro, line width=1.3pt},
+  referencia/.style={apGris, dotted, line width=1pt},       % líneas guía (p. ej. y = 0)
+  anotacion/.style={apAzul, font=\normalsize},              % texto escrito a mano alrededor del dibujo
+  flecha/.style={->, apAzul, line width=1pt},
+  implica/.style={-{Implies}, double, double distance=2pt, line width=0.8pt},
+  marca/.style={circle, fill=apAzul, draw=white, line width=0.6pt, inner sep=1.8pt},
+  resalte/.style={apAzul, line width=1pt},                  % círculos/óvalos que rodean algo
+}
+\pgfplotsset{
+  apuntes/.style={
+    axis lines=left, axis line style={line width=1pt, apNegro, -{Stealth[length=2.4mm]}},
+    tick style={apNegro, line width=0.8pt}, tick align=outside,
+    label style={font=\normalsize}, tick label style={font=\normalsize},
+    every axis plot/.append style={curva},
+    clip=false,
+  },
+}
+\setchemfig{atom sep=2em, bond style={line width=0.9pt}}
+% -------------------------------------------------------------------------
+
+\begin{document}
+% Curva cualitativa de energía frente a distancia (Van der Waals), solo con las marcas de la hoja
+\begin{tikzpicture}[font=\normalsize, x=2cm, y=2cm]
+  \draw[-Stealth] (0,-1.3) -- (0,1.25);
+  \draw[-Stealth] (-0.3,-1.1) -- (4.6,-1.1) node[below left=6pt] {\underline{d interatómica}};
+  \foreach \y/\l in {1/+1, 0/0, -1/-1} \draw (-0.06,\y) -- (0.06,\y) node[left=6pt] {$\l$};
+  \node[left=18pt, apAzul] at (0,0.6) {repulsión};
+  \node[left=18pt, apAzul] at (0,-0.5) {atracción};
+  \draw[referencia] (0,0) -- (4.3,0);
+  % solapamiento -> repulsión
+  \draw[apAzul] (0.55,0.8) circle (0.12) (0.7,0.8) circle (0.12);
+  \node[apAzul, align=center] at (0.62,0.32) {solapamiento\\$\downarrow$\\repulsión};
+  % curva
+  \draw[curva] (1.4,1.15) .. controls (1.55,0.2) and (1.65,-1.0) .. (1.82,-1.0)
+        .. controls (2.0,-1.0) and (2.05,-0.1) .. (2.3,-0.08) -- (4.2,-0.05);
+  \draw[apAzul] (1.82,-1.0) circle (0.08);
+  \draw[apAzul, -Stealth] (1.82,-1.08) -- (1.82,-1.5)
+        node[below, align=center] {Máxima atracción\\suma r de van der Waals};
+  \draw[apAzul, -Stealth] (4.15,-0.6) -- (4.15,-1.05);
+  \draw[apAzul, -Stealth] (4.15,-0.6) -- (4.15,-0.1);
+  \node[apAzul, draw, ellipse] at (5.35,-0.6) {No interacción};
+  \draw[apAzul] (4.18,-0.6) -- (4.55,-0.6);
+\end{tikzpicture}
+\end{document}

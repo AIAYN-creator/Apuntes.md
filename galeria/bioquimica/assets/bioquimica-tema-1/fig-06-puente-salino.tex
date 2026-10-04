@@ -1,0 +1,77 @@
+% Plantilla común para figuras redibujadas (fig-NN-desc.tex).
+% Copiar entera y sustituir solo el cuerpo entre las marcas "cuerpo de la figura".
+% Compila tal cual en Overleaf o con scripts/tikz2svg.sh.
+%
+% NO añadir la opción "tikz" a standalone: parte cada tikzpicture (y cada
+% \chemfig) en una página distinta y el SVG solo tendría la primera.
+\documentclass[border=4pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}            % base vectorial: sin fuente vectorial el texto sale en Type 3 y dvisvgm lo pierde
+\usepackage[scaled=0.95]{helvet}% sans-serif tipo Helvetica, como la interfaz de Obsidian
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath,amssymb}
+\usepackage{sansmath}\sansmath  % fórmulas en sans, a juego con el texto
+\usepackage[version=4]{mhchem}  % \ce{A + B -> C}
+\usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
+\usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
+\pgfplotsset{compat=1.18}
+
+% ---- Estilo Apuntes.md --------------------------------------------------
+% Paleta semántica (la misma que el CSS de Obsidian). Principios inspirados en
+% figures4papers (ChenLiu-1996, CC BY-NC 4.0): se adoptan ideas, no código.
+\definecolor{apAzul}{HTML}{0F4D92}       % anotaciones, estructura (el azul del autor)
+\definecolor{apAzulClaro}{HTML}{3775BA}
+\definecolor{apRojo}{HTML}{B64342}       % curvas y datos principales, importante (el rojo del autor)
+\definecolor{apRojoClaro}{HTML}{E9A6A1}
+\definecolor{apVerde}{HTML}{3B7D3B}      % definiciones, "positivo"
+\definecolor{apVerdeClaro}{HTML}{AADCA9}
+\definecolor{apGris}{HTML}{767676}       % apoyo: rejillas, referencias, líneas punteadas
+\definecolor{apGrisClaro}{HTML}{CFCECE}
+\definecolor{apNegro}{HTML}{272727}      % ejes y texto neutro
+
+\tikzset{
+  % sin "color=" global: pisaría los \color{...} de chemfig (estructuras en rojo, etc.)
+  every picture/.append style={line width=0.9pt, >={Stealth[length=2.4mm]}},
+  curva/.style={apRojo, line width=1.6pt},                  % la curva o el dato que importa
+  curva secundaria/.style={apAzulClaro, line width=1.3pt},
+  referencia/.style={apGris, dotted, line width=1pt},       % líneas guía (p. ej. y = 0)
+  anotacion/.style={apAzul, font=\normalsize},              % texto escrito a mano alrededor del dibujo
+  flecha/.style={->, apAzul, line width=1pt},
+  implica/.style={-{Implies}, double, double distance=2pt, line width=0.8pt},
+  marca/.style={circle, fill=apAzul, draw=white, line width=0.6pt, inner sep=1.8pt},
+  resalte/.style={apAzul, line width=1pt},                  % círculos/óvalos que rodean algo
+}
+\pgfplotsset{
+  apuntes/.style={
+    axis lines=left, axis line style={line width=1pt, apNegro, -{Stealth[length=2.4mm]}},
+    tick style={apNegro, line width=0.8pt}, tick align=outside,
+    label style={font=\normalsize}, tick label style={font=\normalsize},
+    every axis plot/.append style={curva},
+    clip=false,
+  },
+}
+\setchemfig{atom sep=2em, bond style={line width=0.9pt}}
+% -------------------------------------------------------------------------
+
+\begin{document}
+% --- cuerpo de la figura ---
+% Puente salino entre COO- y NH3+ de una cadena polipeptídica (pág. 4)
+\begin{tikzpicture}[font=\normalsize]
+  % cadena polipeptídica (trazo libre)
+  \draw[apNegro, line width=1.4pt]
+    (2.2,1.6) .. controls (2.4,2.2) and (0.4,2.1) .. (0.2,1.6)
+              .. controls (-0.1,0.9) and (-0.3,0.2) .. (0.2,-0.3)
+              .. controls (0.7,-0.6) and (1.2,0.4) .. (1.6,0.2)
+              .. controls (2.0,0.0) and (2.4,-0.6) .. (3.2,-0.3);
+  % grupos cargados y puente salino
+  \draw[apAzul, line width=1.2pt] (0.15,1.55) -- (0.7,1.55);
+  \node[apAzul, anchor=west] (coo) at (0.7,1.55) {COO$^-$};
+  \node[apRojo] (nh3) at (1.75,0.85) {NH$_3^+$};
+  \draw[apVerde, line width=1.6pt, decorate, decoration={zigzag, amplitude=1.5pt, segment length=3pt}]
+    ($(coo.south east)+(-0.25,0.05)$) -- (nh3.north west);
+  \node[anotacion, apNegro, anchor=west] at (2.9,1.9) {cadena polipept.};
+\end{tikzpicture}
+% ---------------------------
+\end{document}
