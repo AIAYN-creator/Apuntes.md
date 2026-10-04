@@ -132,7 +132,10 @@ def build_plan(vault: Path, sources: list[Path]) -> Plan:
     for note in notes:
         folder = vault / folders[fold(note.asignatura)]
         target = folder / note.path.name
-        stem = note.path.stem
+        # Carpeta de assets: el slug del nombre (v2: "Bioquímica - Tema 1" -> bioquimica-tema-1)
+        # o, en notas de la v1, el nombre tal cual
+        slug = re.sub(r"[^a-z0-9]+", "-", fold(note.path.stem)).strip("-")
+        stem = slug if any(l.startswith(f"assets/{slug}/") for l in note.asset_links) else note.path.stem
         src_assets = note.path.parent / "assets" / stem
         dst_assets = folder / "assets" / stem
 

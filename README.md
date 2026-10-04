@@ -23,7 +23,7 @@ No hay API ni app propia: quien lee la hoja es el agente dentro de la sesión. L
 | Lo ambiguo | Recorte del original dentro de un aviso `[!warning]`, para que el arreglo sea inmediato |
 | Lo dudoso | `==palabra (?)==` o `[!warning]`. **Nunca inventado** |
 
-Cada nota lleva un frontmatter mínimo (`asignatura`, `tema`, `fecha`, `fuente`). Todas las reglas están en [`SKILL.md`](skills/apuntes-a-md/SKILL.md).
+**Una nota por tema** (`Bioquímica - Tema 1.md`), con índice navegable y una **estética didáctica** (definiciones, puntos importantes, fórmulas destacadas, tablas…) que **no cambia ni una palabra**: se comprueba con un script. Todas las reglas están en [`SKILL.md`](skills/apuntes-a-md/SKILL.md).
 
 ### Cómo trabaja
 
@@ -71,13 +71,16 @@ Después basta con pedirle algo como *"pasa a Markdown las págs. 6–7 de este 
 | `smiles2svg.py` | Valida el SMILES, dibuja el SVG y devuelve un JSON con los estereocentros (asignados o no) |
 | `tikz2svg.sh` | `.tex` → SVG (`pdflatex` + `dvisvgm`). Falla si el texto se fuera a perder; `--preview` renderiza el SVG final |
 | `crop.py` | Cuadrícula de coordenadas y recortes del escaneo |
-| `ordenar_vault.py` | *Experimental:* coloca las notas en `<Asignatura>/` según su frontmatter. Se rediseña en la v2 |
+| `verificar_contenido.py` | Comprueba que la estética no ha cambiado ni una palabra: compara la transcripción fiel con la nota final |
+| `ordenar_vault.py` | *Experimental:* coloca las notas en `<Asignatura>/` según su frontmatter. Se rediseña en la v3 |
 
 ## Configurar Obsidian
 
 **No hace falta ningún plugin.** SVG, fórmulas (MathJax), callouts y resaltados se ven de serie. Los diagramas TikZ llegan ya compilados, así que no hace falta TikZJax.
 
-1. **Modo oscuro:** copia [`svg-modo-oscuro.css`](skills/apuntes-a-md/obsidian/svg-modo-oscuro.css) a `<vault>/.obsidian/snippets/` y actívalo en *Ajustes → Apariencia → Fragmentos CSS*.
+1. **Fragmentos CSS:** copia los dos ficheros de [`obsidian/`](skills/apuntes-a-md/obsidian/) a `<vault>/.obsidian/snippets/` y actívalos en *Ajustes → Apariencia → Fragmentos CSS*:
+   - `apuntes-estetica.css`: callouts de definición, importante, fórmula, ficha y sesión, y los colores de la paleta.
+   - `svg-modo-oscuro.css`: para ver los SVG en el tema oscuro.
 2. **Ajustes → Archivos y enlaces:** activa *Actualizar enlaces internos automáticamente* y pon *Formato de los nuevos enlaces* en **Ruta relativa al archivo**.
 
 ## Estructura

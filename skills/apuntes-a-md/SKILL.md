@@ -5,11 +5,12 @@ description: Convierte apuntes y ejercicios escritos a mano y escaneados (PDF o 
 
 # Apuntes a Markdown
 
-Conviertes un escaneo de apuntes a mano en **una nota `.md` + su carpeta de assets**, lista para Obsidian. Lo que importa, por este orden:
+Conviertes un escaneo de apuntes a mano en **una nota `.md` por tema + su carpeta de assets**, lista para Obsidian, con una **estética didáctica acordada** que mejora la forma sin tocar el fondo. Lo que importa, por este orden:
 
 1. **No inventar.** Un dato inventado (sobre todo estereoquímica) es peor que un hueco marcado. Ante la duda, se marca (sección 5).
 2. **Fidelidad al original.** Transcribes, no redactas: no resumes, no reordenas, no "mejoras" el texto, no corriges al autor. Para *leer* la letra a mano sí te ayudas del contexto (sección 5a).
-3. **Poco retoque.** La nota debe quedar lista con menos de 5 minutos de revisión humana.
+3. **La estética nunca toca el contenido.** Se aplica en una segunda pasada y se **comprueba con un script** que las palabras son exactamente las mismas (sección 8).
+4. **Poco retoque.** La nota debe quedar lista con menos de 5 minutos de revisión humana por página.
 
 Los scripts están en `scripts/` de esta skill. Lánzalos con la ruta de la skill delante (Python con `uv run`, que instala solo sus dependencias; el `.sh` con `bash`).
 
@@ -24,38 +25,49 @@ Si te falta alguna de las tres, díselo al usuario antes de empezar en vez de im
 
 Necesitas saber, y si no lo sabes **pregunta antes de escribir nada**:
 
-- La ruta del **escaneo** y, si es un PDF, qué páginas.
+- La ruta del **escaneo** y qué páginas son de **qué tema** (un PDF puede traer varios temas).
 - La ruta del **vault** (o de la carpeta de salida).
-- **Asignatura** y **tema**, si no se leen en la hoja. Si el escaneo es un cuaderno y el título del tema está en una página anterior del mismo PDF, puedes tomarlo de ahí, pero dilo en el `[!warning]` inicial.
+- **Asignatura** y **número y título del tema**, si no se leen en la hoja. Si el escaneo es un cuaderno y el título del tema está en una página anterior del mismo PDF, puedes tomarlo de ahí, pero dilo en el `[!warning]` inicial.
+- **Si la nota del tema ya existe** (el tema crece: sección 2.1).
 
-## 2. Dónde va cada cosa
+## 2. Una nota por tema: dónde va cada cosa
 
 ```
-<vault>/<Asignatura>/<tema-slug>.md
-<vault>/<Asignatura>/assets/<tema-slug>/<asset>
+<vault>/<Asignatura>/<Asignatura> - Tema <N>.md          p. ej. Bioquímica/Bioquímica - Tema 1.md
+<vault>/<Asignatura>/assets/<slug>/<asset>               p. ej. Bioquímica/assets/bioquimica-tema-1/mol-01.svg
 ```
 
-- `tema-slug`: el tema en kebab-case y sin tildes (`ciclo-de-krebs`), **como mucho 5 palabras**. Si el título es largo ("Tema 2: Aminoácidos, enlace peptídico, estructuras…"), quédate con el número y el núcleo del contenido de esas páginas (`tema-2-aminoacidos`); el título completo va en `tema`. Si la nota ya existe, añade `-2`, `-3`… **Nunca sobrescribas una nota existente.**
-- Assets: `<tipo>-<NN>[-<desc>].<ext>`.
+- **Nombre de la nota:** `<Asignatura> - Tema <N>.md`. Es único en todo el vault, así que los enlaces de Obsidian no se confunden con el Tema 1 de otra asignatura. El alias `Tema <N>` va en el frontmatter.
+- **`slug`:** el nombre de la nota en kebab-case, sin tildes ni espacios (`bioquimica-tema-1`). Es la carpeta de assets.
+- **Assets:** `<tipo>-<NN>[-<desc>].<ext>`, con **numeración continua en todo el tema** por tipo.
   - `tipo`: `mol` (`.svg` de RDKit), `fig` (`.tex` + `.svg`, mismo nombre base) o `crop` (`.png`).
-  - `NN`: dos dígitos, numeración propia por tipo, en orden de aparición.
+  - `NN`: dos dígitos, en orden de aparición.
   - `desc`: opcional, kebab-case, como mucho 3 palabras.
-- Los enlaces son **Markdown relativo**: `![alt](assets/<tema-slug>/mol-01-glucosa.svg)`. Nunca `![[...]]`.
+- **Enlaces a assets:** Markdown relativo, `![alt|ancho](assets/<slug>/mol-01-glucosa.svg)`. Nunca `![[...]]`.
 
-## 3. Frontmatter (exactamente estos 4 campos)
+### 2.1 Temas que crecen
+Si la nota del tema **ya existe** y llegan páginas nuevas, **añade al final**. **Nunca reescribas lo ya convertido**: el usuario puede haberlo retocado a mano. Solo actualizas el índice, `fechas` y `fuente`, y la numeración de assets sigue donde se quedó. **Nunca sobrescribas una nota existente** de ninguna otra forma.
+
+## 3. Frontmatter
 
 ```yaml
 ---
 asignatura: Bioquímica
-tema: Ciclo de Krebs
-fecha: 2026-09-28
-fuente: "bq-krebs.pdf#p3"
+tema: 1
+titulo: "Moléculas biológicas, el agua, interacciones débiles en medio acuoso"
+fechas: [2026-09-16]
+fuente: "bq-temas-1-4.pdf#p2-5"
+aliases: [Tema 1]
 ---
 ```
 
-- `fecha`: la fecha **escrita en la hoja**. Si la hoja no lleva fecha, usa la **fecha inmediatamente anterior** del mismo cuaderno o PDF: retrocede página a página hasta encontrar una (los apuntes se fechan al empezar la clase y las páginas siguientes son de la misma sesión). Esto no lleva aviso. Solo si no hay ninguna fecha antes, pon `null` y añade un `[!warning]` al principio de la nota. No uses nunca la fecha de hoy.
-- `fuente`: nombre del archivo, más `#p<N>` o `#p<N>-<M>` si es un PDF.
-- No añadas `tags` ni otros campos: los tags son cosa de la skill `enlazar-vault`.
+- **`tema`:** el número. **`titulo`:** tal como está en la hoja, con mayúscula inicial.
+- **`fechas`:** las fechas de sesión **escritas** en las páginas del tema, en orden y sin repetir.
+  - Una página sin fecha hereda la **fecha inmediatamente anterior** del mismo cuaderno o PDF: retrocede página a página hasta encontrar una. Los apuntes se fechan al empezar la clase. Esto no lleva aviso.
+  - Solo si no hay ninguna fecha antes, pon `fechas: []` y un `[!warning]` al principio de la nota.
+  - No uses nunca la fecha de hoy.
+- **`fuente`:** escaneo + rango de páginas (`#p2-5`). Si el tema viene de varios escaneos, usa una lista.
+- No añadas `tags`: son cosa de la v3 (enlazado del vault).
 
 ## 4. Flujo de trabajo
 
@@ -69,11 +81,16 @@ fuente: "bq-krebs.pdf#p3"
 3. **Para leer la letra**, recorta la página en 4–5 franjas horizontales a ~160 ppp (`--box 0 Y0 1 Y1 --pad 0 --dpi 160`) y amplía a 300 ppp las líneas dudosas, sobre todo números y subíndices.
 4. **Inventario antes de escribir.** Recorre la página de arriba abajo y lista cada elemento con su tipo (texto, fórmula, estructura, diagrama, gráfica) y su caja aproximada. No redactes nada todavía.
 
-### Paso 2: escribir la nota, elemento a elemento, en el orden del original
+### Paso 2: transcripción fiel (primera pasada)
+
+Escribe primero una **transcripción fiel y sin estética** en `<tmp>/<slug>.transcripcion.md`, **fuera del vault**. Será la referencia contra la que se comprueba la estética (paso 5).
+- Con su frontmatter.
+- Con una marca `%% pág. N %%` al empezar cada página.
+- Elemento a elemento, en el orden del original, como dice la tabla de abajo.
 
 | Elemento | Cómo |
 |---|---|
-| **Texto** | Markdown limpio. Los títulos y subtítulos de la hoja pasan a `#`/`##`/`###`, las listas a listas, y lo subrayado, recuadrado, resaltado con fluorescente o escrito en otro color para destacar pasa a **negrita**. No uses `==resaltado==` para lo que el autor resaltó: está reservado para las dudas. Las abreviaturas y las comillas de "ídem" (`"`) se dejan tal como están escritas. |
+| **Texto** | Markdown limpio. Los títulos y subtítulos de la hoja pasan a `##`/`###` (el `#` es el título del tema), las listas a listas, y lo subrayado, recuadrado, resaltado con fluorescente o escrito en otro color para destacar pasa a **negrita**. No uses `==resaltado==` para lo que el autor resaltó: está reservado para las dudas. Las abreviaturas y las comillas de "ídem" (`"`) se dejan tal como están escritas. **Sin negritas dentro de los títulos**: rompen los enlaces del índice. |
 | **Fórmulas** | LaTeX: `$...$` en línea y `$$...$$` en bloque (en líneas propias). En la nota **no uses `\ce{}`**, porque Obsidian no carga mhchem: usa `\rightarrow`, `\rightleftharpoons`, `\xrightarrow{\text{enzima}}`… |
 | **Estructura química** | SMILES → `smiles2svg.py` (sección 6). |
 | **Diagrama o dibujo esquemático** (flechas, ciclos, rutas, perfil de energía, gráfica, montaje, cargas parciales δ⁺/δ⁻ sobre moléculas, micelas, bicapas, hélices, formas de lípidos…) | Redibújalo en TikZ/chemfig → `tikz2svg.sh` (sección 7). |
@@ -84,9 +101,21 @@ fuente: "bq-krebs.pdf#p3"
 ### Paso 3: verificar cada asset
 Usa `--preview` en ambos scripts y **compara el PNG de preview con el recorte del original**. Comprueba que los átomos, los enlaces, las flechas y las etiquetas coinciden. Si no coinciden y no sabes corregirlo, cambia ese elemento por recorte + `[!todo]`.
 
-### Paso 4: cierre
+### Paso 4: estética (segunda pasada)
+Copia la transcripción a la nota final, `<vault>/<Asignatura>/<Asignatura> - Tema <N>.md`, y aplícale **solo** lo de la sección 8. Ninguna palabra cambia.
+
+### Paso 5: verificar que el contenido no ha cambiado
+```bash
+uv run <skill>/scripts/verificar_contenido.py <tmp>/<slug>.transcripcion.md "<vault>/<Asignatura>/<Asignatura> - Tema <N>.md"
+```
+Tiene que decir **`OK: mismo contenido`**. Si dice `DIFERENCIAS`, lista cada palabra que no cuadra. **Corrige la nota final**, nunca la transcripción, y vuelve a verificar. Una nota que no da OK **no se entrega**.
+
+Si el tema crece (2.1), verifica solo la parte nueva: transcribe las páginas nuevas a su propio `.transcripcion.md` y compáralo con lo que has añadido.
+
+### Paso 6: cierre
 Relee la nota entera contra el escaneo. Después, dale al usuario un resumen corto:
 - la ruta de la nota;
+- el resultado de `verificar_contenido.py`;
 - cuántos `[!warning]`, `[!todo]` y `(?)` hay;
 - **la lista de decisiones de estereoquímica**: qué SMILES llevan estereo y de dónde salió (del dibujo o del nombre).
 
@@ -208,9 +237,65 @@ Los colores siguen la semántica de los apuntes: **rojo** para lo que el autor d
 - **Colores:** respeta los del original con la paleta (`\color{apRojo}` para estructuras en rojo, `anotacion`/`apAzul` para lo azul). No pongas `color=` en `every picture`: pisaría los `\color` de chemfig. El CSS de modo oscuro los mantiene reconocibles.
 - **Dibujos repetitivos** (micelas, bicapas, vesículas): define una macro para la unidad (cabeza + colas) y colócala con `\foreach` en círculo o en fila. Ojo con la orientación: en micelas y en la capa externa de las vesículas, las cabezas van **fuera** y las colas **dentro**.
 
-## 8. Checklist final
+## 8. Estética (segunda pasada)
 
-- [ ] Frontmatter con los 4 campos; `fecha` sacada de la hoja, o la anterior del cuaderno, o `null` con su aviso.
+**Principio: se mejora la forma, nunca el fondo.** Si a la nota final le quitas el formato y las etiquetas fijas, tienen que quedar **exactamente las mismas palabras, en el mismo orden**, que en la transcripción. `verificar_contenido.py` lo comprueba (paso 5).
+
+### 8.1 Estructura de la nota
+
+```markdown
+# Tema 1: Moléculas biológicas, el agua, interacciones débiles en medio acuoso
+
+> [!abstract]- Índice
+> - [[#Biomoléculas]]
+> - [[#Importancia del carbono]]
+
+%% pág. 2 %%
+## Biomoléculas
+…
+%% pág. 4 %%
+> [!sesion] 16/IX/2026
+## Propiedades térmicas del H₂O
+```
+
+- **`#`:** el título del tema, tal como está en la hoja.
+- **Índice plegable (`-`)** al principio, con un enlace a cada `##` del tema, en orden. Los textos de los enlaces deben coincidir **exactamente** con los títulos.
+- **`%% pág. N %%`** al empezar cada página: es un comentario invisible en modo lectura y sirve para saber de dónde sale cada trozo.
+- **`> [!sesion] <fecha>`** solo donde la hoja **trae una fecha escrita**, copiada tal cual (`16/IX/2026`).
+- Las secciones que cruzan de página siguen sin corte visible.
+
+### 8.2 ✅ Lo que SÍ se puede hacer
+
+| # | Mejora | Cuándo |
+|---|---|---|
+| B1 | **Jerarquía de títulos** coherente y MAYÚSCULAS de la hoja → mayúscula inicial | Siempre; las siglas (ATP, DNA) se quedan en mayúsculas |
+| B2 | **Índice plegable** | Siempre (8.1) |
+| B3 | `> [!definicion] Definición` | La frase **define** el término del título de la sección, o el término antes de ":" |
+| B4 | `> [!importante] Importante` | El autor escribe **una frase entera en rojo** o la remata con "!!" |
+| B5 | **Término en negrita** | Patrón "Término: explicación" (`**Cisteína**: …`) |
+| B6 | `> [!formula] Fórmula` | **Solo una ecuación suelta y destacada, de una línea** (una ley, una definición matemática). **Desarrollos de varias líneas, pasos de un ejercicio o ecuaciones encadenadas → bloque `$$…$$` normal, sin callout**, alineado con `\begin{aligned}` si son varias líneas. Ante la duda, sin callout |
+| B7 | **Lista paralela → tabla** | Cada elemento tiene la misma estructura (columna A → columna B). Se conserva el orden de lectura (por filas) |
+| B8 | **Figuras** con ancho uniforme (`\|300` moléculas, `\|560` gráficas) y **pie en cursiva** justo debajo | El pie lleva **solo palabras de la hoja** (las etiquetas escritas junto al dibujo). Sin palabras de la hoja, no hay pie |
+| B9 | `> [!ficha]- Ficha` plegable con las líneas `smiles:` y `estereo:` | Debajo de cada molécula |
+| B10 | Paleta: azul = estructura, rojo = importante, verde = definición, gris = metadatos | La pone el CSS (`obsidian/apuntes-estetica.css`); la misma que en las figuras |
+
+**Etiquetas fijas.** Son las **únicas palabras que la estética puede añadir**: *Índice, Definición, Importante, Fórmula, Ficha*, y la fecha de *sesión* copiada de la hoja. Escríbelas exactamente así, porque `verificar_contenido.py` solo ignora estas.
+
+### 8.3 ❌ Lo que NUNCA se hace
+- Cambiar, añadir o quitar palabras (salvo las etiquetas fijas), ni para "aclarar".
+- Corregir ortografía, puntuación de contenido o erratas: se avisa, no se corrige.
+- Reordenar contenido entre secciones, fusionar secciones o crear títulos que no están en la hoja.
+- Resumir, añadir explicaciones, ejemplos, reglas mnemotécnicas o emojis.
+- Expandir abreviaturas (`protes`, `A-B`, `Cys`).
+- Quitar marcas de duda (`(?)`, `[!warning]`).
+- Usar `==resaltado==` para algo que no sea una duda.
+- Poner negritas dentro de los títulos.
+
+## 9. Checklist final
+
+- [ ] `verificar_contenido.py` da **OK** entre la transcripción y la nota final.
+- [ ] Nombre `<Asignatura> - Tema <N>.md`; frontmatter con `asignatura`, `tema`, `titulo`, `fechas`, `fuente`, `aliases`.
+- [ ] Índice con todos los `##`, marcas `%% pág. N %%` y `[!sesion]` solo donde hay fecha escrita.
 - [ ] Todo el contenido de la hoja está, en el mismo orden.
 - [ ] Cada estructura tiene su `smiles:`, y cada SMILES isomérico su línea `estereo:` con el origen.
 - [ ] Cada asset enlazado existe; no hay assets huérfanos en `assets/<slug>/`.
@@ -219,7 +304,7 @@ Los colores siguen la semántica de los apuntes: **rojo** para lo que el autor d
 - [ ] Ninguna palabra corregida, cambiada ni añadida: el contexto solo se ha usado para leer letras ambiguas, y ningún número se ha deducido por contexto.
 - [ ] El resumen final para el usuario incluye las decisiones de estereoquímica.
 
-## 9. Ordenar el vault
+## 10. Ordenar el vault (experimental, se rediseña en la v3)
 
 `scripts/ordenar_vault.py` coloca las notas de apuntes en `<vault>/<Asignatura>/`. Para cada nota, decide la carpeta por el `asignatura` del frontmatter y mueve también su carpeta `assets/<nombre>/`, así que los enlaces relativos siguen funcionando. No cambia el nombre del fichero ni edita ninguna nota, y nunca sobrescribe nada.
 
@@ -232,6 +317,8 @@ uv run <skill>/scripts/ordenar_vault.py <vault> [--desde <carpeta-de-trabajo>] -
 
 **Primero simula siempre** y enséñale el plan al usuario. Solo pasa `--aplicar` cuando el usuario lo confirme. Los `CONFLICTO` (el destino ya existe, o la nota enlaza assets de otra carpeta) no se mueven: explícaselos. Los `AVISO` (asignatura escrita de varias formas, assets que no existen, assets huérfanos) son para que el usuario decida; el script no edita el frontmatter.
 
-## Nota para Obsidian en modo oscuro
+## Fragmentos CSS para Obsidian
 
-Los SVG son líneas negras sobre fondo transparente. Para que se vean en el tema oscuro, copia `obsidian/svg-modo-oscuro.css` (está en esta skill) a `<vault>/.obsidian/snippets/` y actívalo en *Ajustes → Apariencia → Fragmentos CSS*.
+Copia los dos ficheros de `obsidian/` a `<vault>/.obsidian/snippets/` y actívalos en *Ajustes → Apariencia → Fragmentos CSS*:
+- **`apuntes-estetica.css`**: los callouts propios (definición, importante, fórmula, ficha, sesión), los colores de títulos y los pies de figura. Sin él, los callouts propios se ven como notas grises genéricas: no se pierde nada, pero queda menos claro.
+- **`svg-modo-oscuro.css`**: para que los SVG (líneas oscuras, fondo transparente) se vean en el tema oscuro.
