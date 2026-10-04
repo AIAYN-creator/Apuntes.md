@@ -91,7 +91,7 @@ Escribe primero una **transcripción fiel y sin estética** en `<tmp>/<slug>.tra
 | Elemento | Cómo |
 |---|---|
 | **Texto** | Markdown limpio. Los títulos y subtítulos de la hoja pasan a `##`/`###` (el `#` es el título del tema), las listas a listas, y lo subrayado, recuadrado, resaltado con fluorescente o escrito en otro color para destacar pasa a **negrita**. No uses `==resaltado==` para lo que el autor resaltó: está reservado para las dudas. Las abreviaturas y las comillas de "ídem" (`"`) se dejan tal como están escritas. **Sin negritas dentro de los títulos**: rompen los enlaces del índice. |
-| **Fórmulas** | LaTeX: `$...$` en línea y `$$...$$` en bloque (en líneas propias). En la nota **no uses `\ce{}`**, porque Obsidian no carga mhchem: usa `\rightarrow`, `\rightleftharpoons`, `\xrightarrow{\text{enzima}}`… |
+| **Fórmulas** | LaTeX: `$...$` en línea y `$$...$$` en bloque (en líneas propias). En la nota **no uses `\ce{}`**, porque Obsidian no carga mhchem: usa `\rightarrow`, `\rightleftharpoons`, `\xrightarrow{\text{enzima}}`… **Nunca un `_` o `^` fuera de LaTeX**: se ve tal cual ("pK_R"). Usa `p$K_R$`, o los caracteres Unicode si existen (H₂O, pK₁, Na⁺) |
 | **Estructura química** | SMILES → `smiles2svg.py` (sección 6). |
 | **Diagrama o dibujo esquemático** (flechas, ciclos, rutas, perfil de energía, gráfica, montaje, cargas parciales δ⁺/δ⁻ sobre moléculas, micelas, bicapas, hélices, formas de lípidos…) | Redibújalo en TikZ/chemfig → `tikz2svg.sh` (sección 7). |
 | **Diagrama ambiguo**, o dibujo realista (célula, orgánulo, aparato con detalle) | Recórtalo con `crop.py` y pon un callout `[!todo]` (sección 5c). |
@@ -298,6 +298,7 @@ Los colores siguen la semántica de los apuntes: **rojo** para lo que el autor d
 - [ ] `verificar_contenido.py` da **OK** entre la transcripción y la nota final.
 - [ ] Nombre `<Asignatura> - Tema <N>.md`; frontmatter con `asignatura`, `tema`, `titulo`, `fechas`, `fuente`, `aliases`.
 - [ ] Índice con todos los `##`, marcas `%% pág. N %%` y `[!sesion]` solo donde hay fecha escrita.
+- [ ] Ningún `_` ni `^` fuera de `$…$` (subíndices y superíndices siempre en LaTeX o en Unicode).
 - [ ] Todo el contenido de la hoja está, en el mismo orden.
 - [ ] Cada estructura tiene su `smiles:`, y cada SMILES isomérico su línea `estereo:` con el origen.
 - [ ] Cada asset enlazado existe; no hay assets huérfanos en `assets/<slug>/`.

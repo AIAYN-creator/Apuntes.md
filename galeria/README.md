@@ -45,7 +45,19 @@ Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) conv
 
 ## En Obsidian
 
-*(Capturas pendientes.)*
+**Índice plegable** con enlaces a cada sección del tema:
+
+![Índice del Tema 1](obsidian/01-indice-tema-1.png)
+
+**Fórmula destacada y definición** (Tema 2):
+
+![Fórmula y definición](obsidian/02-formula-y-definicion-tema-2.png)
+
+**Lo dudoso, marcado y no inventado**: los ángulos de la α-hélice van con `(?)` y el aviso lleva el recorte del original, para que el arreglo sea inmediato:
+
+![Aviso con recorte del original](obsidian/03-aviso-con-recorte-tema-2.png)
+
+*Capturas hechas sin el fragmento `apuntes-estetica.css` activo, así que los callouts propios salen con el estilo por defecto de Obsidian. Con el fragmento activo, las definiciones van en verde y las fórmulas en azul.*
 
 ## Lo que viene (v2.1)
 

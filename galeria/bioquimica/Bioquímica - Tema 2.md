@@ -149,7 +149,7 @@ aliases: [Tema 2]
 > [!formula] Fórmula
 > $$\mathrm{pI} = \frac{\mathrm{p}K_1 + \mathrm{p}K_2}{2}$$
 
-- Si la cadena lateral tiene grupos ionizables, el pI dependerá de los valores relativos de pK₁, pK₂ y pK_R
+- Si la cadena lateral tiene grupos ionizables, el pI dependerá de los valores relativos de p$K_1$, p$K_2$ y p$K_R$
 
 ## Polipéptidos
 
@@ -184,7 +184,7 @@ Estructuras resonantes:
 ## Punto isoelectrónico de un péptido
 
 - La carga neta de un péptido varía con el pH en función de su secuencia de aminoácidos
-- Por su corta secuencia se puede calcular como el promedio de pK_R **(de forma APROXIMADA)**
+- Por su corta secuencia se puede calcular como el promedio de p$K_R$ **(de forma APROXIMADA)**
 
 ## Proteínas
 
