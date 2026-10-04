@@ -13,6 +13,13 @@ Conviertes un escaneo de apuntes a mano en **una nota `.md` + su carpeta de asse
 
 Los scripts están en `scripts/` de esta skill. Lánzalos con la ruta de la skill delante (Python con `uv run`, que instala solo sus dependencias; el `.sh` con `bash`).
 
+**Lo que necesitas de tu entorno**, seas el agente que seas (Claude Code, Gemini CLI, Codex…):
+- **Ver imágenes y PDF**: toda la skill se apoya en mirar el escaneo, las cuadrículas y los previews.
+- **Ejecutar comandos de shell**: para los scripts.
+- **Escribir ficheros**: para la nota, los `.tex` y los assets.
+
+Si te falta alguna de las tres, díselo al usuario antes de empezar en vez de improvisar.
+
 ## 1. Antes de empezar
 
 Necesitas saber, y si no lo sabes **pregunta antes de escribir nada**:
@@ -53,7 +60,7 @@ fuente: "bq-krebs.pdf#p3"
 ## 4. Flujo de trabajo
 
 ### Paso 1: leer y localizar
-1. Lee el escaneo (Read sobre el PDF o la imagen).
+1. Abre el escaneo (PDF o imagen) con la herramienta de tu entorno que te deja **ver** archivos.
 2. Para cada página, saca la vista con cuadrícula. Te servirá para dar coordenadas a los recortes:
    ```bash
    uv run <skill>/scripts/crop.py <escaneo> --page N --render <tmp>/pN-grid.png --grid
@@ -170,7 +177,7 @@ El script avisa de todos los estereocentros y dobles enlaces E/Z. Para cada uno:
 
 ## 7. Diagramas redibujados
 
-1. Copia `templates/figura.tex` a `assets/<slug>/fig-NN-desc.tex` y sustituye **solo** el cuerpo. No añadas la opción `tikz` a `standalone`. Escribe el `.tex` con la herramienta de escribir ficheros, no con un heredoc de shell: las capas de escape se comen los saltos de línea `\\` de TikZ.
+1. Copia `templates/figura.tex` a `assets/<slug>/fig-NN-desc.tex` y sustituye **solo** el cuerpo. No añadas la opción `tikz` a `standalone`. Escribe el `.tex` con la herramienta de tu entorno para escribir ficheros, no con un heredoc de shell: las capas de escape se comen los saltos de línea `\\` de TikZ.
 2. Compila:
    ```bash
    bash <skill>/scripts/tikz2svg.sh <vault>/<Asig>/assets/<slug>/fig-NN-desc.tex --preview

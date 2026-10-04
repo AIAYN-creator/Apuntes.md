@@ -40,15 +40,29 @@ Cada nota lleva un frontmatter mínimo (`asignatura`, `tema`, `fecha`, `fuente`)
 - **Git Bash** para `tikz2svg.sh`.
 - **Edge o Chrome** (opcional, recomendado) para el preview del SVG final.
 
-## Instalación (Claude Code)
+## Instalación (cualquier agente)
 
-Enlaza la carpeta de la skill en `~/.claude/skills/` con un *junction*. Así los cambios del repo se ven al instante, sin copiar:
+La skill sigue el formato abierto **[Agent Skills](https://agentskills.io)** (`SKILL.md` + `scripts/`), que entienden Claude Code, Gemini CLI, Codex, Cursor, Copilot y otros. Instalarla es enlazar la misma carpeta allí donde cada agente busca sus skills:
 
 ```powershell
-New-Item -ItemType Junction -Path "$env:USERPROFILE\.claude\skills\apuntes-a-md" -Target "<ruta-al-repo>\skills\apuntes-a-md"
+.\instalar.ps1 -Agentes claude,gemini,codex
 ```
 
-Después basta con pedirle al agente algo como *"pasa a Markdown las págs. 6–7 de este escaneo a mi vault"*.
+| Agente | Carpeta de skills | Alternativa propia |
+|---|---|---|
+| Claude Code | `~/.claude/skills/` | — |
+| Gemini CLI | `~/.gemini/skills/` o `~/.agents/skills/` | `gemini skills install <ruta>/skills/apuntes-a-md --consent` |
+| Codex | `~/.codex/skills/` | — |
+
+El instalador crea *junctions*, así que los cambios del repo se ven al instante sin copiar nada. Con `-WhatIf` muestra lo que haría sin tocar nada.
+
+El agente tiene que poder **ver imágenes/PDF**, **ejecutar comandos** y **escribir ficheros**.
+
+Después basta con pedirle algo como *"pasa a Markdown las págs. 6–7 de este escaneo a mi vault"*.
+
+**Si trabajas sobre el repo** con un agente, las instrucciones están en [`AGENTS.md`](AGENTS.md). `CLAUDE.md` y `GEMINI.md` solo lo importan.
+
+> Probada a fondo con Claude Code. En Gemini CLI y Codex la instalación sigue su documentación oficial, pero todavía no se ha probado una conversión completa.
 
 ## Scripts
 

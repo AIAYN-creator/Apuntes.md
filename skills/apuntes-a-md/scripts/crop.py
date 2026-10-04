@@ -40,7 +40,7 @@ def load_page(path: Path, page: int, dpi: int) -> Image.Image:
 
 
 def draw_grid(img: Image.Image) -> Image.Image:
-    """Cuadrícula etiquetada cada 0.1 para que Claude estime las fracciones de --box."""
+    """Cuadrícula etiquetada cada 0.1 para que el agente estime las fracciones de --box."""
     img = img.copy()
     draw = ImageDraw.Draw(img, "RGBA")
     w, h = img.size
