@@ -104,7 +104,7 @@ Si falta algo, la skill lo pregunta antes de escribir nada.
 | `crop.py` | Cuadrícula de coordenadas y recortes del escaneo |
 | `recorte_vectorial.py` | Dibujos de **tableta**: exporta los trazos del autor de una zona como SVG nítido, con opción de pasarlos a la paleta |
 | `verificar_contenido.py` | Comprueba que la estética no ha cambiado ni una palabra: compara la transcripción fiel con la nota final |
-| `ordenar_vault.py` | *Experimental:* coloca las notas en `<Asignatura>/` según su frontmatter. Se rediseña en la v3 |
+| `ordenar_vault.py` | Coloca las notas y sus assets en `Universidad/Química/<curso>/<Asignatura>/`. Simula por defecto, nunca sobrescribe y pregunta si las fechas son de otro curso |
 
 ## Configurar Obsidian
 

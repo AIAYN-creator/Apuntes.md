@@ -33,9 +33,17 @@ Necesitas saber, y si no lo sabes **pregunta antes de escribir nada**:
 ## 2. Una nota por tema: dónde va cada cosa
 
 ```
-<vault>/<Asignatura>/<Asignatura> - Tema <N>.md          p. ej. Bioquímica/Bioquímica - Tema 1.md
-<vault>/<Asignatura>/assets/<slug>/<asset>               p. ej. Bioquímica/assets/bioquimica-tema-1/mol-01.svg
+<vault>/Universidad/<carrera>/<curso>/<Asignatura>/<Asignatura> - Tema <N>.md
+<vault>/Universidad/<carrera>/<curso>/<Asignatura>/assets/<slug>/<asset>
+
+p. ej. Universidad/Química/2026-2027/Bioquímica/Bioquímica - Tema 1.md
+       Universidad/Química/2026-2027/Bioquímica/assets/bioquimica-tema-1/mol-01.svg
 ```
+
+- **Carrera:** `Química`, salvo que el usuario diga otra.
+- **Curso:** `2026-2027`, salvo que el usuario diga otro. El curso empieza en septiembre. Si las fechas de la hoja caen en otro curso, **pregunta** antes de escribir y, si lo confirma, pon `curso: AAAA-AAAA` en el frontmatter.
+- **La carpeta de la asignatura** se llama como el campo `asignatura`. Si ya existe con otras tildes o mayúsculas, reutilízala.
+- **Si el usuario da una carpeta de salida** que no es el vault (p. ej. `pruebas/salida/`), escribe ahí `<Asignatura>/…` sin más. `ordenar_vault.py` (sección 10) la lleva luego a su sitio.
 
 - **Nombre de la nota:** `<Asignatura> - Tema <N>.md`. Es único en todo el vault, así que los enlaces de Obsidian no se confunden con el Tema 1 de otra asignatura. El alias `Tema <N>` va en el frontmatter.
 - **`slug`:** el nombre de la nota en kebab-case, sin tildes ni espacios (`bioquimica-tema-1`). Es la carpeta de assets.
@@ -67,6 +75,7 @@ aliases: [Tema 1]
   - Solo si no hay ninguna fecha antes, pon `fechas: []` y un `[!warning]` al principio de la nota.
   - No uses nunca la fecha de hoy.
 - **`fuente`:** escaneo + rango de páginas (`#p2-5`). Si el tema viene de varios escaneos, usa una lista.
+- **`curso`** *(opcional)*: solo si el usuario ha confirmado un curso distinto del 2026-2027 (sección 2).
 - No añadas `tags`: son cosa de la v3 (enlazado del vault).
 
 ## 4. Flujo de trabajo
@@ -336,18 +345,32 @@ Los colores siguen la semántica de los apuntes: **rojo** para lo que el autor d
 - [ ] Ninguna palabra corregida, cambiada ni añadida: el contexto solo se ha usado para leer letras ambiguas, y ningún número se ha deducido por contexto.
 - [ ] El resumen final para el usuario incluye las decisiones de estereoquímica.
 
-## 10. Ordenar el vault (experimental, se rediseña en la v3)
+## 10. Ordenar el vault
 
-`scripts/ordenar_vault.py` coloca las notas de apuntes en `<vault>/<Asignatura>/`. Para cada nota, decide la carpeta por el `asignatura` del frontmatter y mueve también su carpeta `assets/<nombre>/`, así que los enlaces relativos siguen funcionando. No cambia el nombre del fichero ni edita ninguna nota, y nunca sobrescribe nada.
+`scripts/ordenar_vault.py` coloca las notas de apuntes en `Universidad/<carrera>/<curso>/<Asignatura>/` (sección 2).
+- **Qué mueve:** cada nota junto con su carpeta `assets/<slug>/`, y también los MOC de asignatura (`tipo: moc`). Así los enlaces relativos siguen funcionando.
+- **Qué no hace:** no cambia el nombre de ningún fichero, no edita ninguna nota y nunca sobrescribe nada. Las notas que ya están en su sitio no se tocan.
 
-Úsalo cuando el usuario pida ordenar o colocar las notas, o cuando hayas convertido en una carpeta de trabajo (p. ej. `pruebas/salida/`) y haya que llevar las notas al vault:
+Úsalo cuando el usuario pida ordenar o colocar las notas, o cuando hayas convertido en una carpeta de trabajo y haya que llevar las notas al vault:
 
 ```bash
-uv run <skill>/scripts/ordenar_vault.py <vault> [--desde <carpeta-de-trabajo>]            # simulación
-uv run <skill>/scripts/ordenar_vault.py <vault> [--desde <carpeta-de-trabajo>] --aplicar  # mover
+uv run <skill>/scripts/ordenar_vault.py <vault> [--desde <carpeta-de-trabajo>] [--excluir <carpeta>]            # simulación
+uv run <skill>/scripts/ordenar_vault.py <vault> [--desde <carpeta-de-trabajo>] [--excluir <carpeta>] --aplicar  # mover
 ```
 
-**Primero simula siempre** y enséñale el plan al usuario. Solo pasa `--aplicar` cuando el usuario lo confirme. Los `CONFLICTO` (el destino ya existe, o la nota enlaza assets de otra carpeta) no se mueven: explícaselos. Los `AVISO` (asignatura escrita de varias formas, assets que no existen, assets huérfanos) son para que el usuario decida; el script no edita el frontmatter.
+`--carrera` (por defecto `Química`) y `--curso` (por defecto `2026-2027`) cambian los valores por defecto. `--excluir` deja fuera carpetas del vault, con rutas relativas al vault.
+
+**Primero simula siempre** y enséñale el plan al usuario. Solo pasa `--aplicar` cuando el usuario lo confirme.
+
+**Los `CONFLICTO` no se mueven:** explícaselos al usuario. Son estos:
+- el destino ya existe;
+- la nota enlaza assets de otra carpeta;
+- sus fechas son de otro curso. En ese caso, pregunta el curso y, con su OK, añade `curso:` al frontmatter (es metadato, no contenido).
+
+**Los `AVISO` son para que el usuario decida:**
+- la asignatura está escrita de varias formas;
+- hay assets que no existen o assets huérfanos;
+- un `![[x.svg]]` tiene un nombre repetido en el vault, y Obsidian podría enseñar el de otro tema.
 
 ## Fragmentos CSS para Obsidian
 
