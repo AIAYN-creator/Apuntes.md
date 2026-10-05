@@ -4,8 +4,9 @@ Este fichero es la fuente de verdad para cualquier agente (Claude Code, Gemini C
 
 ## Qué hay aquí
 
-- **`skills/apuntes-a-md/`**: la skill, en formato [Agent Skills](https://agentskills.io) (`SKILL.md` con `name` y `description`, más `scripts/`, `templates/` y `obsidian/`).
-- **Para convertir apuntes**, sigue [`skills/apuntes-a-md/SKILL.md`](skills/apuntes-a-md/SKILL.md) al pie de la letra. No hace falta tenerla instalada como skill: leer ese fichero basta.
+- **`skills/apuntes-a-md/`**: la skill de conversión, en formato [Agent Skills](https://agentskills.io) (`SKILL.md` con `name` y `description`, más `scripts/`, `templates/` y `obsidian/`).
+- **`skills/enlazar-apuntes/`**: la skill de enlazado (enlaces entre temas, tags y MOC por asignatura).
+- **Para convertir apuntes**, sigue [`skills/apuntes-a-md/SKILL.md`](skills/apuntes-a-md/SKILL.md) al pie de la letra; **para enlazarlos**, [`skills/enlazar-apuntes/SKILL.md`](skills/enlazar-apuntes/SKILL.md). No hace falta tenerlas instaladas como skills: leer esos ficheros basta.
 
 ## Si modificas el repo
 

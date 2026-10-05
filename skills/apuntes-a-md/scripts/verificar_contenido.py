@@ -11,7 +11,8 @@ Compara las PALABRAS de las dos notas, en orden, ignorando todo lo que es forma:
 frontmatter, formato Markdown (negritas, títulos, tablas, viñetas), comentarios
 %% %%, el índice, las imágenes (y su alt), las líneas `smiles:`/`estereo:` y las
 cabeceras de los callouts con etiqueta fija (Índice, Definición, Importante,
-Fórmula, Ficha, sesión).
+Fórmula, Ficha, sesión). Un enlace interno [[destino|texto]] cuenta como `texto`,
+así que la nota sigue verificándose después de enlazarla.
 
 stdout: "OK: mismo contenido (N palabras, mismo orden)" o la lista de diferencias.
 Exit: 0 mismo contenido, 1 hay diferencias, 2 uso incorrecto.
@@ -48,6 +49,8 @@ def palabras(path: Path) -> list[str]:
             s = titulo                                              # [!warning] Dudoso: … sí es contenido
         s = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", s)                 # imágenes Markdown, alt incluido
         s = re.sub(r"!\[\[[^\]]*\]\]", " ", s)                      # imágenes ![[...]] (Obsidian las crea al redimensionar)
+        s = re.sub(r"\[\[[^\]|]*?\\?\|([^\]]*)\]\]", r"\1", s)      # enlaces [[destino|texto]] (y \| en tablas): cuenta el texto
+        s = re.sub(r"\[\[([^\]|]*)\]\]", r"\1", s)                  # enlaces [[destino]]
         lineas.append(s)
     t = unicodedata.normalize("NFC", "\n".join(lineas))
     t = re.sub(r"[*_=`#|]|:?-{3,}:?", " ", t)                       # marcas de formato y tablas

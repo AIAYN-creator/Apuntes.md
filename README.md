@@ -70,7 +70,7 @@ La skill sigue el formato abierto **[Agent Skills](https://agentskills.io)** (`S
 | Gemini CLI | `~/.gemini/skills/` o `~/.agents/skills/` | `gemini skills install <ruta>/skills/apuntes-a-md --consent` |
 | Codex | `~/.codex/skills/` | — |
 
-El instalador crea *junctions*, así que los cambios del repo se ven al instante sin copiar nada. Con `-WhatIf` muestra lo que haría sin tocar nada.
+El instalador enlaza las dos skills (`apuntes-a-md` y `enlazar-apuntes`) y crea *junctions*, así que los cambios del repo se ven al instante sin copiar nada. Con `-WhatIf` muestra lo que haría sin tocar nada.
 
 El agente tiene que poder **ver imágenes/PDF**, **ejecutar comandos** y **escribir ficheros**.
 
@@ -91,6 +91,15 @@ Si falta algo, la skill lo pregunta antes de escribir nada.
 - cuántas dudas ha marcado;
 - sus decisiones de estereoquímica.
 
+**Enlazar los temas** es la segunda skill, `enlazar-apuntes`. Basta con pedir *"enlaza los temas de Bioquímica"*.
+
+**Qué hace:**
+- **enlaces internos:** enlaza cada concepto con la sección donde se define, solo la primera mención por sección;
+- **tags:** `apuntes`, `<asignatura>` y `<asignatura>/tema-N`;
+- **un índice por asignatura** (`Bioquímica.md`), con una tabla de conceptos transversales.
+
+Primero enseña un resumen y escribe solo con tu OK. Antes de escribir, comprueba que no cambia ni una palabra.
+
 **Si trabajas sobre el repo** con un agente, las instrucciones están en [`AGENTS.md`](AGENTS.md). `CLAUDE.md` y `GEMINI.md` solo lo importan.
 
 > Probada a fondo con Claude Code. En Gemini CLI y Codex la instalación sigue su documentación oficial, pero todavía no se ha probado una conversión completa.
@@ -104,6 +113,7 @@ Si falta algo, la skill lo pregunta antes de escribir nada.
 | `crop.py` | Cuadrícula de coordenadas y recortes del escaneo |
 | `recorte_vectorial.py` | Dibujos de **tableta**: exporta los trazos del autor de una zona como SVG nítido, con opción de pasarlos a la paleta |
 | `verificar_contenido.py` | Comprueba que la estética no ha cambiado ni una palabra: compara la transcripción fiel con la nota final |
+| `enlazar.py` *(skill `enlazar-apuntes`)* | Inventario de temas y encabezados. Aplica un plan de enlaces, tags y MOC; simula por defecto y comprueba que el texto no cambia |
 | `ordenar_vault.py` | Coloca las notas y sus assets en `Universidad/Química/<curso>/<Asignatura>/`. Simula por defecto, nunca sobrescribe y pregunta si las fechas son de otro curso |
 
 ## Configurar Obsidian
@@ -118,7 +128,8 @@ Si falta algo, la skill lo pregunta antes de escribir nada.
 ## Estructura
 
 ```
-skills/apuntes-a-md/   SKILL.md, scripts/, templates/, obsidian/
+skills/apuntes-a-md/      SKILL.md, scripts/, templates/, obsidian/   (conversión)
+skills/enlazar-apuntes/   SKILL.md, scripts/enlazar.py                (enlaces, tags y MOC)
 galeria/proceso/       capturas de cómo trabaja la skill
 pruebas/               escaneos y salidas de prueba (no se suben)
 ```

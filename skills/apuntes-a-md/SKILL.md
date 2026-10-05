@@ -76,7 +76,7 @@ aliases: [Tema 1]
   - No uses nunca la fecha de hoy.
 - **`fuente`:** escaneo + rango de páginas (`#p2-5`). Si el tema viene de varios escaneos, usa una lista.
 - **`curso`** *(opcional)*: solo si el usuario ha confirmado un curso distinto del 2026-2027 (sección 2).
-- No añadas `tags`: son cosa de la v3 (enlazado del vault).
+- No añadas `tags`: los pone la skill `enlazar-apuntes`, junto con los enlaces entre temas y el MOC.
 
 ## 4. Flujo de trabajo
 

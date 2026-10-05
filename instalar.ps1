@@ -1,6 +1,7 @@
 <#
 .SYNOPSIS
-  Enlaza la skill apuntes-a-md en los agentes elegidos (junction: los cambios del repo se ven al instante).
+  Enlaza las skills del repo (apuntes-a-md y enlazar-apuntes) en los agentes elegidos
+  (junction: los cambios del repo se ven al instante).
 
 .EXAMPLE
   .\instalar.ps1                          # solo Claude Code
@@ -18,8 +19,11 @@ param(
   [string[]]$Agentes = @('claude')
 )
 
-$skill = Join-Path $PSScriptRoot 'skills\apuntes-a-md'
-if (-not (Test-Path (Join-Path $skill 'SKILL.md'))) { throw "No encuentro $skill\SKILL.md" }
+$skills = @('apuntes-a-md', 'enlazar-apuntes') | ForEach-Object {
+  $ruta = Join-Path $PSScriptRoot "skills\$_"
+  if (-not (Test-Path (Join-Path $ruta 'SKILL.md'))) { throw "No encuentro $ruta\SKILL.md" }
+  [pscustomobject]@{ Nombre = $_; Ruta = $ruta }
+}
 
 $destinos = @{
   claude = Join-Path $HOME '.claude\skills'
@@ -29,19 +33,21 @@ $destinos = @{
 }
 
 foreach ($a in $Agentes) {
-  $enlace = Join-Path $destinos[$a] 'apuntes-a-md'
-  if (Test-Path $enlace) {
-    $item = Get-Item $enlace -Force
-    if ($item.LinkType -eq 'Junction' -and ((@($item.Target)[0]).TrimEnd('\') -eq $skill.TrimEnd('\'))) {
-      Write-Host "[$a] ya instalada: $enlace"
-    } else {
-      Write-Warning "[$a] $enlace ya existe y no apunta a este repo; no lo toco."
+  foreach ($s in $skills) {
+    $enlace = Join-Path $destinos[$a] $s.Nombre
+    if (Test-Path $enlace) {
+      $item = Get-Item $enlace -Force
+      if ($item.LinkType -eq 'Junction' -and ((@($item.Target)[0]).TrimEnd('\') -eq $s.Ruta.TrimEnd('\'))) {
+        Write-Host "[$a] $($s.Nombre) ya instalada: $enlace"
+      } else {
+        Write-Warning "[$a] $enlace ya existe y no apunta a este repo; no lo toco."
+      }
+      continue
     }
-    continue
-  }
-  if ($PSCmdlet.ShouldProcess($enlace, "crear junction -> $skill")) {
-    New-Item -ItemType Directory -Force $destinos[$a] | Out-Null
-    New-Item -ItemType Junction -Path $enlace -Target $skill | Out-Null
-    Write-Host "[$a] instalada: $enlace -> $skill"
+    if ($PSCmdlet.ShouldProcess($enlace, "crear junction -> $($s.Ruta)")) {
+      New-Item -ItemType Directory -Force $destinos[$a] | Out-Null
+      New-Item -ItemType Junction -Path $enlace -Target $s.Ruta | Out-Null
+      Write-Host "[$a] $($s.Nombre) instalada: $enlace -> $($s.Ruta)"
+    }
   }
 }
