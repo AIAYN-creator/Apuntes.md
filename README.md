@@ -37,10 +37,24 @@ No hay API ni app propia: quien lee la hoja es el agente dentro de la sesión. L
 
 ## Requisitos (Windows)
 
-- **Python ≥ 3.12** y **[uv](https://docs.astral.sh/uv/)**: los scripts declaran sus dependencias inline (PEP 723) y se ejecutan con `uv run`, sin venv que crear.
-- **MiKTeX** con "Install missing packages on-the-fly: Always" (trae `pdflatex`, `dvisvgm`, `pdftocairo` y `pdffonts`).
-- **Git Bash** para `tikz2svg.sh`.
-- **Edge o Chrome** (opcional, recomendado) para el preview del SVG final.
+| Programa | Para qué | Instalar |
+|---|---|---|
+| **[uv](https://docs.astral.sh/uv/)** | Ejecuta los scripts de Python. Cada script declara sus dependencias (RDKit, PyMuPDF, Pillow, PyYAML) y uv las instala solo, sin venv que crear. Si no tienes **Python ≥ 3.12**, uv también lo descarga | `winget install astral-sh.uv` |
+| **MiKTeX** | Compila las figuras: `pdflatex`, `dvisvgm`, `pdftocairo` y `pdffonts` | `winget install MiKTeX.MiKTeX`; después, en *MiKTeX Console → Settings*, pon "Install missing packages on-the-fly" en **Always** |
+| **Git Bash** | Ejecuta `tikz2svg.sh` | `winget install Git.Git` |
+| **Edge o Chrome** *(opcional)* | Preview del SVG final, para comprobar que no se pierde texto. Sin navegador, el preview sale del PDF y no garantiza que el SVG lo tenga todo | Edge viene con Windows |
+
+Los paquetes de LaTeX de la plantilla de figuras (`lmodern`, `helvet`, `sansmath`, `chemfig`, `mhchem`, `pgfplots`…) los descarga MiKTeX la primera vez que se usan. Por eso conviene compilar una figura de prueba con conexión a internet.
+
+Para comprobar que todo está en su sitio:
+
+```bash
+uv --version && pdflatex --version && dvisvgm --version && pdftocairo -v
+```
+
+**Para usar la skill hace falta además:**
+- un agente que pueda ver imágenes/PDF, ejecutar comandos y escribir ficheros (ver la sección siguiente);
+- [Obsidian](https://obsidian.md/) para leer las notas (ver [Configurar Obsidian](#configurar-obsidian)).
 
 ## Instalación (cualquier agente)
 
@@ -60,7 +74,22 @@ El instalador crea *junctions*, así que los cambios del repo se ven al instante
 
 El agente tiene que poder **ver imágenes/PDF**, **ejecutar comandos** y **escribir ficheros**.
 
-Después basta con pedirle algo como *"pasa a Markdown las págs. 6–7 de este escaneo a mi vault"*.
+### Uso
+
+Basta con pedirle algo como *"pasa a Markdown las págs. 6–7 de este escaneo a mi vault"*. En Claude Code también vale `/apuntes-a-md`.
+
+**Lo que hay que darle:**
+- el PDF o la imagen, y qué páginas son de qué tema;
+- la asignatura, si no se lee en la hoja;
+- la ruta del vault.
+
+Si falta algo, la skill lo pregunta antes de escribir nada.
+
+**Al terminar da:**
+- la nota;
+- el resultado de la verificación de contenido;
+- cuántas dudas ha marcado;
+- sus decisiones de estereoquímica.
 
 **Si trabajas sobre el repo** con un agente, las instrucciones están en [`AGENTS.md`](AGENTS.md). `CLAUDE.md` y `GEMINI.md` solo lo importan.
 
@@ -71,7 +100,7 @@ Después basta con pedirle algo como *"pasa a Markdown las págs. 6–7 de este 
 | Script | Qué hace |
 |---|---|
 | `smiles2svg.py` | Valida el SMILES, dibuja el SVG y devuelve un JSON con los estereocentros (asignados o no) |
-| `tikz2svg.sh` | `.tex` → SVG (`pdflatex` + `dvisvgm`). Falla si el texto se fuera a perder; `--preview` renderiza el SVG final |
+| `tikz2svg.sh` | `.tex` → SVG (`pdflatex` + `dvisvgm`, o `pdftocairo` si la figura incrusta un recorte). Falla si el texto se fuera a perder; `--preview` renderiza el SVG final |
 | `crop.py` | Cuadrícula de coordenadas y recortes del escaneo |
 | `recorte_vectorial.py` | Dibujos de **tableta**: exporta los trazos del autor de una zona como SVG nítido, con opción de pasarlos a la paleta |
 | `verificar_contenido.py` | Comprueba que la estética no ha cambiado ni una palabra: compara la transcripción fiel con la nota final |
@@ -99,7 +128,7 @@ pruebas/               escaneos y salidas de prueba (no se suben)
 - **v1.0.0** ✅ Conversión fiel de apuntes a mano a Markdown + Obsidian.
 - **v2.0.0** ✅ Skill independiente del agente, una nota por tema, estética didáctica que no toca el contenido (verificada con un script), estilo común de figuras y los 4 temas de Bioquímica.
 - **v2.1** Dibujos figurativos con iconos de [Bioicons](https://bioicons.com/) (solo CC0, MIT/BSD y CC-BY con atribución) o con recortes vectoriales del propio dibujo de tableta.
-- **v3** Reordenar el vault: arquitectura de carpetas (`Universidad/<curso>/<Asignatura>/`), enlaces internos entre temas, tags e índices por asignatura.
+- **v3** Reordenar el vault: arquitectura de carpetas (`Universidad/Química/<curso>/<Asignatura>/`), enlaces internos entre temas, tags e índices por asignatura.
 
 ## Licencia
 
