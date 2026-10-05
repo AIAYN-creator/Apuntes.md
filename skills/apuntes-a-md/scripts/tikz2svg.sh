@@ -77,7 +77,11 @@ if [[ -n "$pages" && "$pages" != "1" ]]; then
   echo "AVISO: el PDF tiene $pages páginas; solo se convierte la primera. ¿Usas la opción 'tikz' de standalone?" >&2
 fi
 
-if ! dvisvgm --pdf --no-fonts --exact-bbox --page=1 -o "$(winpath "$svg")" "$(winpath "$pdf")" >/dev/null 2>&1 \
+# Con un PDF incrustado (\includegraphics de un recorte vectorial), dvisvgm genera un SVG que
+# se ve EN BLANCO sin dar error; pdftocairo lo convierte bien. Se usa directamente en ese caso.
+if grep -q '\\includegraphics' "$tex"; then
+  pdftocairo -svg -f 1 -l 1 "$(winpath "$pdf")" "$(winpath "$svg")" || { echo "ERROR: no se pudo convertir a SVG" >&2; exit 1; }
+elif ! dvisvgm --pdf --no-fonts --exact-bbox --page=1 -o "$(winpath "$svg")" "$(winpath "$pdf")" >/dev/null 2>&1 \
    || [[ ! -s "$svg" ]]; then
   echo "AVISO: dvisvgm falló, uso pdftocairo como fallback" >&2
   pdftocairo -svg -f 1 -l 1 "$(winpath "$pdf")" "$(winpath "$svg")" || { echo "ERROR: no se pudo convertir a SVG" >&2; exit 1; }
@@ -98,7 +102,8 @@ if (( preview )); then
   done
   if [[ -n "$browser" ]]; then
     # Tamaño de ventana = tamaño del SVG (pt -> px a 96 ppp) más un margen
-    read -r w h < <(head -c 600 "$svg" | sed -n "s/.*width='\([0-9.]*\)pt' height='\([0-9.]*\)pt'.*/\1 \2/p")
+    # dvisvgm escribe width='…pt' y pdftocairo width="…" (también en pt): se aceptan las dos formas
+    read -r w h < <(head -c 600 "$svg" | sed -n "s/.*width=[\"']\([0-9.]*\)\(pt\)\{0,1\}[\"'] height=[\"']\([0-9.]*\)\(pt\)\{0,1\}[\"'].*/\1 \3/p")
     w=$(awk -v v="${w:-600}" 'BEGIN{printf "%d", v*96/72+20}'); h=$(awk -v v="${h:-400}" 'BEGIN{printf "%d", v*96/72+20}')
     url="file:///$(winpath "$svg" | tr '\\' '/')"
     "$browser" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=2 \

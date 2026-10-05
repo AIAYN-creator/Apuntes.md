@@ -6,7 +6,7 @@
 
 Uso:
     uv run scripts/recorte_vectorial.py <apuntes.pdf> --page N --box X0 Y0 X1 Y1 -o <rec-NN-desc.svg>
-                                        [--paleta] [--tocar] [--preview]
+                                        [--excluir X0 Y0 X1 Y1]... [--pdf] [--paleta] [--tocar] [--preview]
 
 Para dibujos figurativos de apuntes hechos en tableta (GoodNotes, Notability…), cuyo PDF
 guarda cada trazo como vector: el resultado es el dibujo del autor, exacto y nítido a
@@ -15,11 +15,17 @@ cualquier tamaño. Si el PDF es un escaneo (imagen), no hay trazos: usa crop.py.
 --box      fracciones 0-1 de la página (como crop.py; léelas en su cuadrícula).
 --tocar    incluye también los trazos que solo tocan la caja (por defecto, solo los que
            caen enteros dentro, para no arrastrar texto vecino).
+--excluir  quita los trazos que caen enteros en esa caja (repetible). Sirve para quitar las
+           etiquetas escritas a mano y ponerlas después en TikZ, en tipografía.
+--pdf      guarda además <salida>.pdf, para incluir el dibujo en una figura TikZ con
+           \\includegraphics y añadirle encima las etiquetas (ver SKILL.md, 7.1).
 --paleta   pasa los colores saturados a la paleta Apuntes.md (azul, rojo, verde, negro).
            Los rellenos claros (pastel) se mantienen.
 --preview  genera además un PNG del SVG resultante, para revisarlo a ojo.
 
-stdout: ruta del SVG (y del PNG). stderr: avisos.
+stdout: ruta del SVG (y del PDF y del PNG).
+stderr: nº de trazos, tamaño y el MARCO final del dibujo en fracciones de página, que es lo
+        que se necesita para colocar las etiquetas TikZ: u = (x - mx0)/(mx1 - mx0), v = (my1 - y)/(my1 - my0).
 Exit: 0 OK, 1 sin trazos vectoriales en la caja o PDF ilegible, 2 uso incorrecto.
 """
 
@@ -93,6 +99,8 @@ def main() -> int:
     ap.add_argument("-o", "--output", type=Path, required=True)
     ap.add_argument("--paleta", action="store_true")
     ap.add_argument("--tocar", action="store_true")
+    ap.add_argument("--excluir", type=float, nargs=4, action="append", default=[], metavar=("X0", "Y0", "X1", "Y1"))
+    ap.add_argument("--pdf", action="store_true", dest="salida_pdf")
     ap.add_argument("--preview", action="store_true")
     a = ap.parse_args()
 
@@ -115,6 +123,11 @@ def main() -> int:
         print("ERROR: esta página no tiene trazos vectoriales (¿escaneo en imagen?). Usa crop.py.", file=sys.stderr)
         return 1
     elegidos = [d for d in dibujos if (d["rect"].intersects(caja) if a.tocar else caja.contains(d["rect"]))]
+    fuera = [pymupdf.Rect(e[0] * W, e[1] * H, e[2] * W, e[3] * H) for e in a.excluir]
+    if fuera:
+        antes = len(elegidos)
+        elegidos = [d for d in elegidos if not any(f.contains(d["rect"]) for f in fuera)]
+        print(f"--excluir: {antes - len(elegidos)} trazos quitados", file=sys.stderr)
     if not elegidos:
         print("ERROR: ningún trazo cae dentro de la caja. Revisa --box en la cuadrícula o prueba --tocar.", file=sys.stderr)
         return 1
@@ -148,6 +161,14 @@ def main() -> int:
     a.output.write_text(svg, encoding="utf-8")
     print(a.output)
     print(f"{len(elegidos)} trazos, {len(svg) // 1024} KB", file=sys.stderr)
+    print(f"marco (fracciones de página): {marco.x0 / W:.4f} {marco.y0 / H:.4f} {marco.x1 / W:.4f} {marco.y1 / H:.4f}",
+          file=sys.stderr)
+
+    if a.salida_pdf:
+        pdf_out = a.output.with_suffix(".pdf")
+        vista = pymupdf.open(stream=svg.encode("utf-8"), filetype="svg")
+        pymupdf.open("pdf", vista.convert_to_pdf()).save(pdf_out)
+        print(pdf_out)
 
     if a.preview:
         png = Path(tempfile.gettempdir()) / f"{a.output.stem}-preview.png"

@@ -227,8 +227,22 @@ uv run <skill>/scripts/recorte_vectorial.py <apuntes.pdf> --page N --box X0 Y0 X
 - **`--box`** se lee en la cuadrícula de `crop.py`, igual que un recorte normal. Por defecto entran solo los trazos **enteros** dentro de la caja, para no arrastrar texto vecino; con `--tocar` entran también los que la cruzan.
 - **`--paleta`** pasa los colores del autor a la paleta (sus azules, rojos y verdes) y respeta los rellenos claros. Úsalo siempre, salvo que el color original importe para el contenido.
 - Si la página no tiene trazos (es una imagen escaneada), el script falla y lo dice: entonces, `crop.py`.
-- **Las etiquetas escritas a mano dentro del dibujo se quedan en la letra del autor.** Su texto ya está en la nota (pie de figura o lista), así que no se pierde contenido.
-- Tipo de asset: **`rec-NN-desc.svg`**. Va en la nota como cualquier figura, sin `[!todo]`: no es un recorte provisional.
+
+**Las etiquetas van en TikZ, en tipografía, nunca con la letra del autor.** El flujo:
+1. **Recorta el dibujo sin sus etiquetas.** Pon una caja `--excluir` ajustada a cada etiqueta escrita a mano. Repítela tantas veces como etiquetas haya, y deja fuera las puntas de flecha para que se conserven. Usa `--pdf` para tener también `rec-NN-desc.pdf`. Mira el preview: no debe quedar ni una letra suelta ni faltar una flecha.
+2. **El script imprime el `marco`** del dibujo en fracciones de página. Pasa la posición de cada etiqueta (leída en la cuadrícula, en el punto donde empieza el texto o acaba la flecha) a coordenadas del dibujo: `u = (x − mx0)/(mx1 − mx0)`, `v = (my1 − y)/(my1 − my0)`.
+3. **Compón la figura** `fig-NN-desc.tex` desde la plantilla:
+   ```latex
+   \begin{tikzpicture}
+     \node[inner sep=0, anchor=south west] (img) at (0,0) {\includegraphics[width=4.2cm]{rec-NN-desc.pdf}};
+     \begin{scope}[x={(img.south east)}, y={(img.north west)}]   % (0,0)–(1,1) = el dibujo
+       \node[anotacion, anchor=west, font=\large] at (0.76,0.86) {Fase móvil o eluyent};
+     \end{scope}
+   \end{tikzpicture}
+   ```
+4. **Compila con `tikz2svg.sh`.** Al detectar `\includegraphics` usa `pdftocairo`, porque `dvisvgm` deja el dibujo incrustado en blanco. En la nota se enlaza el `fig-NN-desc.svg`; el `rec-NN-desc.svg/.pdf` se queda al lado como fuente.
+
+Las etiquetas se copian **tal cual están escritas** (p. ej. "eluyent"), como cualquier texto de la hoja. Tipo de asset del recorte: **`rec-NN-desc`**. La figura final va como cualquier otra, sin `[!todo]`.
 
 La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\ce{}` sí funciona **dentro** del `.tex`), TikZ y `pgfplots`, además del **estilo Apuntes.md**: letra sans-serif (Helvetica + `sansmath`, como Obsidian), la paleta y estilos con nombre. **Usa siempre los estilos y colores con nombre, nunca colores sueltos** (`red`, `blue!70!black`…): así todas las figuras se ven iguales y el estilo se cambia en un solo sitio.
 
