@@ -22,3 +22,6 @@ __pycache__/
 .obsidian/
 Thumbs.db
 .DS_Store
+
+# Catálogo de Bioicons: se descarga bajo demanda, no se versiona
+skills/apuntes-a-md/iconos/.catalogo.json

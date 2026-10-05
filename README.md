@@ -112,6 +112,7 @@ Primero enseña un resumen y escribe solo con tu OK. Antes de escribir, comprueb
 | `tikz2svg.sh` | `.tex` → SVG (`pdflatex` + `dvisvgm`, o `pdftocairo` si la figura incrusta un recorte). Falla si el texto se fuera a perder; `--preview` renderiza el SVG final |
 | `crop.py` | Cuadrícula de coordenadas y recortes del escaneo |
 | `recorte_vectorial.py` | Dibujos de **tableta**: exporta los trazos del autor de una zona como SVG nítido, con opción de pasarlos a la paleta |
+| `iconos.py` | Iconos de Bioicons: buscar, ver licencia y tamaño, descargar **bajo demanda** (rechaza CC-BY-SA), registrar la atribución en `iconos/ICONOS.md`, comprobar licencias y pasar a PDF para componer en TikZ |
 | `verificar_contenido.py` | Comprueba que la estética no ha cambiado ni una palabra: compara la transcripción fiel con la nota final |
 | `enlazar.py` *(skill `enlazar-apuntes`)* | Inventario de temas y encabezados. Aplica un plan de enlaces, tags y MOC; simula por defecto y comprueba que el texto no cambia |
 | `ordenar_vault.py` | Coloca las notas y sus assets en `Universidad/Química/<curso>/<Asignatura>/`. Simula por defecto, nunca sobrescribe y pregunta si las fechas son de otro curso |

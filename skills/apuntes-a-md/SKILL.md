@@ -48,7 +48,7 @@ p. ej. Universidad/Química/2026-2027/Bioquímica/Bioquímica - Tema 1.md
 - **Nombre de la nota:** `<Asignatura> - Tema <N>.md`. Es único en todo el vault, así que los enlaces de Obsidian no se confunden con el Tema 1 de otra asignatura. El alias `Tema <N>` va en el frontmatter.
 - **`slug`:** el nombre de la nota en kebab-case, sin tildes ni espacios (`bioquimica-tema-1`). Es la carpeta de assets.
 - **Assets:** `<tipo>-<NN>[-<desc>].<ext>`, con **numeración continua en todo el tema** por tipo.
-  - `tipo`: `mol` (`.svg` de RDKit), `fig` (`.tex` + `.svg`, mismo nombre base), `rec` (`.svg`, recorte vectorial del dibujo del autor) o `crop` (`.png`).
+  - `tipo`: `mol` (`.svg` de RDKit), `fig` (`.tex` + `.svg`, mismo nombre base), `rec` (`.svg`, recorte vectorial del dibujo del autor), `ico` (`.pdf`, icono de Bioicons para componer en TikZ) o `crop` (`.png`).
   - `NN`: dos dígitos, en orden de aparición.
   - `desc`: opcional, kebab-case, como mucho 3 palabras.
 - **Enlaces a assets:** Markdown relativo, `![alt|ancho](assets/<slug>/mol-01-glucosa.svg)`. Nunca `![[...]]`.
@@ -252,6 +252,36 @@ uv run <skill>/scripts/recorte_vectorial.py <apuntes.pdf> --page N --box X0 Y0 X
 4. **Compila con `tikz2svg.sh`.** Al detectar `\includegraphics` usa `pdftocairo`, porque `dvisvgm` deja el dibujo incrustado en blanco. En la nota se enlaza el `fig-NN-desc.svg`; el `rec-NN-desc.svg/.pdf` se queda al lado como fuente.
 
 Las etiquetas se copian **tal cual están escritas** (p. ej. "eluyent"), como cualquier texto de la hoja. Tipo de asset del recorte: **`rec-NN-desc`**. La figura final va como cualquier otra, sin `[!todo]`.
+
+### 7.2 Iconos (Bioicons)
+
+Para objetos figurativos con un icono profesional equivalente (material de laboratorio, células, cromosomas, niveles de estructura de proteínas…), usa un icono de [Bioicons](https://bioicons.com/) compuesto en TikZ con las etiquetas de la hoja.
+
+**Licencias: solo CC0, MIT, BSD y CC-BY.** CC-BY-SA nunca (el script lo rechaza). **Orden de preferencia:**
+1. CC0;
+2. MIT/BSD;
+3. CC-BY;
+4. el recorte vectorial (7.1).
+
+**Si el icono pierde contenido del dibujo, gana el recorte.** Por ejemplo, una hélice sin las cadenas laterales que el autor dibujó y comentó.
+
+```bash
+uv run <skill>/scripts/iconos.py buscar célula cell                 # en el catálogo
+uv run <skill>/scripts/iconos.py info simple_cell1                  # licencia, autor, origen y tamaño, sin descargar
+uv run <skill>/scripts/iconos.py descargar simple_cell1             # SOLO con permiso del usuario
+uv run <skill>/scripts/iconos.py pdf <skill>/iconos/cc-0/simple_cell1.svg -o assets/<slug>/ico-01-celula.pdf --paleta
+```
+
+1. **Pide permiso antes de cada descarga**, del catálogo o de un icono, con el nombre, el origen y el tamaño (los da `info`). Se descarga **bajo demanda**, solo lo que una figura necesita. El catálogo (`iconos.py catalogo`, unos 290 KB) se descarga una vez.
+2. **Los originales viven en `<skill>/iconos/<licencia>/`, sin tocar**, con su fila en `iconos/ICONOS.md` (autor, licencia, origen). `descargar` los registra solo. Si haces una figura con un icono modificado, cambia su columna *Modificado* (p. ej. "recoloreado a la paleta") y apunta en *Usado en* dónde se usa.
+3. **Pasa el icono a PDF** con `pdf` (y `--paleta` si sus colores no significan nada propio), dentro de la carpeta de assets del tema.
+4. **Compón la figura** como en 7.1: `\includegraphics` del PDF y las etiquetas en TikZ con `anotacion`, y compila con `tikz2svg.sh`.
+5. **Atribución en dos sitios:**
+   - en el `.tex`, una línea `% iconos: simple_cell1 (Marnie-Maddock, CC0)`;
+   - en la nota, debajo de la figura, `%% iconos: simple_cell1 (Marnie-Maddock, CC0) %%`. Es un comentario de Obsidian: no se ve ni cuenta como contenido para `verificar_contenido.py`.
+6. **`iconos.py comprobar`** tiene que dar OK. Falla si hay iconos sin registrar, una licencia que no cuadra con su carpeta o algo CC-BY-SA.
+
+Tipo de asset del icono en PDF: **`ico-NN-desc.pdf`**. En la nota se enlaza el `fig-NN-desc.svg` final.
 
 La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\ce{}` sí funciona **dentro** del `.tex`), TikZ y `pgfplots`, además del **estilo Apuntes.md**: letra sans-serif (Helvetica + `sansmath`, como Obsidian), la paleta y estilos con nombre. **Usa siempre los estilos y colores con nombre, nunca colores sueltos** (`red`, `blue!70!black`…): así todas las figuras se ven iguales y el estilo se cambia en un solo sitio.
 
