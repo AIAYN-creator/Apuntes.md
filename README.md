@@ -73,6 +73,7 @@ Después basta con pedirle algo como *"pasa a Markdown las págs. 6–7 de este 
 | `smiles2svg.py` | Valida el SMILES, dibuja el SVG y devuelve un JSON con los estereocentros (asignados o no) |
 | `tikz2svg.sh` | `.tex` → SVG (`pdflatex` + `dvisvgm`). Falla si el texto se fuera a perder; `--preview` renderiza el SVG final |
 | `crop.py` | Cuadrícula de coordenadas y recortes del escaneo |
+| `recorte_vectorial.py` | Dibujos de **tableta**: exporta los trazos del autor de una zona como SVG nítido, con opción de pasarlos a la paleta |
 | `verificar_contenido.py` | Comprueba que la estética no ha cambiado ni una palabra: compara la transcripción fiel con la nota final |
 | `ordenar_vault.py` | *Experimental:* coloca las notas en `<Asignatura>/` según su frontmatter. Se rediseña en la v3 |
 

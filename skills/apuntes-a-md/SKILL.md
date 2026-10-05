@@ -40,7 +40,7 @@ Necesitas saber, y si no lo sabes **pregunta antes de escribir nada**:
 - **Nombre de la nota:** `<Asignatura> - Tema <N>.md`. Es único en todo el vault, así que los enlaces de Obsidian no se confunden con el Tema 1 de otra asignatura. El alias `Tema <N>` va en el frontmatter.
 - **`slug`:** el nombre de la nota en kebab-case, sin tildes ni espacios (`bioquimica-tema-1`). Es la carpeta de assets.
 - **Assets:** `<tipo>-<NN>[-<desc>].<ext>`, con **numeración continua en todo el tema** por tipo.
-  - `tipo`: `mol` (`.svg` de RDKit), `fig` (`.tex` + `.svg`, mismo nombre base) o `crop` (`.png`).
+  - `tipo`: `mol` (`.svg` de RDKit), `fig` (`.tex` + `.svg`, mismo nombre base), `rec` (`.svg`, recorte vectorial del dibujo del autor) o `crop` (`.png`).
   - `NN`: dos dígitos, en orden de aparición.
   - `desc`: opcional, kebab-case, como mucho 3 palabras.
 - **Enlaces a assets:** Markdown relativo, `![alt|ancho](assets/<slug>/mol-01-glucosa.svg)`. Nunca `![[...]]`.
@@ -94,7 +94,8 @@ Escribe primero una **transcripción fiel y sin estética** en `<tmp>/<slug>.tra
 | **Fórmulas** | LaTeX: `$...$` en línea y `$$...$$` en bloque (en líneas propias). En la nota **no uses `\ce{}`**, porque Obsidian no carga mhchem: usa `\rightarrow`, `\rightleftharpoons`, `\xrightarrow{\text{enzima}}`… **Nunca un `_` o `^` fuera de LaTeX**: se ve tal cual ("pK_R"). Usa `p$K_R$`, o los caracteres Unicode si existen (H₂O, pK₁, Na⁺) |
 | **Estructura química** | SMILES → `smiles2svg.py` (sección 6). |
 | **Diagrama o dibujo esquemático** (flechas, ciclos, rutas, perfil de energía, gráfica, montaje, cargas parciales δ⁺/δ⁻ sobre moléculas, micelas, bicapas, hélices, formas de lípidos…) | Redibújalo en TikZ/chemfig → `tikz2svg.sh` (sección 7). |
-| **Diagrama ambiguo**, o dibujo realista (célula, orgánulo, aparato con detalle) | Recórtalo con `crop.py` y pon un callout `[!todo]` (sección 5c). |
+| **Dibujo figurativo** (material de laboratorio, hélices, plegamientos, células…), que en TikZ quedaría tosco | Si el escaneo es un **PDF de tableta** (sus trazos son vectores), usa el **recorte vectorial** del dibujo del autor: `recorte_vectorial.py` (sección 7.1). Es su dibujo exacto, nítido, y no inventa nada |
+| **Diagrama ambiguo**, o dibujo de un escaneo en papel (imagen) | Recórtalo con `crop.py` y pon un callout `[!todo]` (sección 5c). |
 
 **Cuándo redibujar y cuándo recortar:** por defecto, **redibuja**. El usuario prefiere el dibujo limpio al pantallazo, y un dibujo esquemático hecho a mano (aunque sea figurativo: micelas, vesículas, cabezas y colas de lípidos) se puede reproducir con TikZ. Recorta solo si el original es **ambiguo** (no sabes qué representa una flecha o una forma, o falta alguna etiqueta) o si es un dibujo realista que no se puede esquematizar sin perder información. Lo que se lee pero no se entiende va como recorte dentro del `[!warning]`, porque así el arreglo es inmediato.
 
@@ -214,6 +215,20 @@ El script avisa de todos los estereocentros y dobles enlaces E/Z. Para cada uno:
    Si falla, el script imprime los errores de LaTeX. Corrige y repite; tras dos intentos fallidos, recorta y pon un `[!todo]`.
 3. En la nota solo enlazas el `.svg`. El `.tex` se queda al lado como fuente.
 4. **Comprueba las anotaciones en el preview.** El `--preview` es del **SVG final** (el que verá Obsidian), no del PDF. Haz una lista de cada palabra o etiqueta escrita a mano dentro o alrededor del dibujo original (ejes, flechas, nombres, "Máxima atracción…") y comprueba que **todas** se leen en el preview. Si falta alguna, la figura no está terminada.
+
+### 7.1 Recorte vectorial (dibujos figurativos de tableta)
+
+TikZ sirve para gráficas, química, cargas parciales y esquemas de flujo. **No lo uses para dibujos figurativos**: sale tosco. Si el PDF viene de una tableta, cada trazo del autor es un vector y se puede exportar tal cual:
+
+```bash
+uv run <skill>/scripts/recorte_vectorial.py <apuntes.pdf> --page N --box X0 Y0 X1 Y1 -o <vault>/<Asig>/assets/<slug>/rec-NN-desc.svg --paleta --preview
+```
+
+- **`--box`** se lee en la cuadrícula de `crop.py`, igual que un recorte normal. Por defecto entran solo los trazos **enteros** dentro de la caja, para no arrastrar texto vecino; con `--tocar` entran también los que la cruzan.
+- **`--paleta`** pasa los colores del autor a la paleta (sus azules, rojos y verdes) y respeta los rellenos claros. Úsalo siempre, salvo que el color original importe para el contenido.
+- Si la página no tiene trazos (es una imagen escaneada), el script falla y lo dice: entonces, `crop.py`.
+- **Las etiquetas escritas a mano dentro del dibujo se quedan en la letra del autor.** Su texto ya está en la nota (pie de figura o lista), así que no se pierde contenido.
+- Tipo de asset: **`rec-NN-desc.svg`**. Va en la nota como cualquier figura, sin `[!todo]`: no es un recorte provisional.
 
 La plantilla trae `chemfig` (estructuras y esquemas de reacción), `mhchem` (`\ce{}` sí funciona **dentro** del `.tex`), TikZ y `pgfplots`, además del **estilo Apuntes.md**: letra sans-serif (Helvetica + `sansmath`, como Obsidian), la paleta y estilos con nombre. **Usa siempre los estilos y colores con nombre, nunca colores sueltos** (`red`, `blue!70!black`…): así todas las figuras se ven iguales y el estilo se cambia en un solo sitio.
 
