@@ -35,6 +35,7 @@ import json
 import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -67,7 +68,10 @@ def es_sa(licencia: str) -> bool:
 
 
 def url_de(e: dict) -> str:
-    return f"{BASE}/{e['license']}/{e['category']}/{e['author']}/{e['name']}.svg"
+    # En el repo de Bioicons los espacios del autor son "_" ("Marcel Tisch" -> Marcel_Tisch);
+    # las tildes ("Cléber-Gomes") van codificadas en la URL
+    partes = (e["license"], e["category"], e["author"].replace(" ", "_"), f"{e['name']}.svg")
+    return BASE + "/" + "/".join(urllib.parse.quote(p) for p in partes)
 
 
 def catalogo() -> list[dict] | None:
