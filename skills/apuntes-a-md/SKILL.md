@@ -29,6 +29,7 @@ Necesitas saber, y si no lo sabes **pregunta antes de escribir nada**:
 - La ruta del **vault** (o de la carpeta de salida).
 - **Asignatura** y **número y título del tema**, si no se leen en la hoja. Si el escaneo es un cuaderno y el título del tema está en una página anterior del mismo PDF, puedes tomarlo de ahí, pero dilo en el `[!warning]` inicial.
 - **Si la nota del tema ya existe** (el tema crece: sección 2.1).
+- **Si son apuntes o ejercicios.** Los ejercicios van en su propia nota (sección 2.2). Si en un mismo escaneo hay de los dos, cada parte va a la suya.
 
 ## 2. Una nota por tema: dónde va cada cosa
 
@@ -55,6 +56,32 @@ p. ej. Universidad/Química/2026-2027/Bioquímica/Bioquímica - Tema 1.md
 
 ### 2.1 Temas que crecen
 Si la nota del tema **ya existe** y llegan páginas nuevas, **añade al final**. **Nunca reescribas lo ya convertido**: el usuario puede haberlo retocado a mano. Solo actualizas el índice, `fechas` y `fuente`, y la numeración de assets sigue donde se quedó. **Nunca sobrescribas una nota existente** de ninguna otra forma.
+
+### 2.2 Ejercicios
+
+Los ejercicios de un tema van en una nota aparte, **junto a los apuntes**, en la carpeta de la asignatura:
+
+```
+Universidad/Química/2026-2027/Bioquímica/Bioquímica - Ejercicios T1.md
+Universidad/Química/2026-2027/Bioquímica/assets/bioquimica-ejercicios-t1/
+```
+
+- **Nombre:** `<Asignatura> - Ejercicios T<N>.md`, con el alias `Ejercicios T<N>`. Es único en el vault, como el de los apuntes.
+- **Frontmatter:** el de los apuntes más **`tipo: ejercicios`**:
+  - `tema` es el número del tema al que pertenecen;
+  - `titulo` va solo si la hoja lo trae (p. ej. "Problemas de pH y tampones").
+  - Si los ejercicios no son de un tema concreto, **pregunta** a cuál asignarlos.
+- **Estructura:**
+  - cada ejercicio es un `##` con **su número o etiqueta tal como está en la hoja** ("Ejercicio 3", "3)", "P-12"). Si la hoja no numera los ejercicios, no hay `##`: van seguidos, como en la hoja.
+  - El **enunciado**, como texto normal.
+  - La **resolución del autor**, si la hay, en un callout plegado `> [!resolucion]- Resolución`. Así se puede intentar el ejercicio antes de mirarla.
+- **Nunca resuelvas nada.** Si la hoja no trae la resolución, la nota no la tiene. Si la resolución está a medias, se transcribe hasta donde llegue. Tampoco se completa un resultado, ni se corrige una cuenta o una unidad: una posible errata se marca con `[!warning] Posible errata en el original`.
+- **Números con el máximo cuidado:**
+  - datos, resultados, unidades y cifras significativas, tal cual;
+  - un número que no se lee es `==? (?)==`, nunca uno deducido de la cuenta.
+  - Si el resultado final está recuadrado o subrayado en la hoja, va en **negrita**.
+- **Los desarrollos** van en `$$…$$` con `\begin{aligned}`, paso a paso como en la hoja, **sin callout de fórmula** (B6).
+- Todo lo demás (marcas de duda, estructuras, figuras, estética, verificación) es igual que en los apuntes.
 
 ## 3. Frontmatter
 
@@ -353,7 +380,7 @@ Los colores siguen la semántica de los apuntes: **rojo** para lo que el autor d
 | B9 | `> [!ficha]- Ficha` plegable con las líneas `smiles:` y `estereo:` | Debajo de cada molécula |
 | B10 | Paleta: azul = estructura, rojo = importante, verde = definición, gris = metadatos | La pone el CSS (`obsidian/apuntes-estetica.css`); la misma que en las figuras |
 
-**Etiquetas fijas.** Son las **únicas palabras que la estética puede añadir**: *Índice, Definición, Importante, Fórmula, Ficha*, y la fecha de *sesión* copiada de la hoja. Escríbelas exactamente así, porque `verificar_contenido.py` solo ignora estas.
+**Etiquetas fijas.** Son las **únicas palabras que la estética puede añadir**: *Índice, Definición, Importante, Fórmula, Ficha, Resolución* (solo en ejercicios), y la fecha de *sesión* copiada de la hoja. Escríbelas exactamente así, porque `verificar_contenido.py` solo ignora estas.
 
 ### 8.3 ❌ Lo que NUNCA se hace
 - Cambiar, añadir o quitar palabras (salvo las etiquetas fijas), ni para "aclarar".

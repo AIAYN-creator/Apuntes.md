@@ -24,6 +24,7 @@
 .callout[data-callout="formula"]    { --callout-color: var(--ap-azul);  --callout-icon: lucide-sigma; }
 .callout[data-callout="ficha"]      { --callout-color: var(--ap-gris);  --callout-icon: lucide-flask-conical; }
 .callout[data-callout="sesion"]     { --callout-color: var(--ap-gris);  --callout-icon: lucide-calendar; }
+.callout[data-callout="resolucion"] { --callout-color: var(--ap-verde); --callout-icon: lucide-check-circle; }   /* ejercicios: plegado, para intentarlo antes de mirar */
 .callout[data-callout="sesion"] .callout-content { display: none; }   /* solo la fecha, en una línea */
 
 /* Fórmula destacada: algo más grande */

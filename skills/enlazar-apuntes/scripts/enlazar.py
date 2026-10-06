@@ -85,6 +85,15 @@ class Nota:
     def tema(self):
         return self.fm.get("tema")
 
+    @property
+    def ejercicios(self) -> bool:
+        return str(self.fm.get("tipo", "")).strip().lower() == "ejercicios"
+
+    @property
+    def etiqueta(self) -> str:
+        """T1 para los apuntes del tema 1, E1 para sus ejercicios."""
+        return f"{'E' if self.ejercicios else 'T'}{self.tema}"
+
     def texto(self) -> str:
         t = self.fm_text + "\n".join(self.lines)
         return t.replace("\n", "\r\n") if self.crlf else t
@@ -164,7 +173,7 @@ def cargar_asignatura(carpeta: Path) -> tuple[str, list[Nota], Path]:
     asignaturas = {fold(str(n.fm["asignatura"])) for n in notas}
     if len(asignaturas) > 1:
         sys.exit(f"ERROR: la carpeta mezcla asignaturas {sorted(asignaturas)}; los enlaces son solo dentro de una")
-    notas.sort(key=lambda n: (float(n.tema) if str(n.tema).replace(".", "", 1).isdigit() else 1e9, n.nombre))
+    notas.sort(key=lambda n: (float(n.tema) if str(n.tema).replace(".", "", 1).isdigit() else 1e9, n.ejercicios, n.nombre))
     asig = str(notas[0].fm["asignatura"]).strip()
     return asig, notas, carpeta / f"{asig}.md"
 
@@ -189,7 +198,7 @@ def inventario(carpeta: Path, terminos: list[str]) -> int:
     asig, notas, moc = cargar_asignatura(carpeta)
     print(f"# {asig}: {len(notas)} temas" + (f" · MOC {moc.name} existe" if moc.exists() else ""))
     for n in notas:
-        print(f"\n## {n.nombre}  (tema {n.tema})")
+        print(f"\n## {n.nombre}  (tema {n.tema}{', ejercicios' if n.ejercicios else ''})")
         for i, nivel, texto in n.headings:
             print(f"  {'  ' * (nivel - 1)}{'#' * nivel} {texto}   l.{i + 1}")
     for t in terminos:
@@ -280,7 +289,7 @@ def enlazar_nota(n: Nota, conceptos: list[Concepto], por_nombre: dict[str, Nota]
 
 
 def tags_de(n: Nota, asig: str) -> list[str]:
-    return ["apuntes", slug(asig), f"{slug(asig)}/tema-{n.tema}"]
+    return ["ejercicios" if n.ejercicios else "apuntes", slug(asig), f"{slug(asig)}/tema-{n.tema}"]
 
 
 def poner_tags(n: Nota, tags: list[str]) -> list[str]:
@@ -347,17 +356,26 @@ def generar_moc(asig: str, notas: list[Nota], conceptos: list[Concepto]) -> str:
     por_nombre = {n.nombre: n for n in notas}
     l = ["---", "tipo: moc", f"asignatura: {asig}", f"tags: [apuntes, {slug(asig)}]", "---",
          f"# {asig}", "", MARCA_MOC, "",
-         "| Tema | Título | Fechas | Páginas |", "|---|---|---|---|"]
+         "| Tema | Título | Fechas | Páginas | Ejercicios |", "|---|---|---|---|---|"]
+    # Una fila por tema: sus apuntes y, en la última columna, sus notas de ejercicios
+    temas: dict = {}
     for n in notas:
-        l.append(f"| [[{n.nombre}\\|{n.tema}]] | {n.fm.get('titulo') or n.nombre} | {fechas_txt(n)} | {paginas_txt(n)} |")
+        temas.setdefault(n.tema, []).append(n)
+    for tema, grupo in temas.items():
+        ap = next((n for n in grupo if not n.ejercicios), None)
+        ej = " · ".join(f"[[{n.nombre}\\|{n.etiqueta}]]" for n in grupo if n.ejercicios) or "—"
+        if ap:
+            l.append(f"| [[{ap.nombre}\\|{tema}]] | {ap.fm.get('titulo') or ap.nombre} | {fechas_txt(ap)} | {paginas_txt(ap)} | {ej} |")
+        else:
+            l.append(f"| {tema} | — | — | — | {ej} |")
     filas = []
     for c in sorted(conceptos, key=lambda c: fold(c.nombre)):
         # Por el texto enlazado, no solo por el destino: dos conceptos pueden compartir destino (pI y punto isoelectrónico)
         aparece = [n for n in notas if n.nombre != c.nota and any(
             m.group(1) == c.destino and c.rx.fullmatch(m.group(3)) for m in LINK.finditer("\n".join(n.lines)))]
         if aparece:
-            filas.append(f"| {c.nombre} | [[{c.destino}\\|T{por_nombre[c.nota].tema}]] | "
-                         f"{' · '.join(f'T{n.tema}' for n in aparece)} |")
+            filas.append(f"| {c.nombre} | [[{c.destino}\\|{por_nombre[c.nota].etiqueta}]] | "
+                         f"{' · '.join(n.etiqueta for n in aparece)} |")
     if filas:
         l += ["", "## Conceptos transversales", "", "| Concepto | Se define en | Aparece en |", "|---|---|---|", *filas]
     return "\n".join(l) + "\n"

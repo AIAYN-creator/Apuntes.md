@@ -97,8 +97,9 @@ Si la comprobación del texto falla, no escribe nada.
 | **Nunca enlaza en** | Títulos, avisos (`[!warning]`, `[!todo]`), índice, `[!sesion]`, `[!formula]`, fórmulas `$…$`, código, comentarios `%% %%`, imágenes, pies de figura, resaltados `==…==` (dudas) ni dentro de otro enlace |
 | **Ni en la sección que define el concepto** | Sería un enlace a sí misma |
 | **Tablas** | Dentro de una tabla escribe `[[destino\|texto]]`, para no romper la tabla |
-| **Tags** | `apuntes`, `<asignatura>` y `<asignatura>/tema-N`, por ejemplo `[apuntes, bioquimica, bioquimica/tema-1]`. Respeta los que ya hubiera |
-| **MOC** | `<Asignatura>.md` en la carpeta de la asignatura, con `tipo: moc`. Lleva la tabla de temas (título, fechas, páginas) y la de **conceptos transversales** (dónde se define, en qué temas aparece). Se regenera entero en cada pasada; si existe un `<Asignatura>.md` que no generó el script, no toca nada |
+| **Tags** | `apuntes`, `<asignatura>` y `<asignatura>/tema-N`, por ejemplo `[apuntes, bioquimica, bioquimica/tema-1]`. En las notas de ejercicios, `ejercicios` en lugar de `apuntes`. Respeta los que ya hubiera |
+| **Ejercicios** | Las notas `<Asignatura> - Ejercicios T<N>.md` (`tipo: ejercicios`) se enlazan igual: sus conceptos llevan a la sección de los apuntes donde se definen. **Los destinos son siempre secciones de los apuntes**, nunca un ejercicio |
+| **MOC** | `<Asignatura>.md` en la carpeta de la asignatura, con `tipo: moc`. Lleva la tabla de temas (título, fechas, páginas y sus **ejercicios**) y la de **conceptos transversales** (dónde se define y dónde aparece: `T2` son los apuntes del Tema 2 y `E2` sus ejercicios). Se regenera entero en cada pasada; si existe un `<Asignatura>.md` que no generó el script, no toca nada |
 | **Repetible** | Una segunda pasada con el mismo plan no añade nada. Un plan con conceptos nuevos solo añade esos |
 
 ## 4. Cierre

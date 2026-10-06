@@ -84,6 +84,7 @@ Basta con pedirle algo como *"pasa a Markdown las págs. 6–7 de este escaneo a
 
 **Lo que hay que darle:**
 - el PDF o la imagen, y qué páginas son de qué tema;
+- si son **apuntes o ejercicios**. Los ejercicios van en su propia nota, `Bioquímica - Ejercicios T1.md`, junto a los apuntes; la resolución del autor queda plegada, y la skill nunca resuelve nada;
 - la asignatura, si no se lee en la hoja;
 - la ruta del vault.
 

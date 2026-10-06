@@ -11,7 +11,7 @@ Compara las PALABRAS de las dos notas, en orden, ignorando todo lo que es forma:
 frontmatter, formato Markdown (negritas, títulos, tablas, viñetas), comentarios
 %% %%, el índice, las imágenes (y su alt), las líneas `smiles:`/`estereo:` y las
 cabeceras de los callouts con etiqueta fija (Índice, Definición, Importante,
-Fórmula, Ficha, sesión). Un enlace interno [[destino|texto]] cuenta como `texto`,
+Fórmula, Ficha, Resolución, sesión). Un enlace interno [[destino|texto]] cuenta como `texto`,
 así que la nota sigue verificándose después de enlazarla.
 
 stdout: "OK: mismo contenido (N palabras, mismo orden)" o la lista de diferencias.
@@ -27,7 +27,7 @@ from pathlib import Path
 
 # Tipos y títulos de callout que la estética puede añadir (SKILL.md, sección 8.2)
 ETIQUETAS = {"abstract", "indice", "índice", "definicion", "definición", "importante",
-             "formula", "fórmula", "ficha", "sesion", "sesión"}
+             "formula", "fórmula", "ficha", "sesion", "sesión", "resolucion", "resolución"}
 
 TOKEN = re.compile(r"[\w$\\{}^()\[\]+−\-<>~'.,;:!?/⟹→·αβγδλμπσχΔ₀-₉⁺⁻]+")
 
@@ -44,7 +44,9 @@ def palabras(path: Path) -> list[str]:
         m = re.match(r"\[!(\w+)\][-+]?\s*(.*)", s)                  # cabecera de callout
         if m:
             tipo, titulo = m.group(1).lower(), m.group(2).strip()
-            if tipo in ETIQUETAS or titulo.lower() in ETIQUETAS:
+            # Se ignora la etiqueta fija; cualquier otro título es contenido y se compara
+            # (un "[!resolucion]- Solución" añadiría una palabra). La sesión lleva la fecha de la hoja.
+            if titulo.lower() in ETIQUETAS or not titulo or tipo in ("sesion", "sesión"):
                 continue
             s = titulo                                              # [!warning] Dudoso: … sí es contenido
         s = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", s)                 # imágenes Markdown, alt incluido

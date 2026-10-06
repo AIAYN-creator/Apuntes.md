@@ -11,7 +11,8 @@ Uso:
 Sin --aplicar solo muestra el plan (simulación). Con --aplicar mueve.
 
 Qué se mueve:
-- Notas de apuntes: .md con frontmatter que tiene `asignatura`, `tema` y `fuente`.
+- Notas de apuntes y de ejercicios (`tipo: ejercicios`): .md con frontmatter que tiene
+  `asignatura`, `tema` y `fuente`. Las dos van a la carpeta de la asignatura.
 - MOCs de asignatura: .md con `tipo: moc` y `asignatura` (los crea la skill de enlazado).
 Todo lo demás (notas personales, plantillas...) no se toca.
 
