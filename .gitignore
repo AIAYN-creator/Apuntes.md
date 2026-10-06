@@ -1,8 +1,5 @@
 # Apuntes reales y salidas de prueba: material personal, no se publica
-pruebas/escaneos/*
-pruebas/salida/*
-!pruebas/escaneos/.gitkeep
-!pruebas/salida/.gitkeep
+pruebas/
 
 # Python
 __pycache__/

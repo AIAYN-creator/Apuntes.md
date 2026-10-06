@@ -1,6 +1,6 @@
 # Galería
 
-Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) convertidos con la skill [`apuntes-a-md`](../skills/apuntes-a-md/). Todo lo que hay aquí ha salido del flujo de la skill y ha pasado `verificar_contenido.py`: **ni una palabra cambiada** respecto a la transcripción.
+Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) convertidos con la skill [`apuntes-a-md`](../../skills/apuntes-a-md/). Todo lo que hay aquí ha salido del flujo de la skill y ha pasado `verificar_contenido.py`: **ni una palabra cambiada** respecto a la transcripción.
 
 ## Antes y después
 
@@ -58,7 +58,7 @@ Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) conv
 > - los enlaces `[[Bioquímica - Tema 1#…|texto]]` se ven como texto entre corchetes;
 > - las marcas de página `%% pág. N %%`, que en Obsidian son invisibles, se ven como texto.
 >
-> En tu vault, la skill las coloca en `Universidad/Química/2026-2027/Bioquímica/`; aquí están en `bioquimica/` para que la galería sea corta de navegar. Para verlas como son, copia `bioquimica/` a un vault y activa los fragmentos CSS de [`obsidian/`](../skills/apuntes-a-md/obsidian/).
+> En tu vault, la skill las coloca en `Universidad/Química/2026-2027/Bioquímica/`; aquí están en `bioquimica/` para que la galería sea corta de navegar. Para verlas como son, copia `bioquimica/` a un vault y activa los fragmentos CSS de [`obsidian/`](../../skills/apuntes-a-md/obsidian/).
 
 ## Temas enlazados (v3)
 
@@ -96,7 +96,7 @@ Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) conv
 
 ## Créditos de iconos
 
-Las figuras de esta galería usan iconos de [Bioicons](https://bioicons.com/). Cada uno conserva su licencia, y solo se admiten CC0, CC-BY, MIT y BSD (nunca CC-BY-SA). El registro completo está en [`ICONOS.md`](../skills/apuntes-a-md/iconos/ICONOS.md).
+Las figuras de esta galería usan iconos de [Bioicons](https://bioicons.com/). Cada uno conserva su licencia, y solo se admiten CC0, CC-BY, MIT y BSD (nunca CC-BY-SA). El registro completo está en [`ICONOS.md`](../../skills/apuntes-a-md/iconos/ICONOS.md).
 
 | Icono | Autor | Licencia | Origen | Usado en |
 |---|---|---|---|---|

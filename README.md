@@ -8,15 +8,16 @@ Escaneo (PDF/imagen) → agente + skill → nota.md + assets/ → Obsidian
 
 No hay API ni app propia: quien lee la hoja es el agente dentro de la sesión. Los scripts solo hacen lo que el agente no puede hacer a ojo: dibujar moléculas, compilar diagramas y recortar el escaneo.
 
-![Apunte a mano vs. figura redibujada por la skill](galeria/proceso/04-van-der-waals-a-mano-vs-tikz.png)
+![Apunte a mano vs. figura redibujada por la skill](docs/galeria/proceso/04-van-der-waals-a-mano-vs-tikz.png)
 
 Los dibujos figurativos se rehacen con **iconos libres de [Bioicons](https://bioicons.com/)** o con **tu propio trazo de tableta**, y las etiquetas siempre en tipografía. Se conserva todo lo que dibujaste: los residuos, la hélice rodeada, la cadena marcada.
 
-![Niveles de estructura de las proteínas: a mano vs. iconos de Bioicons con etiquetas en TikZ](galeria/proceso/06-niveles-a-mano-vs-iconos.png)
+![Niveles de estructura de las proteínas: a mano vs. iconos de Bioicons con etiquetas en TikZ](docs/galeria/proceso/06-niveles-a-mano-vs-iconos.png)
 
-👉 **[Galería](galeria/)**: 4 temas reales de Bioquímica, con las páginas originales y comparativas antes/después.
+👉 **[Guía de uso paso a paso](docs/USO.md)**: de cero (sin saber nada de terminales) a tus apuntes en Obsidian.
+👉 **[Galería](docs/galeria/)**: 4 temas reales de Bioquímica, con las páginas originales y comparativas antes/después.
 
-**Estado: v3.0.0.** Los **4 primeros temas de Bioquímica** (11 páginas a mano) convertidos en una nota por tema, con estética didáctica y **verificados palabra por palabra** contra la transcripción. Los dibujos están rehechos con iconos libres o con el propio trazo del autor. Todo está ordenado en `Universidad/Química/<curso>/<Asignatura>/`, enlazado entre temas y con un índice por asignatura. Los ejercicios van en su propia nota, junto a los apuntes. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](galeria/) y el [CHANGELOG](CHANGELOG.md).
+**Estado: v3.0.0.** Los **4 primeros temas de Bioquímica** (11 páginas a mano) convertidos en una nota por tema, con estética didáctica y **verificados palabra por palabra** contra la transcripción. Los dibujos están rehechos con iconos libres o con el propio trazo del autor. Todo está ordenado en `Universidad/Química/<curso>/<Asignatura>/`, enlazado entre temas y con un índice por asignatura. Los ejercicios van en su propia nota, junto a los apuntes. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](docs/galeria/) y el [CHANGELOG](docs/CHANGELOG.md).
 
 ## Qué hace
 
@@ -34,7 +35,7 @@ Los dibujos figurativos se rehacen con **iconos libres de [Bioicons](https://bio
 ### Cómo trabaja
 
 1. **Localiza** cada elemento sobre una cuadrícula y lee la letra por franjas ampliadas.
-   ![Cuadrícula de localización](galeria/proceso/01-cuadricula-pag6-aminoacidos.png)
+   ![Cuadrícula de localización](docs/galeria/proceso/01-cuadricula-pag6-aminoacidos.png)
 2. **Escribe** la nota elemento a elemento, en el orden del original.
 3. **Verifica** cada molécula y figura contra el recorte del original, mirando el SVG final y no un intermedio.
 4. **Resume** lo que ha marcado como dudoso y sus decisiones de estereoquímica.
@@ -134,11 +135,18 @@ Primero enseña un resumen y escribe solo con tu OK. Antes de escribir, comprueb
 ## Estructura
 
 ```
-skills/apuntes-a-md/      SKILL.md, scripts/, templates/, obsidian/   (conversión)
-skills/enlazar-apuntes/   SKILL.md, scripts/enlazar.py                (enlaces, tags y MOC)
-galeria/                  4 temas reales de Bioquímica, antes/después y créditos de iconos
-pruebas/                  escaneos y salidas de prueba (no se suben)
+skills/
+  apuntes-a-md/        SKILL.md, scripts/, templates/, obsidian/, iconos/   (conversión)
+  enlazar-apuntes/     SKILL.md, scripts/enlazar.py                         (enlaces, tags e índice)
+docs/
+  USO.md               guía paso a paso para quien no ha usado nunca una terminal
+  CHANGELOG.md         qué trae cada versión
+  galeria/             4 temas reales de Bioquímica, antes/después y créditos de iconos
+instalar.ps1           instala las skills en tu agente
+AGENTS.md              instrucciones para agentes que trabajen en el repo (CLAUDE.md y GEMINI.md lo importan)
 ```
+
+`AGENTS.md`, `CLAUDE.md` y `GEMINI.md` tienen que estar en la raíz: es donde cada agente los busca.
 
 ## Hoja de ruta
 
