@@ -14,6 +14,7 @@ Versión de documentación: sin cambios en las skills.
 ### Repo ordenado
 - La documentación para personas pasa a `docs/`: `USO.md`, `CHANGELOG.md` y `galeria/`.
 - `pruebas/` deja de estar en el repo; sigue ignorada para uso local.
+- El README enlaza la guía arriba del todo y en Requisitos, Instalación y Uso. La hoja de ruta incluye la v3.0.1.
 - En la raíz queda solo lo que tiene que estar ahí: `README.md`, `LICENSE`, `instalar.ps1`, `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` y las carpetas `skills/` y `docs/`.
 
 ## v3.0.0 — 2026-10-06

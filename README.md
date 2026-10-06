@@ -161,6 +161,7 @@ AGENTS.md              instrucciones para agentes que trabajen en el repo (CLAUD
 - **v2.0.0** ✅ Skill independiente del agente, una nota por tema, estética didáctica que no toca el contenido (verificada con un script), estilo común de figuras y los 4 temas de Bioquímica.
 - **v2.1.0** ✅ Dibujos figurativos con iconos de [Bioicons](https://bioicons.com/) (solo CC0, MIT/BSD y CC-BY con atribución) o con recortes vectoriales del propio dibujo de tableta.
 - **v3.0.0** ✅ Vault ordenado (`Universidad/Química/<curso>/<Asignatura>/`), notas de ejercicios junto a los apuntes, enlaces internos entre temas, tags e índice por asignatura (skill `enlazar-apuntes`).
+- **v3.0.1** ✅ [Guía de uso paso a paso](docs/USO.md) para quien no ha usado nunca una terminal, y repo ordenado (documentación en `docs/`).
 
 ## Licencia
 
