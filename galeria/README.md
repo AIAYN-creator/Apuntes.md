@@ -44,6 +44,8 @@ Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) conv
 
 ## Las notas
 
+**Índice de la asignatura:** [Bioquímica](<bioquimica/Bioquímica.md>). Lo genera la skill `enlazar-apuntes` y tiene la tabla de temas y los **conceptos transversales**.
+
 | Tema | Nota | Páginas originales |
 |---|---|---|
 | 1. Moléculas biológicas, el agua, interacciones débiles en medio acuoso | [Bioquímica - Tema 1](<bioquimica/Bioquímica - Tema 1.md>) | [2](hojas/pag-02.png) · [3](hojas/pag-03.png) · [4](hojas/pag-04.png) · [5](hojas/pag-05.png) |
@@ -51,7 +53,30 @@ Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) conv
 | 3. Estructura terciaria i cuaternaria. Plegamiento y desnaturalización | [Bioquímica - Tema 3](<bioquimica/Bioquímica - Tema 3.md>) | [10](hojas/pag-10.png) |
 | 4. Propiedades físico-químicas. Aislamiento, purificación y caracterización | [Bioquímica - Tema 4](<bioquimica/Bioquímica - Tema 4.md>) | [11](hojas/pag-11.png) |
 
-> **Las notas están pensadas para Obsidian.** En GitHub se leen bien, pero los callouts propios (definición, importante, fórmula, ficha) salen como citas simples y las marcas de página `%% pág. N %%`, que en Obsidian son invisibles, se ven como texto. Para verlas como son, copia `bioquimica/` a un vault y activa los fragmentos CSS de [`obsidian/`](../skills/apuntes-a-md/obsidian/).
+> **Las notas están pensadas para Obsidian.** En GitHub se leen bien, pero hay tres cosas que solo se ven bien en Obsidian:
+> - los callouts propios (definición, importante, fórmula, ficha) salen como citas simples;
+> - los enlaces `[[Bioquímica - Tema 1#…|texto]]` se ven como texto entre corchetes;
+> - las marcas de página `%% pág. N %%`, que en Obsidian son invisibles, se ven como texto.
+>
+> En tu vault, la skill las coloca en `Universidad/Química/2026-2027/Bioquímica/`; aquí están en `bioquimica/` para que la galería sea corta de navegar. Para verlas como son, copia `bioquimica/` a un vault y activa los fragmentos CSS de [`obsidian/`](../skills/apuntes-a-md/obsidian/).
+
+## Temas enlazados (v3)
+
+**30 enlaces**, cada uno en la primera mención de un concepto por sección y apuntando a la sección donde se define. Por ejemplo, en el Tema 3:
+
+```markdown
+> Son combinaciones de unos pocos elementos de [[Bioquímica - Tema 2#Secundaria|estructura secundaria]] formando patrones…
+```
+
+- **Ni una palabra cambiada:** las 4 notas siguen verificando contra su transcripción (el Tema 4 solo marca 4 flechas que el autor quitó a mano).
+- **Tags mínimos:** `apuntes`, `bioquimica` y `bioquimica/tema-N`.
+- **Conceptos transversales del índice**, por ejemplo:
+
+| Concepto | Se define en | Aparece en |
+|---|---|---|
+| efecto hidrofóbico | T1 | T2 · T3 |
+| plegamiento | T3 | T1 · T2 · T4 |
+| estructura secundaria | T2 | T3 · T4 |
 
 ## En Obsidian
 

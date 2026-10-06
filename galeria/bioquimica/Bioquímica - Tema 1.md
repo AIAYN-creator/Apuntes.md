@@ -5,6 +5,7 @@ titulo: "Moléculas biológicas, el agua, interacciones débiles en medio acuoso
 fechas: [2026-09-16]
 fuente: "bq-temas-1-4.pdf#p2-5"
 aliases: [Tema 1]
+tags: [apuntes, bioquimica, bioquimica/tema-1]
 creditos:
   - "Icono simple_cell1 (Marnie-Maddock, CC0), bioicons.com"
   - "Icono chromosome-red (Servier, CC-BY 3.0), bioicons.com"
@@ -53,7 +54,7 @@ Pueden ser inorgánicas (H₂O ~ 50%, 95%, e iones) o pueden ser orgánicas: der
 Las biomoléculas pueden entenderse a través de las propiedades de sus **grupos funcionales** definiendo así las propiedades de la molécula. Existen las moléculas polifuncionales, cuyas propiedades mezclan las de todos los grupos funcionales presentes. Todo esto confiere a las biomoléculas de propiedades químicas como Ácido-Base, Red-Ox, fluorescencia...
 
 ![R–OH|160](assets/bioquimica-tema-1/mol-01-alcohol.svg)
-→ Polar dador/aceptor en enlaces de H
+→ Polar dador/aceptor en [[Bioquímica - Tema 1#Enlaces de hidrógeno|enlaces de H]]
 
 > [!ficha]- Ficha
 > `smiles: *O`
@@ -123,7 +124,7 @@ Las biomoléculas pueden entenderse a través de las propiedades de sus **grupos
 
 - **Como medio solvente**: disuelve polares e iónicas y agrega hidrofóbicas
 - Posibilita la ionización y la disolución de sales.
-- Modula la formación de enlaces débiles
+- Modula la formación de [[Bioquímica - Tema 1#Enlaces débiles en diss. acuosa|enlaces débiles]]
 - Condiciona la estructura de membranas y macromoléculas
 
 ### Propiedades físicas
@@ -142,7 +143,7 @@ Las biomoléculas pueden entenderse a través de las propiedades de sus **grupos
 - Presencia de cargas parciales que provoca la posibilidad de formar puentes de H.
 - Constante dieléctrica elevada (apantalla cargas)
 
-![estructura tetraédrica del agua|200](assets/bioquimica-tema-1/fig-03-agua-tetraedrica.svg)![puente de hidrógeno entre dos moléculas de agua|167](assets/bioquimica-tema-1/fig-04-puente-h-agua.svg)
+![estructura tetraédrica del agua|200](assets/bioquimica-tema-1/fig-03-agua-tetraedrica.svg)![[fig-04-puente-h-agua.svg|167]]
 
 
 %% pág. 4 %%
@@ -183,8 +184,8 @@ En estado líquido la red de P.H. es **dinámica y desordenada** las moléculas 
   1. Iónicos
   2. E. Hidrógeno
   3. Dipolares
-  4. Van der Waals
-  5. Efecto hidrofóbico
+  4. [[Bioquímica - Tema 1#Fuerzas de Van der Waals|Van der Waals]]
+  5. [[Bioquímica - Tema 1#Interacciones por efecto hidrofóbico|Efecto hidrofóbico]]
 
 ## Interacciones iónicas
 
@@ -199,7 +200,7 @@ En estado líquido la red de P.H. es **dinámica y desordenada** las moléculas 
 - $\varepsilon r^2$ → Inversamente proporcional a distancia y polaridad de entorno
 - No depende de la orientación !
 
-- En macromoléculas dan lugar a **puentes salinos**: intervienen en interacciones inter e intra-moleculares estabilizando el plegamiento de las cadenas polipeptídicas ⟹
+- En macromoléculas dan lugar a **puentes salinos**: intervienen en interacciones inter e intra-moleculares estabilizando el [[Bioquímica - Tema 3#Plegamiento (folding)|plegamiento]] de las cadenas polipeptídicas ⟹
 
 ![puente salino entre COO⁻ y NH₃⁺ de una cadena polipeptídica|420](assets/bioquimica-tema-1/fig-06-puente-salino.svg)
 

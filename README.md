@@ -16,7 +16,7 @@ Los dibujos figurativos se rehacen con **iconos libres de [Bioicons](https://bio
 
 👉 **[Galería](galeria/)**: 4 temas reales de Bioquímica, con las páginas originales y comparativas antes/después.
 
-**Estado: v2.1.0.** Los **4 primeros temas de Bioquímica**, 11 páginas a mano, convertidos en una nota por tema, con estética didáctica, **verificados palabra por palabra** contra la transcripción y con los dibujos rehechos con iconos libres o con el propio trazo del autor. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](galeria/) y el [CHANGELOG](CHANGELOG.md).
+**Estado: v3.0.0.** Apuntes y ejercicios ordenados en `Universidad/Química/<curso>/<Asignatura>/`, enlazados entre temas y con un índice por asignatura. Antes, en la v2.1: Los **4 primeros temas de Bioquímica**, 11 páginas a mano, convertidos en una nota por tema, con estética didáctica, **verificados palabra por palabra** contra la transcripción y con los dibujos rehechos con iconos libres o con el propio trazo del autor. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](galeria/) y el [CHANGELOG](CHANGELOG.md).
 
 ## Qué hace
 
@@ -136,8 +136,8 @@ Primero enseña un resumen y escribe solo con tu OK. Antes de escribir, comprueb
 ```
 skills/apuntes-a-md/      SKILL.md, scripts/, templates/, obsidian/   (conversión)
 skills/enlazar-apuntes/   SKILL.md, scripts/enlazar.py                (enlaces, tags y MOC)
-galeria/proceso/       capturas de cómo trabaja la skill
-pruebas/               escaneos y salidas de prueba (no se suben)
+galeria/                  4 temas reales de Bioquímica, antes/después y créditos de iconos
+pruebas/                  escaneos y salidas de prueba (no se suben)
 ```
 
 ## Hoja de ruta
@@ -145,7 +145,7 @@ pruebas/               escaneos y salidas de prueba (no se suben)
 - **v1.0.0** ✅ Conversión fiel de apuntes a mano a Markdown + Obsidian.
 - **v2.0.0** ✅ Skill independiente del agente, una nota por tema, estética didáctica que no toca el contenido (verificada con un script), estilo común de figuras y los 4 temas de Bioquímica.
 - **v2.1.0** ✅ Dibujos figurativos con iconos de [Bioicons](https://bioicons.com/) (solo CC0, MIT/BSD y CC-BY con atribución) o con recortes vectoriales del propio dibujo de tableta.
-- **v3** Reordenar el vault: arquitectura de carpetas (`Universidad/Química/<curso>/<Asignatura>/`), enlaces internos entre temas, tags e índices por asignatura.
+- **v3.0.0** ✅ Vault ordenado (`Universidad/Química/<curso>/<Asignatura>/`), notas de ejercicios junto a los apuntes, enlaces internos entre temas, tags e índice por asignatura (skill `enlazar-apuntes`).
 
 ## Licencia
 

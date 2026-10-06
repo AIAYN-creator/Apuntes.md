@@ -1,5 +1,42 @@
 # Changelog
 
+## v3.0.0 — 2026-10-06
+
+El vault ordenado y conectado: los apuntes (y ahora también los ejercicios) en su sitio, enlazados entre temas y con un índice por asignatura. **Criterio de vida superado:** prueba en el vault de prueba aprobada por el usuario.
+
+### Arquitectura del vault
+- `Universidad/Química/<curso>/<Asignatura>/`, con el curso **2026-2027** por defecto (empieza en septiembre).
+- La conversión escribe ya en esa ruta. Si las fechas de la hoja son de otro curso, pregunta y lo apunta en `curso:`.
+- `ordenar_vault.py`:
+  - **simula por defecto** y mueve cada nota con sus assets;
+  - nunca sobrescribe ni edita contenido;
+  - avisa de los `![[…]]` con nombre repetido;
+  - `--excluir`, `--carrera` y `--curso`.
+
+### Notas de ejercicios
+- `<Asignatura> - Ejercicios T<N>.md` (`tipo: ejercicios`), junto a los apuntes.
+- Un `##` por ejercicio, con su número tal como está en la hoja.
+- La resolución del autor va plegada en `[!resolucion]-`, para intentar el ejercicio antes de mirarla.
+- **La skill nunca resuelve, completa ni corrige nada.**
+
+### Skill `enlazar-apuntes`
+- El agente elige los conceptos que atraviesan temas y `enlazar.py` aplica las reglas:
+  - solo la **primera mención de cada sección**, hacia la sección donde se define el concepto;
+  - nunca en títulos, avisos, fórmulas, imágenes ni dudas;
+  - enlaces solo dentro de la asignatura.
+- **Comprueba que el texto no cambia** antes de escribir: quitando enlaces y tags, la nota es idéntica byte a byte.
+- **Tags mínimos:** `apuntes` o `ejercicios`, `<asignatura>` y `<asignatura>/tema-N`.
+- **Índice (MOC) `<Asignatura>.md`, regenerable:**
+  - una tabla de temas con sus ejercicios;
+  - una tabla de **conceptos transversales**.
+- `verificar_contenido.py`:
+  - lee `[[destino|texto]]` como `texto`;
+  - ya no deja pasar palabras añadidas en el título de un callout de etiqueta fija.
+- `instalar.ps1` instala las dos skills.
+
+### Entregable
+- Bioquímica, temas 1–4: ordenados en `Universidad/Química/2026-2027/Bioquímica/`, con 30 enlaces, tags e índice con 11 conceptos transversales. En la [galería](galeria/).
+
 ## v2.1.0 — 2026-10-06
 
 Los dibujos figurativos, la parte más floja de la v2, ya están a la altura del resto. **Criterio de vida superado:** revisión del usuario aprobada.

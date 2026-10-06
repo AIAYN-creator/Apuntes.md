@@ -5,10 +5,11 @@ titulo: "Aminoácidos, enlace peptídico, estructuras primaria y secundaria de l
 fechas: [2026-09-16]
 fuente: "bq-temas-1-4.pdf#p6-9"
 aliases: [Tema 2]
+tags: [apuntes, bioquimica, bioquimica/tema-2]
 creditos:
   - "Icono Protein_primary/secondary/tertiary/quaternary_structure (DBCLS, CC-BY 4.0), bioicons.com"
 ---
-
+	
 # Tema 2: Aminoácidos, enlace peptídico, estructuras primaria y secundaria de las proteínas
 
 > [!abstract]- Índice
@@ -73,8 +74,8 @@ creditos:
 | Negativos | Positivos |
 |:---:|:---:|
 | Asp | His |
-| Glu | Trp |
-| | Tyr |
+| Glu | [[Bioquímica - Tema 2#Aminoácidos aromáticos\|Trp]] |
+| | [[Bioquímica - Tema 2#Aminoácidos aromáticos\|Tyr]] |
 | | Phe |
 
 > [!warning] Posible errata en el original
@@ -105,16 +106,16 @@ creditos:
 %% pág. 7 %%
 ## Aminoácidos ácidos, con carga negativa
 
-- Junto con los aminoácidos de carga positiva, participan en la formación de **enlaces iónicos** (puentes salinos) importantes para la estabilidad de la estructura proteica.
+- Junto con los aminoácidos de carga positiva, participan en la formación de **enlaces iónicos** ([[Bioquímica - Tema 1#Interacciones iónicas|puentes salinos]]) importantes para la estabilidad de la estructura proteica.
 
 ## Aminoácidos NO estándar
 
-- **Selenocisteína** (Sec, U, Se-Cys): similar a la Cys pero con un grupo selenol en lugar de tiol. Se encuentra en enzimas oxidoreductoras.
+- **Selenocisteína** (Sec, U, Se-[[Bioquímica - Tema 2#Aminoácidos neutros polares|Cys]]): similar a la Cys pero con un grupo selenol en lugar de tiol. Se encuentra en enzimas oxidoreductoras.
 - Otros aminoácidos derivados de los estándar con funciones biológicas importantes
 
 | | | |
 |---|---|---|
-| **Neurotransmisores** | γ-aminobutírico (GABA) ⟹ derivado de **Glu** | **Serotonina** ⟹ derivado del Trp |
+| **Neurotransmisores** | γ-aminobutírico (GABA) ⟹ derivado de **Glu** | **Serotonina** ⟹ derivado del [[Bioquímica - Tema 2#Aminoácidos aromáticos\|Trp]] |
 | **Hormonas** | tiroxina ⟹ derivado de la **tirosina** | Ácido indol acético ⟹ Derivado del triptófano |
 | **Precursores e intermediarios metabólicos** | Citrulina y Ornitina. | |
 
@@ -167,7 +168,7 @@ creditos:
 
 - **Es rígido y planar**: carácter parcial de doble enlace (40%), confiriendo estructuras resonantes, sin libertad de giro, más corto que enlaces sencillos C-N
 - Mayoritariamente en conformación trans **menos la Prolina por su estructura 3-D.**
-- Los grupos **C=O** y **N-H** peptídicos **son polares pero no ionizables**, participan en la formación de enlaces de Hidrógeno
+- Los grupos **C=O** y **N-H** peptídicos **son polares pero no ionizables**, participan en la formación de [[Bioquímica - Tema 1#Enlaces de hidrógeno|enlaces de Hidrógeno]]
 
 Estructuras resonantes:
 
@@ -235,12 +236,12 @@ Estructuras resonantes:
 - La mayoría de las protes presentan una estructura 3D bien definida
 - **Depende de**: secuencia de aminoácidos y de las características del medio
 - Posibilita la función de la proteína
-- 3 niveles ⟹ Secundaria (cadena plegada), Terciaria (plegamiento global), Cuaternaria (Organización espacial de varias cadenas)
+- 3 niveles ⟹ Secundaria (cadena plegada), Terciaria ([[Bioquímica - Tema 3#Plegamiento (folding)|plegamiento]] global), Cuaternaria (Organización espacial de varias cadenas)
 
 ## La α-hélice (3,6₁₃)
 
 - **Conformación α-helicoidal a derechas**: φ = ==-60º (?)== ψ = -40 – ==-50º (?)== // 3'6 residuos por vuelta
-- Los grupos peptídicos participan en enlaces de H: entre residuos **i e i+4** (excepto extremos)
+- Los grupos peptídicos participan en [[Bioquímica - Tema 1#Enlaces de hidrógeno|enlaces de H]]: entre residuos **i e i+4** (excepto extremos)
 - Las cadenas laterales se dirigen hacia afuera: mínima repulsión + interacciones entre ellas
 
 ![α-hélice con las cadenas laterales hacia fuera|380](assets/bioquimica-tema-2/fig-04-alfa-helice.svg)
@@ -251,15 +252,15 @@ Estructuras resonantes:
 
 ## La estabilidad de la α-hélice
 
-- **Contribución principal**: enlaces de H entre grupos CO y -NH peptídicos (i con i+4)
-- **Interacciones por cadenas laterales**: residuo i con i+3 e i+4, y con i-3 e i-4 son de carácter electrostático y/o por efecto hidrofóbico.
+- **Contribución principal**: [[Bioquímica - Tema 1#Enlaces de hidrógeno|enlaces de H]] entre grupos CO y -NH peptídicos (i con i+4)
+- **Interacciones por cadenas laterales**: residuo i con i+3 e i+4, y con i-3 e i-4 son de carácter electrostático y/o por [[Bioquímica - Tema 1#Interacciones por efecto hidrofóbico|efecto hidrofóbico]].
 - Residuos que **desestabilizan** la hélice α:
 
 | | |
 |---|---|
 | **Glicina (Gly)** | no tiene R ⟶ demasiada flexibilidad |
 | **Prolina** | restringe el giro de φ; no tiene -NH para formar enlaces de H |
-| **R. voluminosos** | Trp y ramificados en el carbono β (Val, Thr) |
+| **R. voluminosos** | [[Bioquímica - Tema 2#Aminoácidos aromáticos\|Trp]] y ramificados en el carbono β (Val, Thr) |
 
 - La alineación de grupos C=O y NH genera un macrodipolo que estabiliza la hélice.
 
@@ -277,5 +278,5 @@ Estructuras resonantes:
 ## Giros β
 
 - Cambian la dirección de la cadena 180º: conectan entre sí cadenas β antiparalelas en **hojas y horquillas β**
-- Son giros cortos y cerrados: implican 4 residuos: poco voluminosos (Gly y Pro) enlaces de H entre i e i+3
+- Son giros cortos y cerrados: implican 4 residuos: poco voluminosos (Gly y Pro) [[Bioquímica - Tema 1#Enlaces de hidrógeno|enlaces de H]] entre i e i+3
 - Hasta 9 tipos distintos

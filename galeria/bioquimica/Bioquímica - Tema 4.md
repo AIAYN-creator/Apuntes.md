@@ -5,6 +5,7 @@ titulo: "Propiedades físico-químicas. Aislamiento, purificación y caracteriza
 fechas: [2026-09-16]
 fuente: "bq-temas-1-4.pdf#p11"
 aliases: [Tema 4]
+tags: [apuntes, bioquimica, bioquimica/tema-4]
 ---
 
 # Tema 4: Propiedades físico-químicas. Aislamiento, purificación y caracterización
@@ -23,7 +24,7 @@ aliases: [Tema 4]
 |---|---|
 | **Tamaño** | escala nanométrica |
 | **Polaridad** | depende de la secuencia y la distribución de aminoácidos, en general son anfipáticas: entorno acuoso y lipídico |
-| **Ácido-Base** | depende de secuencia: residuos ácidos y básicos. **Punto Isoelectrónico**. Se determina experimentalmente, influye en la solubilidad. |
+| **Ácido-Base** | depende de secuencia: residuos ácidos y básicos. **[[Bioquímica - Tema 2#Punto isoelectrónico\|Punto Isoelectrónico]]**. Se determina experimentalmente, influye en la solubilidad. |
 | **Solubilidad en medio acuoso** | depende de la proporción y distribución de residuos polares/hidrofóbicos. Menos soluble a pH = pI **[Salting out / Salting in]** |
 | **Hidratación** | las moléculas atraen moléculas de agua sobre su superficie. Si son fibras insolubles se hinchan al hidratarse. |
 | **Gelificación** | tienden a formar geles, dependiendo del pH, de la fuerza iónica y de la temperatura. |
@@ -36,14 +37,14 @@ aliases: [Tema 4]
 | | |
 |---|---|
 | C=O peptídicos | (~200 nm) |
-| Aromáticos | Trp (~280 nm), Tyr (274 nm), Phe (257 nm) |
+| Aromáticos | [[Bioquímica - Tema 2#Aminoácidos aromáticos\|Trp]] (~280 nm), [[Bioquímica - Tema 2#Aminoácidos aromáticos\|Tyr]] (274 nm), Phe (257 nm) |
 | Cationes metálicos | (en Vis) |
 | NAD⁺/NADH | (en UV) |
 
 ## Espectros de dicroísmo circular
 
-- Los enlaces peptídicos son quirales: interaccionan de manera diferenciada con la luz polarizada. Dependen de la estructura secundaria
-- **Aplicaciones**: determinar estructuras secundarias y estudios de estabilidad y plegamiento.
+- Los enlaces peptídicos son quirales: interaccionan de manera diferenciada con la luz polarizada. Dependen de la [[Bioquímica - Tema 2#Secundaria|estructura secundaria]]
+- **Aplicaciones**: determinar estructuras secundarias y estudios de estabilidad y [[Bioquímica - Tema 3#Plegamiento (folding)|plegamiento]].
 
 ## Métodos de separación de proteínas
 
