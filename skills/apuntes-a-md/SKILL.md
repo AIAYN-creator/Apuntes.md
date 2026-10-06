@@ -76,6 +76,7 @@ aliases: [Tema 1]
   - No uses nunca la fecha de hoy.
 - **`fuente`:** escaneo + rango de páginas (`#p2-5`). Si el tema viene de varios escaneos, usa una lista.
 - **`curso`** *(opcional)*: solo si el usuario ha confirmado un curso distinto del 2026-2027 (sección 2).
+- **`creditos`** *(opcional)*: la atribución de los iconos de Bioicons usados en la nota (sección 7.2), como lista.
 - No añadas `tags`: los pone la skill `enlazar-apuntes`, junto con los enlaces entre temas y el MOC.
 
 ## 4. Flujo de trabajo
@@ -281,7 +282,7 @@ uv run <skill>/scripts/iconos.py pdf <skill>/iconos/cc-0/simple_cell1.svg -o ass
 4. **Compón la figura** como en 7.1: `\includegraphics` del PDF y las etiquetas en TikZ con `anotacion`, y compila con `tikz2svg.sh`.
 5. **Atribución en dos sitios:**
    - en el `.tex`, una línea `% iconos: simple_cell1 (Marnie-Maddock, CC0)`;
-   - en la nota, debajo de la figura, `%% iconos: simple_cell1 (Marnie-Maddock, CC0) %%`. Es un comentario de Obsidian: no se ve ni cuenta como contenido para `verificar_contenido.py`.
+   - en el frontmatter de la nota, en `creditos` (sección 3), una línea por icono: `"Icono simple_cell1 (Marnie-Maddock, CC0), bioicons.com"`. No va en el cuerpo: un comentario `%% %%` se ve en gris en la vista de edición de Obsidian.
 6. **`iconos.py comprobar`** tiene que dar OK. Falla si hay iconos sin registrar, una licencia que no cuadra con su carpeta o algo CC-BY-SA.
 
 Tipo de asset del icono en PDF: **`ico-NN-desc.pdf`**. En la nota se enlaza el `fig-NN-desc.svg` final.
