@@ -17,7 +17,7 @@ Los dibujos figurativos se rehacen con **iconos libres de [Bioicons](https://bio
 👉 **[Guía de uso paso a paso](docs/USO.md)**: de cero (sin saber nada de terminales) a tus apuntes en Obsidian.
 👉 **[Galería](docs/galeria/)**: 4 temas reales de Bioquímica, con las páginas originales y comparativas antes/después.
 
-**Estado: v3.0.0.** Los **4 primeros temas de Bioquímica** (11 páginas a mano) convertidos en una nota por tema, con estética didáctica y **verificados palabra por palabra** contra la transcripción. Los dibujos están rehechos con iconos libres o con el propio trazo del autor. Todo está ordenado en `Universidad/Química/<curso>/<Asignatura>/`, enlazado entre temas y con un índice por asignatura. Los ejercicios van en su propia nota, junto a los apuntes. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](docs/galeria/) y el [CHANGELOG](docs/CHANGELOG.md).
+**Estado: v3.0.1.** Los **4 primeros temas de Bioquímica** (11 páginas a mano) convertidos en una nota por tema, con estética didáctica y **verificados palabra por palabra** contra la transcripción. Los dibujos están rehechos con iconos libres o con el propio trazo del autor. Todo está ordenado en `Universidad/Química/<curso>/<Asignatura>/`, enlazado entre temas y con un índice por asignatura. Los ejercicios van en su propia nota, junto a los apuntes. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](docs/galeria/) y el [CHANGELOG](docs/CHANGELOG.md).
 
 ## Qué hace
 

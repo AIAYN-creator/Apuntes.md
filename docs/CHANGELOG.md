@@ -1,5 +1,21 @@
 # Changelog
 
+## v3.0.1 — 2026-10-06
+
+Versión de documentación: sin cambios en las skills.
+
+### Guía de uso para principiantes
+- **[`docs/USO.md`](USO.md)**: de cero a tus apuntes en Obsidian, para quien no ha usado nunca una terminal.
+  - Los programas necesarios, con un comando cada uno y cómo comprobar que funcionan.
+  - Descarga en ZIP (no hace falta saber git) e instalación de las skills con un solo comando.
+  - Preparar Obsidian, convertir apuntes y ejercicios, y enlazar los temas.
+  - Tabla de problemas frecuentes y cómo actualizar sin perder las notas.
+
+### Repo ordenado
+- La documentación para personas pasa a `docs/`: `USO.md`, `CHANGELOG.md` y `galeria/`.
+- `pruebas/` deja de estar en el repo; sigue ignorada para uso local.
+- En la raíz queda solo lo que tiene que estar ahí: `README.md`, `LICENSE`, `instalar.ps1`, `AGENTS.md`/`CLAUDE.md`/`GEMINI.md` y las carpetas `skills/` y `docs/`.
+
 ## v3.0.0 — 2026-10-06
 
 El vault ordenado y conectado: los apuntes (y ahora también los ejercicios) en su sitio, enlazados entre temas y con un índice por asignatura. **Criterio de vida superado:** prueba en el vault de prueba aprobada por el usuario.
