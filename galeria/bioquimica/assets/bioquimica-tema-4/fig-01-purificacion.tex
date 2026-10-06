@@ -13,6 +13,7 @@
 \usepackage{sansmath}\sansmath  % fórmulas en sans, a juego con el texto
 \usepackage[version=4]{mhchem}  % \ce{A + B -> C}
 \usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{graphicx}           % \includegraphics de recortes vectoriales (rec-NN.pdf)
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
 \usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
@@ -58,25 +59,10 @@
 \begin{document}
 % --- cuerpo de la figura ---
 % Secuencia de purificación: de la muestra (hoja) a fracciones cada vez más puras (pág. 11)
-\begin{tikzpicture}[line width=1pt]
-  % hoja
-  \begin{scope}[shift={(0,0)}]
-    \draw[apVerde, fill=apVerdeClaro] (0,-0.3) .. controls (-0.35,0.05) and (0.05,0.45) .. (0.4,0.35) .. controls (0.35,0.0) and (0.15,-0.3) .. (0,-0.3);
-    \draw[apVerde] (-0.12,-0.45) -- (0.3,0.25);
-  \end{scope}
-  \draw[->, apNegro] (0.6,0) -- (1.3,0);
-  % vaso con varilla
-  \begin{scope}[shift={(1.75,-0.05)}, apAzul]
-    \draw (-0.35,0.2) -- (-0.3,-0.25) -- (0.3,-0.25) -- (0.35,0.2);
-    \draw (0,0.2) ellipse (0.35 and 0.08);
-    \draw[line width=1.6pt] (0.45,-0.05) -- (0.6,0.4);
-  \end{scope}
-  % tubos: cada vez menos material (verde) y más claro
-  \foreach \i/\x/\col/\alto in {1/3.2/apVerde/0.35, 2/4.5/apVerde/0.3, 3/5.8/apVerde/0.22, 4/7.1/apVerde/0.18, 5/8.4/apAzulClaro/0.3} {
-    \draw[->, apNegro] ({\x-0.95},0) -- ({\x-0.25},0);
-    \fill[\col!70] ({\x-0.06},-0.4) rectangle ({\x+0.06},{-0.4+\alto});
-    \draw[apAzul] ({\x-0.09},0.35) -- ({\x-0.09},-0.42) -- ({\x+0.09},-0.42) -- ({\x+0.09},0.35);
-  }
+% Dibujo: recorte vectorial del autor (rec-01-purificacion.pdf). Los iconos (Leaf, Beakers,
+% blood_sample_tube) perdían contenido: el color de los tubos, que se aclara al purificar.
+\begin{tikzpicture}
+  \node[inner sep=0] {\includegraphics[width=11cm]{rec-01-purificacion.pdf}};
 \end{tikzpicture}
 % ---------------------------
 \end{document}

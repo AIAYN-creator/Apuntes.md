@@ -13,6 +13,7 @@
 \usepackage{sansmath}\sansmath  % fórmulas en sans, a juego con el texto
 \usepackage[version=4]{mhchem}  % \ce{A + B -> C}
 \usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{graphicx}           % \includegraphics de recortes vectoriales (rec-NN.pdf)
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
 \usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
@@ -57,23 +58,10 @@
 
 \begin{document}
 % --- cuerpo de la figura ---
-% α-hélice como cinta, con las cadenas laterales hacia fuera (pág. 9)
+% α-hélice con las cadenas laterales hacia fuera (pág. 9)
+% Dibujo: recorte vectorial del autor (rec-01-alfa-helice.pdf)
 \begin{tikzpicture}
-  % cinta helicoidal: tramos delanteros (rayados) y traseros (más claros)
-  \foreach \i in {0,1,2} {
-    \begin{scope}[shift={(1.3*\i,0)}]
-      % tramo trasero
-      \draw[apAzulClaro!60, line width=5pt] (0.65,-0.55) .. controls (0.9,-0.1) and (1.05,0.35) .. (1.3,0.55);
-      % tramo delantero
-      \draw[apAzul, line width=7pt] (0,0.55) .. controls (0.3,0.25) and (0.4,-0.35) .. (0.65,-0.55);
-      \draw[white, line width=0.6pt, dash pattern=on 0.6pt off 1.4pt] (0,0.55) .. controls (0.3,0.25) and (0.4,-0.35) .. (0.65,-0.55);
-    \end{scope}
-  }
-  % cadenas laterales (rojo), hacia fuera arriba y abajo
-  \foreach \x in {0.1,0.5,0.9,1.4,1.8,2.2,2.7,3.1,3.5} {
-    \draw[apRojo, line width=0.8pt, decorate, decoration={snake, amplitude=0.6pt, segment length=3pt}] (\x,0.75) -- (\x+0.05,1.15);
-    \draw[apRojo, line width=0.8pt, decorate, decoration={snake, amplitude=0.6pt, segment length=3pt}] (\x+0.2,-0.75) -- (\x+0.25,-1.15);
-  }
+  \node[inner sep=0] {\includegraphics[width=6cm]{rec-01-alfa-helice.pdf}};
 \end{tikzpicture}
 % ---------------------------
 \end{document}

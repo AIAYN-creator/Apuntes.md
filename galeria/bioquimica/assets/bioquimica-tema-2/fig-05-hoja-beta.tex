@@ -13,6 +13,7 @@
 \usepackage{sansmath}\sansmath  % fórmulas en sans, a juego con el texto
 \usepackage[version=4]{mhchem}  % \ce{A + B -> C}
 \usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{graphicx}           % \includegraphics de recortes vectoriales (rec-NN.pdf)
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
 \usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
@@ -57,17 +58,10 @@
 
 \begin{document}
 % --- cuerpo de la figura ---
-% Hoja β: lámina plegada en zigzag (pág. 9)
+% Hoja β: lámina plegada (pág. 9)
+% Dibujo: recorte vectorial del autor (rec-02-hoja-beta.pdf)
 \begin{tikzpicture}
-  \def\zig{(0,0.6) -- (0.4,0.85) -- (0.8,0.6) -- (1.2,0.85) -- (1.6,0.6) -- (2.0,0.85) -- (2.4,0.6) -- (2.8,0.85) -- (3.2,0.6)}
-  \def\zag{(3.2,-0.6) -- (2.8,-0.35) -- (2.4,-0.6) -- (2.0,-0.35) -- (1.6,-0.6) -- (1.2,-0.35) -- (0.8,-0.6) -- (0.4,-0.35) -- (0,-0.6)}
-  \fill[apAzulClaro!25] (0,0.6) -- (0.4,0.85) -- (0.8,0.6) -- (1.2,0.85) -- (1.6,0.6) -- (2.0,0.85) -- (2.4,0.6) -- (2.8,0.85) -- (3.2,0.6)
-                        -- (3.2,-0.6) -- (2.8,-0.35) -- (2.4,-0.6) -- (2.0,-0.35) -- (1.6,-0.6) -- (1.2,-0.35) -- (0.8,-0.6) -- (0.4,-0.35) -- (0,-0.6) -- cycle;
-  \foreach \x in {0.05,0.15,...,3.15} \draw[apAzul, line width=0.7pt] (\x,-0.62) -- (\x,0.85);
-  \fill[white] (0,0.6) -- (0.4,0.85) -- (0.8,0.6) -- (1.2,0.85) -- (1.6,0.6) -- (2.0,0.85) -- (2.4,0.6) -- (2.8,0.85) -- (3.2,0.6) -- (3.2,1.0) -- (0,1.0) -- cycle;
-  \fill[white] (3.2,-0.6) -- (2.8,-0.35) -- (2.4,-0.6) -- (2.0,-0.35) -- (1.6,-0.6) -- (1.2,-0.35) -- (0.8,-0.6) -- (0.4,-0.35) -- (0,-0.6) -- (0,-0.8) -- (3.2,-0.8) -- cycle;
-  \draw[apNegro, line width=1.3pt] \zig;
-  \draw[apNegro, line width=1.3pt] \zag;
+  \node[inner sep=0] {\includegraphics[width=5cm]{rec-02-hoja-beta.pdf}};
 \end{tikzpicture}
 % ---------------------------
 \end{document}

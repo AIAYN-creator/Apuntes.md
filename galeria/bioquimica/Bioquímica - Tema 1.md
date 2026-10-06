@@ -5,6 +5,11 @@ titulo: "Moléculas biológicas, el agua, interacciones débiles en medio acuoso
 fechas: [2026-09-16]
 fuente: "bq-temas-1-4.pdf#p2-5"
 aliases: [Tema 1]
+creditos:
+  - "Icono simple_cell1 (Marnie-Maddock, CC0), bioicons.com"
+  - "Icono chromosome-red (Servier, CC-BY 3.0), bioicons.com"
+  - "Icono DNA_double_helix (James-Lloyd, CC0), bioicons.com"
+  - "Icono Phospholipid y derivado de una cola (Cléber-Gomes, CC0), bioicons.com"
 ---
 
 > [!warning] Sin fecha en las págs. 2–3

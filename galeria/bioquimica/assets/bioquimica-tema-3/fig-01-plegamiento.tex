@@ -13,6 +13,7 @@
 \usepackage{sansmath}\sansmath  % fórmulas en sans, a juego con el texto
 \usepackage[version=4]{mhchem}  % \ce{A + B -> C}
 \usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{graphicx}           % \includegraphics de recortes vectoriales (rec-NN.pdf)
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
 \usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
@@ -57,26 +58,18 @@
 
 \begin{document}
 % --- cuerpo de la figura ---
-% Genes -> (expresión génica) -> proteínas -> (plegamiento) -> funciones (pág. 10)
+% Genes -> expresión génica -> proteínas -> plegamiento -> funciones (pág. 10)
+% Dibujo: recorte vectorial del autor (rec-01-plegamiento.pdf); etiquetas en tipografía
 \begin{tikzpicture}[font=\normalsize]
-  % genes: cadena de cuentas
-  \node[apNegro] at (0.8,0.55) {Genes};
-  \draw[apRojo, line width=1pt] (0,0) -- (1.7,0);
-  \foreach \x in {0.2,0.5,...,1.6} \draw[apRojo, line width=0.9pt, fill=white] (\x,0) circle (0.07);
-  % expresión génica
-  \draw[->, apNegro, line width=1pt] (1.85,0.05) .. controls (2.3,0.35) and (2.8,0.35) .. (3.25,0.1);
-  \node[apNegro, align=center, font=\small] at (2.55,0.65) {expresión\\génica};
-  % proteína desplegada
-  \draw[apRojo, line width=1.2pt] (3.45,0.35) .. controls (3.3,0.8) and (3.9,0.9) .. (3.75,0.4)
-    .. controls (4.2,0.6) and (4.3,0.0) .. (3.95,-0.05) .. controls (4.4,-0.4) and (3.8,-0.6) .. (3.6,-0.3)
-    .. controls (3.2,-0.4) and (3.3,0.1) .. (3.45,0.35);
-  \node[apNegro] at (3.8,-0.95) {Proteínas};
-  % plegamiento
-  \draw[->, apNegro, line width=1pt] (4.45,0.35) .. controls (5.0,0.8) and (5.6,0.8) .. (6.05,0.25);
-  \node[apNegro] at (5.25,0.95) {plegamiento};
-  % proteína plegada (ovillo compacto)
-  \foreach \a in {0,40,...,320} \draw[apRojo, line width=1pt, rotate around={\a:(6.45,0.0)}] (6.45,0.0) ellipse (0.33 and 0.18);
-  \node[apNegro, anchor=west] at (6.9,0.05) {Funciones};
+  \node[inner sep=0, anchor=south west] (img) at (0,0) {\includegraphics[width=8cm]{rec-01-plegamiento.pdf}};
+  \begin{scope}[x={(img.south east)}, y={(img.north west)}]
+    \node[apNegro, anchor=west] at (0.02,0.93) {Genes};
+    \node[apNegro] at (0.30,0.95) {expresión};
+    \node[apNegro] at (0.31,0.50) {génica};
+    \node[apNegro] at (0.52,-0.07) {Proteínas};
+    \node[apNegro] at (0.69,0.47) {plegamiento};
+    \node[apNegro, anchor=west] at (1.02,0.45) {Funciones};
+  \end{scope}
 \end{tikzpicture}
 % ---------------------------
 \end{document}

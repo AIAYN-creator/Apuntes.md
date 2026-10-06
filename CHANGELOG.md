@@ -1,5 +1,36 @@
 # Changelog
 
+## v2.1.0 — 2026-10-06
+
+Los dibujos figurativos, la parte más floja de la v2, ya están a la altura del resto. **Criterio de vida superado:** revisión del usuario aprobada.
+
+### Iconos de Bioicons, con licencia controlada
+- `iconos.py`:
+  - busca en el catálogo;
+  - muestra la licencia, el autor y el tamaño **sin descargar**;
+  - descarga **solo bajo demanda y con permiso**, y **rechaza CC-BY-SA**;
+  - registra la atribución en `iconos/ICONOS.md` y comprueba las licencias.
+- `iconos.py pdf` pasa el icono a PDF para componerlo en TikZ con las etiquetas en tipografía:
+  - recorta al dibujo;
+  - pasa los colores a la paleta (`--paleta`) y quita los fondos de lámina (`--sin-fondo`);
+  - lee los colores por clase CSS de los SVG de Illustrator y avisa de los iconos que no son vectoriales.
+- Iconos usados: 9, todos CC0 o CC-BY. Uno es derivado (un fosfolípido de una cola). La atribución va en el frontmatter de cada nota (`creditos`) y en la [galería](galeria/#créditos-de-iconos).
+
+### Recorte vectorial del propio dibujo
+- `recorte_vectorial.py` exporta los trazos de tableta de una zona como SVG/PDF nítido:
+  - `--excluir` quita las etiquetas escritas a mano;
+  - `--paleta` pasa los colores a la paleta;
+  - el script imprime el marco del dibujo para colocar las etiquetas en TikZ.
+- `tikz2svg.sh` usa `pdftocairo` cuando la figura incrusta un recorte (`dvisvgm` lo dejaba en blanco sin avisar).
+- Regla: **si un icono pierde contenido del dibujo, gana el recorte.**
+
+### Entregable
+- Bioquímica, temas 1–4: las 9 figuras figurativas rehechas.
+  - **3 con iconos:** jerarquía, lípidos y niveles de estructura.
+  - **6 con recorte vectorial:** α-hélice, hoja β, plegamiento, renaturalización, purificación y columna.
+- Las notas no cambian: cada figura conserva su nombre y el contenido verifica igual.
+- [Galería](galeria/) con antes/después (niveles, jerarquía, lípidos y columna) y la hoja con las 9 figuras.
+
 ## v2.0.0 — 2026-10-04
 
 Los 4 primeros temas de Bioquímica, perfectos y conforme a todas las especificaciones de la versión. **Criterio de vida superado:** revisión del usuario aprobada.

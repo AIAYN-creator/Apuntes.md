@@ -16,11 +16,19 @@ Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) conv
 
 ![Niveles de estructura de las proteínas: a mano vs. iconos](proceso/06-niveles-a-mano-vs-iconos.png)
 
-**Esquemas:**
+![Jerarquía submolecular y molecular: a mano vs. iconos](antes-despues/tema1-jerarquia.png)
 
-![Jerarquía submolecular y molecular](antes-despues/tema1-jerarquia.png)
+**El mismo icono, repetido.** El fosfolípido de Bioicons se coloca en la micela, la bicapa y la vesícula. La micela lleva **una cola**, como en la hoja; el icono trae dos, así que se ha derivado una versión de una cola:
 
 ![Formas de los lípidos: micela, bicapa, vesícula](antes-despues/tema1-lipidos.png)
+
+**Tu propio trazo.** Cuando un icono perdería algo del dibujo, se usa el trazo original de la tableta (recorte vectorial), con las etiquetas en tipografía:
+
+![Columna de cromatografía: a mano vs. recorte vectorial con etiquetas en TikZ](antes-despues/tema4-columna.png)
+
+**Las 9 figuras figurativas de la v2.1**, 3 con iconos y 6 con recorte vectorial:
+
+![Las 9 figuras de la v2.1](v21-figuras.png)
 
 **Estilo v1 → v2.** El mismo dibujo, con la tipografía y la paleta de Apuntes.md:
 
@@ -61,6 +69,20 @@ Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) conv
 
 *Capturas hechas sin el fragmento `apuntes-estetica.css` activo, así que los callouts propios salen con el estilo por defecto de Obsidian. Con el fragmento activo, las definiciones van en verde y las fórmulas en azul.*
 
-## Lo que viene (v2.1)
+## Créditos de iconos
 
-Los dibujos figurativos (material de laboratorio, hélices, plegamientos) todavía están en TikZ y son la parte más floja. La v2.1 los sustituye por iconos de [Bioicons](https://bioicons.com/) con licencia libre (CC0, MIT/BSD o CC-BY con atribución) o por **recortes vectoriales del propio dibujo de tableta**.
+Las figuras de esta galería usan iconos de [Bioicons](https://bioicons.com/). Cada uno conserva su licencia, y solo se admiten CC0, CC-BY, MIT y BSD (nunca CC-BY-SA). El registro completo está en [`ICONOS.md`](../skills/apuntes-a-md/iconos/ICONOS.md).
+
+| Icono | Autor | Licencia | Origen | Usado en |
+|---|---|---|---|---|
+| simple_cell1 | Marnie-Maddock | CC0 | [bioicons](https://raw.githubusercontent.com/duerrsimon/bioicons/main/static/icons/cc-0/Cell_types/Marnie-Maddock/simple_cell1.svg) | Bioquímica T1 fig-02 |
+| DNA_double_helix | James-Lloyd | CC0 | [bioicons](https://raw.githubusercontent.com/duerrsimon/bioicons/main/static/icons/cc-0/Nucleic_acids/James-Lloyd/DNA_double_helix.svg) | Bioquímica T1 fig-02 |
+| Phospholipid | Cléber-Gomes | CC0 | [bioicons](https://raw.githubusercontent.com/duerrsimon/bioicons/main/static/icons/cc-0/Cell_membrane/Cl%C3%A9ber-Gomes/Phospholipid.svg) | Bioquímica T1 fig-11 |
+| Phospholipid (derivado: una cola) | Cléber-Gomes | CC0 | [bioicons](https://raw.githubusercontent.com/duerrsimon/bioicons/main/static/icons/cc-0/Cell_membrane/Cl%C3%A9ber-Gomes/Phospholipid.svg) | Bioquímica T1 fig-11 |
+| Protein_primary_structure | DBCLS | CC-BY 4.0 | [bioicons](https://raw.githubusercontent.com/duerrsimon/bioicons/main/static/icons/cc-by-4.0/Intracellular_components/DBCLS/Protein_primary_structure.svg) | Bioquímica T2 fig-03 |
+| Protein_secondary_structure | DBCLS | CC-BY 4.0 | [bioicons](https://raw.githubusercontent.com/duerrsimon/bioicons/main/static/icons/cc-by-4.0/Intracellular_components/DBCLS/Protein_secondary_structure.svg) | Bioquímica T2 fig-03 |
+| Protein_tertiary_structure | DBCLS | CC-BY 4.0 | [bioicons](https://raw.githubusercontent.com/duerrsimon/bioicons/main/static/icons/cc-by-4.0/Intracellular_components/DBCLS/Protein_tertiary_structure.svg) | Bioquímica T2 fig-03 |
+| Protein_quaternary_structure | DBCLS | CC-BY 4.0 | [bioicons](https://raw.githubusercontent.com/duerrsimon/bioicons/main/static/icons/cc-by-4.0/Intracellular_components/DBCLS/Protein_quaternary_structure.svg) | Bioquímica T2 fig-03 |
+| chromosome-red | Servier | CC-BY 3.0 | [bioicons](https://raw.githubusercontent.com/duerrsimon/bioicons/main/static/icons/cc-by-3.0/Genetics/Servier/chromosome-red.svg) | Bioquímica T1 fig-02 |
+
+Licencias: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) · [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Los iconos se han convertido a PDF; algunos están recoloreados a la paleta o modificados, como indica `ICONOS.md`.

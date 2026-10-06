@@ -16,7 +16,7 @@ Los dibujos figurativos se rehacen con **iconos libres de [Bioicons](https://bio
 
 👉 **[Galería](galeria/)**: 4 temas reales de Bioquímica, con las páginas originales y comparativas antes/después.
 
-**Estado: v2.0.0.** Los **4 primeros temas de Bioquímica**, 11 páginas a mano, convertidos en una nota por tema, con estética didáctica y **verificados palabra por palabra** contra la transcripción. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](galeria/) y el [CHANGELOG](CHANGELOG.md).
+**Estado: v2.1.0.** Los **4 primeros temas de Bioquímica**, 11 páginas a mano, convertidos en una nota por tema, con estética didáctica, **verificados palabra por palabra** contra la transcripción y con los dibujos rehechos con iconos libres o con el propio trazo del autor. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](galeria/) y el [CHANGELOG](CHANGELOG.md).
 
 ## Qué hace
 
@@ -144,7 +144,7 @@ pruebas/               escaneos y salidas de prueba (no se suben)
 
 - **v1.0.0** ✅ Conversión fiel de apuntes a mano a Markdown + Obsidian.
 - **v2.0.0** ✅ Skill independiente del agente, una nota por tema, estética didáctica que no toca el contenido (verificada con un script), estilo común de figuras y los 4 temas de Bioquímica.
-- **v2.1** Dibujos figurativos con iconos de [Bioicons](https://bioicons.com/) (solo CC0, MIT/BSD y CC-BY con atribución) o con recortes vectoriales del propio dibujo de tableta.
+- **v2.1.0** ✅ Dibujos figurativos con iconos de [Bioicons](https://bioicons.com/) (solo CC0, MIT/BSD y CC-BY con atribución) o con recortes vectoriales del propio dibujo de tableta.
 - **v3** Reordenar el vault: arquitectura de carpetas (`Universidad/Química/<curso>/<Asignatura>/`), enlaces internos entre temas, tags e índices por asignatura.
 
 ## Licencia

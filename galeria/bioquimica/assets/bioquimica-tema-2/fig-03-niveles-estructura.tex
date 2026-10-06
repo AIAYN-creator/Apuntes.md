@@ -13,6 +13,7 @@
 \usepackage{sansmath}\sansmath  % fórmulas en sans, a juego con el texto
 \usepackage[version=4]{mhchem}  % \ce{A + B -> C}
 \usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{graphicx}           % \includegraphics de recortes vectoriales (rec-NN.pdf)
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
 \usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
@@ -58,44 +59,39 @@
 \begin{document}
 % --- cuerpo de la figura ---
 % Los 4 niveles de estructura de las proteínas (pág. 8)
+% iconos: Protein_primary/secondary/tertiary/quaternary_structure (DBCLS, CC-BY 4.0)
 \begin{tikzpicture}[font=\normalsize]
-  % ---- Primaria: secuencia de residuos
+  % ---- Primaria: los 4 primeros residuos del icono, en vertical, con sus nombres
+  \node[inner sep=0] (p) at (0,0.35) {\includegraphics[trim=0 0 200 0, clip, angle=-90, totalheight=3.2cm]{ico-01-primaria.pdf}};
+  \begin{scope}[x={($(p.south east)-(p.south west)$)}, y={($(p.north west)-(p.south west)$)}, shift={(p.south west)}]
+    \foreach \r/\v in {Pro/0.86, Ala/0.61, Asp/0.36, Cys/0.11} {
+      \node[anchor=west, apVerde] at (1.3,\v) {\r};
+    }
+  \end{scope}
   \node[anotacion, align=center] at (0,2.6) {Secuencia de\\residuos};
-  \foreach \r/\y in {Pro/1.6, Ala/0.9, Asp/0.2, Cys/-0.5} {
-    \node[draw=apVerde, ellipse, line width=1.1pt, inner sep=1.5pt, font=\small, apVerde] (\r) at (0,\y) {\r};
-  }
-  \draw[apVerde, line width=1.1pt] (Pro) -- (Ala) (Ala) -- (Asp) (Asp) -- (Cys);
-  \node[apRojo] at (0,-1.25) {Primaria};
-
-  % ---- Secundaria: hélice (muelle visto de lado)
-  \node[anotacion, align=center] at (3.7,2.4) {Estructura local de\\la cadena principal};
-  \draw[apVerde, line width=1.2pt, domain=0:12*pi, samples=400, smooth, variable=\t]
-    plot ({3.7+0.3*cos(\t r)}, {-0.55+0.055*\t+0.13*sin(\t r)});
-  \node[apRojo] at (3.7,-1.25) {Secundaria};
-
-  % ---- Terciaria: plegamiento global con una hélice rodeada
-  \node[anotacion, align=center] at (7.9,2.4) {Estructura global de\\una sola cadena\\polipeptídica};
-  \draw[apVerde, line width=1.2pt]
-    (6.8,0.4) .. controls (6.7,1.3) and (7.6,1.6) .. (8.1,1.2) .. controls (8.9,1.5) and (9.3,0.6) .. (8.9,0.1)
-              .. controls (9.2,-0.5) and (8.1,-0.9) .. (7.6,-0.5) .. controls (7.0,-0.8) and (6.6,-0.2) .. (6.8,0.4);
-  \draw[apVerde, line width=1pt, domain=0:6*pi, samples=200, smooth, variable=\t]
-    plot ({7.35+0.045*\t+0.12*cos(\t r)}, {0.2+0.03*\t+0.1*sin(\t r)});
-  \draw[apVerde, line width=1pt] (8.1,0.4) -- (8.6,0.0) -- (8.3,-0.2) -- (8.7,-0.5);
-  \draw[apRojo, line width=1.2pt, rotate around={30:(7.75,0.45)}] (7.75,0.45) ellipse (0.7 and 0.38);
-  \node[apRojo] at (7.9,-1.25) {Terciaria};
-
-  % ---- Cuaternaria: oligómero de varias cadenas
-  \node[anotacion, align=center] at (12.4,2.4) {Estructura global de un\\oligómero de\\varias cadenas};
-  \foreach \cx/\cy in {12.2/0.85, 11.8/0.05, 12.65/-0.35, 12.9/0.55} {
-    \draw[apVerde, line width=1.1pt] (\cx,\cy) circle [x radius=0.45, y radius=0.4];
-  }
-  \draw[apRojo, line width=1.2pt] (12.2,0.85) circle (0.6);
-  \node[apRojo] at (12.4,-1.25) {Cuaternaria};
-
+  \node[apRojo] at (0,-1.75) {Primaria};
+  % ---- Secundaria
+  \node[inner sep=0] (s) at (4.0,0.35) {\includegraphics[width=3.4cm]{ico-02-secundaria.pdf}};
+  \node[anotacion, align=center] at (4.0,2.6) {Estructura local de\\la cadena principal};
+  \node[apRojo] at (4.0,-1.75) {Secundaria};
+  % ---- Terciaria, con la hélice rodeada en rojo como en la hoja
+  \node[inner sep=0] (t) at (8.2,0.35) {\includegraphics[height=3.2cm]{ico-03-terciaria.pdf}};
+  \begin{scope}[x={($(t.south east)-(t.south west)$)}, y={($(t.north west)-(t.south west)$)}, shift={(t.south west)}]
+    \draw[resalte, apRojo, line width=1.4pt] (0.33,0.58) ellipse (0.2 and 0.17);
+  \end{scope}
+  \node[anotacion, align=center] at (8.2,2.75) {Estructura global de\\una sola cadena\\polipeptídica};
+  \node[apRojo] at (8.2,-1.75) {Terciaria};
+  % ---- Cuaternaria, con una cadena rodeada en rojo como en la hoja
+  \node[inner sep=0] (c) at (12.4,0.35) {\includegraphics[height=3.2cm]{ico-04-cuaternaria.pdf}};
+  \begin{scope}[x={($(c.south east)-(c.south west)$)}, y={($(c.north west)-(c.south west)$)}, shift={(c.south west)}]
+    \draw[resalte, apRojo, line width=1.4pt] (0.31,0.73) ellipse (0.31 and 0.28);
+  \end{scope}
+  \node[anotacion, align=center] at (12.4,2.75) {Estructura global de un\\oligómero de\\varias cadenas};
+  \node[apRojo] at (12.4,-1.75) {Cuaternaria};
   % ---- flechas entre niveles
-  \draw[->, apRojo, line width=1.2pt] (0.6,0.5) -- (3.1,0.5);
-  \draw[->, apRojo, line width=1.2pt] (4.3,0.5) -- (6.55,0.5);
-  \draw[->, apRojo, line width=1.2pt] (9.35,0.5) -- (11.2,0.7);
+  \draw[->, apRojo, line width=1.2pt] (1.3,0.35) -- (2.15,0.35);
+  \draw[->, apRojo, line width=1.2pt] (5.85,0.35) -- (6.95,0.35);
+  \draw[->, apRojo, line width=1.2pt] (9.45,0.35) -- (11.15,0.35);
 \end{tikzpicture}
 % ---------------------------
 \end{document}

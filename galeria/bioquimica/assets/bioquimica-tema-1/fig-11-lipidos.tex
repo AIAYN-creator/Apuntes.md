@@ -13,6 +13,7 @@
 \usepackage{sansmath}\sansmath  % fórmulas en sans, a juego con el texto
 \usepackage[version=4]{mhchem}  % \ce{A + B -> C}
 \usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{graphicx}           % \includegraphics de recortes vectoriales (rec-NN.pdf)
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
 \usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
@@ -58,47 +59,48 @@
 \begin{document}
 % --- cuerpo de la figura ---
 % Forma de los lípidos -> agregado: cono invertido -> micela; cilindro -> bicapa -> vesícula
+% iconos: Phospholipid y su derivado de una cola (Cléber-Gomes, CC0)
 \begin{tikzpicture}[apAzul, thick, font=\normalsize,
   imp/.style={-{Implies}, double, double distance=2pt}]
-  % un lípido: cabeza (círculo) en (x,y); las colas salen en la dirección opuesta a "ángulo"
-  % (ángulo = hacia dónde mira la cabeza)
+  % un lípido con la cabeza en (x,y) mirando hacia "ángulo"; las colas, al lado opuesto.
+  % El centro de la cabeza está en (0.5, 0.82) del icono de una cola y en (0.315, 0.82) del de dos.
   \newcommand{\lipido}[4]{% x, y, ángulo de la cabeza, nº de colas (1 o 2)
-    \begin{scope}[shift={({#1},{#2})}, rotate=#3]
-      \draw[fill=white] (0,0) circle (0.07);
-      \ifnum#4=1 \draw (-0.07,0) -- (-0.27,0);
-      \else \draw (-0.07,0.03) -- (-0.27,0.03); \draw (-0.07,-0.03) -- (-0.27,-0.03); \fi
+    \begin{scope}[shift={({#1},{#2})}, rotate=#3-90]
+      \ifnum#4=1
+        \node[inner sep=0, anchor=south west, transform shape] at (-0.5*0.129,-0.82*0.36) {\includegraphics[height=0.36cm]{ico-05-fosfolipido-una-cola.pdf}};
+      \else
+        \node[inner sep=0, anchor=south west, transform shape] at (-0.315*0.206,-0.82*0.36) {\includegraphics[height=0.36cm]{ico-04-fosfolipido.pdf}};
+      \fi
     \end{scope}}
 
   % ---- fila 1: cono invertido -> micela (cabezas fuera, colas dentro)
   \draw (-0.22,1.0) -- (0,0.15) -- (0.22,1.0);
   \draw (0,1.0) ellipse (0.22 and 0.06);
-  \draw[fill=white] (0,0.82) circle (0.1);
-  \draw (0,0.72) -- (0,0.3);
+  \node[inner sep=0, anchor=north] at (0,0.95) {\includegraphics[height=0.62cm]{ico-05-fosfolipido-una-cola.pdf}};
   \draw[imp] (0.5,0.6) -- (1.1,0.6);
   \node[align=left, anchor=west] at (1.2,0.6) {Forma de cono\\invertido};
   \draw[imp] (3.75,0.6) -- (4.3,0.6);
-  \foreach \t in {0,24,...,359} \lipido{5.1+0.45*cos(\t)}{0.6+0.45*sin(\t)}{\t}{1};
-  \node[anchor=west] at (5.7,0.6) {Micela};
+  \foreach \t in {0,24,...,359} \lipido{5.1+0.48*cos(\t)}{0.6+0.48*sin(\t)}{\t}{1};
+  \node[anchor=west] at (5.75,0.6) {Micela};
 
   % ---- fila 2: cilindro -> bicapa -> vesícula
   \draw (-0.2,-0.6) -- (-0.2,-1.5) (0.2,-0.6) -- (0.2,-1.5);
   \draw (0,-0.6) ellipse (0.2 and 0.06);
   \draw (-0.2,-1.5) arc (180:360:0.2 and 0.06);
-  \draw[fill=white] (0,-0.8) circle (0.1);
-  \draw (-0.04,-0.9) -- (-0.04,-1.4) (0.04,-0.9) -- (0.04,-1.4);
+  \node[inner sep=0, anchor=north] at (0.07,-0.68) {\includegraphics[height=0.72cm]{ico-04-fosfolipido.pdf}};
   \draw[imp] (0.5,-1.05) -- (1.1,-1.05);
   \node[align=left, anchor=west] at (1.2,-1.05) {Forma\\cilíndrica};
   \draw[imp] (2.75,-1.05) -- (3.3,-1.05);
   \foreach \i in {0,...,6} {
-    \lipido{3.6+0.16*\i}{-0.75}{90}{2};
-    \lipido{3.6+0.16*\i}{-1.35}{-90}{2};
+    \lipido{3.6+0.17*\i}{-0.75}{90}{2};
+    \lipido{3.6+0.17*\i}{-1.35}{-90}{2};
   }
-  \node[anchor=west] at (4.75,-1.05) {Bicapa};
-  \draw[imp] (5.95,-1.05) -- (6.5,-1.05);
+  \node[anchor=west] at (4.8,-1.05) {Bicapa};
+  \draw[imp] (6.2,-1.05) -- (6.75,-1.05);
   % vesícula: capa externa (cabezas fuera) e interna (cabezas dentro, hacia la luz)
-  \foreach \t in {0,15,...,359} \lipido{7.6+0.95*cos(\t)}{-1.05+0.95*sin(\t)}{\t}{2};
-  \foreach \t in {0,30,...,359} \lipido{7.6+0.37*cos(\t)}{-1.05+0.37*sin(\t)}{\t+180}{2};
-  \node[anchor=west] at (8.65,-1.05) {Vesícula};
+  \foreach \t in {0,15,...,359} \lipido{7.95+1.0*cos(\t)}{-1.05+1.0*sin(\t)}{\t}{2};
+  \foreach \t in {0,36,...,359} \lipido{7.95+0.32*cos(\t)}{-1.05+0.32*sin(\t)}{\t+180}{2};
+  \node[anchor=west] at (9.05,-1.05) {Vesícula};
 \end{tikzpicture}
 % ---------------------------
 \end{document}

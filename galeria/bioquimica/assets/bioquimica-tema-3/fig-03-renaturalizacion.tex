@@ -13,6 +13,7 @@
 \usepackage{sansmath}\sansmath  % fórmulas en sans, a juego con el texto
 \usepackage[version=4]{mhchem}  % \ce{A + B -> C}
 \usepackage{chemfig}            % estructuras y esquemas de reacción
+\usepackage{graphicx}           % \includegraphics de recortes vectoriales (rec-NN.pdf)
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,decorations.pathmorphing,decorations.markings}
 \usepackage{pgfplots}           % gráficas (cinética, curvas de valoración...)
@@ -57,24 +58,13 @@
 
 \begin{document}
 % --- cuerpo de la figura ---
-% Equilibrio entre la cadena desplegada (ovillo estadístico) y la plegada (pág. 10)
+% Cadena desplegada <-> proteína plegada (pág. 10)
+% Dibujo: recorte vectorial del autor (rec-02-renaturalizacion.pdf); etiquetas en tipografía
 \begin{tikzpicture}[font=\normalsize]
-  % cadena desplegada, abierta
-  \draw[apAzul, line width=1.3pt]
-    (0.3,2.2) .. controls (0.6,2.0) and (0.1,1.6) .. (0.0,1.4) .. controls (-0.1,1.0) and (0.6,1.1) .. (0.5,0.7)
-    .. controls (0.4,0.3) and (0.9,0.4) .. (0.8,0.0) .. controls (0.7,-0.4) and (0.2,-0.2) .. (0.4,-0.6)
-    .. controls (0.6,-0.9) and (1.0,-0.6) .. (0.9,-1.0);
-  \draw[apAzul, line width=1.3pt] (0.65,0.15) .. controls (1.0,0.3) and (1.1,-0.1) .. (0.85,-0.2);
-  % flechas de equilibrio
-  \draw[->, apNegro, line width=1.2pt] (1.6,0.75) -- (4.6,0.75);
-  \draw[<-, apNegro, line width=1.2pt] (1.6,0.35) -- (4.6,0.35);
-  \node[apRojo, font=\large] at (3.1,1.2) {Renaturalización};
-  \node[apRojo, font=\large] at (3.1,-0.15) {Desnaturalización};
-  % cadena plegada, compacta (ovillo enredado)
-  \begin{scope}[shift={(5.6,0.6)}, apAzul, line width=1.1pt]
-    \draw plot[smooth cycle, tension=0.9] coordinates {(-0.6,0.2) (-0.2,0.7) (0.4,0.55) (0.7,0.0) (0.35,-0.55) (-0.3,-0.6) (-0.7,-0.2)};
-    \draw plot[smooth, tension=1] coordinates {(-0.5,0.0) (0.0,0.45) (0.5,0.2) (0.1,-0.3) (-0.35,0.25) (0.3,0.4) (0.45,-0.25) (-0.2,-0.45) (-0.45,0.15)};
-    \draw plot[smooth, tension=1] coordinates {(-0.2,0.6) (0.2,-0.1) (-0.5,-0.3) (0.6,-0.1)};
+  \node[inner sep=0, anchor=south west] (img) at (0,0) {\includegraphics[width=9cm]{rec-02-renaturalizacion.pdf}};
+  \begin{scope}[x={(img.south east)}, y={(img.north west)}]
+    \node[apRojo] at (0.44,0.70) {Renaturalización};
+    \node[apRojo] at (0.43,0.27) {Desnaturalización};
   \end{scope}
 \end{tikzpicture}
 % ---------------------------

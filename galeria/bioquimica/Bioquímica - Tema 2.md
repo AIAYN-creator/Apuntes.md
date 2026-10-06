@@ -5,6 +5,8 @@ titulo: "Aminoácidos, enlace peptídico, estructuras primaria y secundaria de l
 fechas: [2026-09-16]
 fuente: "bq-temas-1-4.pdf#p6-9"
 aliases: [Tema 2]
+creditos:
+  - "Icono Protein_primary/secondary/tertiary/quaternary_structure (DBCLS, CC-BY 4.0), bioicons.com"
 ---
 
 # Tema 2: Aminoácidos, enlace peptídico, estructuras primaria y secundaria de las proteínas
