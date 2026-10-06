@@ -260,7 +260,10 @@ def enlazar_nota(n: Nota, conceptos: list[Concepto], por_nombre: dict[str, Nota]
     hechos = []
     for c in conceptos:
         prohibidas = rango_seccion(por_nombre[c.nota], c.titulo) if c.nota == n.nombre else range(0)
-        ya = {n.seccion[i] for i, l in enumerate(n.lines) if f"[[{c.destino}|" in l or f"[[{c.destino}\\|" in l}
+        # Secciones donde ESTE concepto ya está enlazado. Se mira el texto, no solo el destino:
+        # Trp y Tyr comparten destino y cada uno lleva su propio enlace
+        ya = {n.seccion[i] for i, l in enumerate(n.lines)
+              if any(m.group(1) == c.destino and c.rx.fullmatch(m.group(3)) for m in LINK.finditer(l))}
         for i, l in enumerate(n.lines):
             sec = n.seccion[i]
             if not n.elegible[i] or i in prohibidas or sec in ya:
