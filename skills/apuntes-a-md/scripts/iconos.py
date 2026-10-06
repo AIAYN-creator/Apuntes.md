@@ -10,7 +10,7 @@ Uso:
     uv run scripts/iconos.py info NOMBRE [--autor A]        # licencia, autor, URL y tamaño (sin descargar)
     uv run scripts/iconos.py descargar NOMBRE [--autor A] [--fichero SVG]
     uv run scripts/iconos.py comprobar                      # ICONOS.md <-> iconos/
-    uv run scripts/iconos.py pdf ICONO.svg -o salida.pdf [--paleta]
+    uv run scripts/iconos.py pdf ICONO.svg -o salida.pdf [--paleta] [--sin-fondo]
 
 Licencias: solo CC0, MIT, BSD y CC-BY 3.0/4.0. **CC-BY-SA nunca**: ni se descarga ni se registra.
 
@@ -220,9 +220,73 @@ def a_paleta(m: re.Match) -> str:
         out = None
     else:
         hue = hh * 360
-        clave = "rojo" if hue < 25 or hue >= 330 else "verde" if 70 <= hue < 170 else "azul" if 170 <= hue < 270 else None
+        clave = "rojo" if hue < 30 or hue >= 330 else "verde" if 70 <= hue < 170 else "azul" if 170 <= hue < 270 else None
         out = PALETA[clave] if clave else None
     return m.group(0) if out is None else "#%02x%02x%02x" % out
+
+
+def css_en_linea(texto: str) -> str:
+    """Copia las reglas de clase de los <style> (.st0{fill:#FCFCFC}) al style de cada elemento.
+
+    Los SVG exportados de Illustrator dan los colores por clase y PyMuPDF ignora los
+    <style>: sin esto salen negros o vacíos (DNA_double_helix, Chromosome)."""
+    reglas: dict[str, str] = {}
+    for bloque in re.findall(r"<style[^>]*>(.*?)</style>", texto, flags=re.S):
+        bloque = re.sub(r"/\*.*?\*/|<!\[CDATA\[|\]\]>", "", bloque, flags=re.S)
+        for selectores, decl in re.findall(r"([^{}]+)\{([^}]*)\}", bloque):
+            for sel in selectores.split(","):
+                if m := re.fullmatch(r"\s*\.([\w-]+)\s*", sel):
+                    reglas[m.group(1)] = reglas.get(m.group(1), "") + decl.strip().rstrip(";") + ";"
+    if not reglas:
+        return texto
+
+    def poner(m: re.Match) -> str:
+        etiqueta = m.group(0)
+        clases = re.search(r'\sclass="([^"]*)"', etiqueta)
+        decl = "".join(reglas.get(c, "") for c in clases.group(1).split()) if clases else ""
+        if not decl:
+            return etiqueta
+        if (st := re.search(r'\sstyle="([^"]*)"', etiqueta)):     # el style propio manda: va después
+            return etiqueta.replace(st.group(0), f' style="{decl}{st.group(1)}"')
+        return re.sub(r"(/?>)$", f' style="{decl}"\\1', etiqueta)
+
+    return re.sub(r"<[a-zA-Z][^<>]*\sclass=\"[^\"]*\"[^<>]*>", poner, texto)
+
+
+def sin_illustrator(texto: str) -> str:
+    """Illustrator mete el dibujo en un <switch> cuyo primer hijo es un <foreignObject>
+    con datos propios; PyMuPDF elige ese hijo y el icono sale vacío."""
+    texto = re.sub(r"<foreignObject\b.*?</foreignObject>", "", texto, flags=re.S)
+    return re.sub(r"</?switch\b[^>]*>", "", texto)
+
+
+def sin_fondo(texto: str) -> str:
+    """Quita los rellenos casi blancos (fondos tipo lámina): en modo oscuro serían un recuadro."""
+    def blanco(h: str) -> bool:
+        h = "".join(c * 2 for c in h) if len(h) == 3 else h
+        return all(int(h[i:i + 2], 16) >= 0xF0 for i in (0, 2, 4))
+
+    def quitar(m: re.Match) -> str:
+        f = re.search(r'fill(?:="|:\s*)#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b', m.group(0))
+        return "" if f and blanco(f.group(1)) else m.group(0)
+
+    return re.sub(r"<(?:path|rect|polygon)\b[^>]*/>", quitar, texto)
+
+
+def caja_visible(pagina):
+    """Rectángulo (en pt) de los píxeles no transparentes de la página, con 1 pt de margen."""
+    import pymupdf
+
+    escala = 2
+    pix = pagina.get_pixmap(alpha=True, matrix=pymupdf.Matrix(escala, escala))
+    a = pix.samples[pix.n - 1::pix.n]                       # canal alfa
+    w, h = pix.width, pix.height
+    filas = [y for y in range(h) if any(a[y * w:(y + 1) * w])]
+    if not filas:
+        return None
+    cols = [x for x in range(w) if any(a[x::w][filas[0]:filas[-1] + 1])]
+    r = pymupdf.Rect(cols[0], filas[0], cols[-1] + 1, filas[-1] + 1) / escala
+    return (r + (-1, -1, 1, 1)) & pagina.rect
 
 
 def cmd_pdf(a) -> int:
@@ -231,19 +295,32 @@ def cmd_pdf(a) -> int:
     svg = Path(a.svg)
     if not svg.is_file():
         return error(f"no existe {svg}", 2)
-    texto = svg.read_text(encoding="utf-8")
+    texto = css_en_linea(sin_illustrator(svg.read_text(encoding="utf-8")))
+    if a.sin_fondo:
+        texto = sin_fondo(texto)
     if a.paleta:
         texto = re.sub(r"#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b", a_paleta, texto)
     try:
         doc = pymupdf.open(stream=texto.encode("utf-8"), filetype="svg")
-        pdf = pymupdf.open("pdf", doc.convert_to_pdf())
+        tmp = pymupdf.open("pdf", doc.convert_to_pdf())
+        # Recorta a lo que se ve: algunos iconos vienen sobre una página A4 con el dibujo en
+        # una esquina, o son un PNG con márgenes transparentes. Se mira el canal alfa.
+        caja = caja_visible(tmp[0])
+        if caja is None:
+            return error(f"{svg.name}: el PDF ha salido vacío (¿estructura SVG no soportada?)")
+        for im in tmp[0].get_image_info():
+            print(f"AVISO: {svg.name} no es vectorial: lleva una imagen de {im['width']}×{im['height']} px. "
+                  f"Se ve bien a tamaño de pantalla, pero no escala como un vector.", file=sys.stderr)
+        pdf = pymupdf.open()
+        pdf.new_page(width=caja.width, height=caja.height).show_pdf_page(
+            pymupdf.Rect(0, 0, caja.width, caja.height), tmp, 0, clip=caja)
     except Exception as e:  # PyMuPDF lanza tipos variados con SVG raros
         return error(f"PyMuPDF no pudo convertir {svg.name}: {e}")
     salida = Path(a.o)
     salida.parent.mkdir(parents=True, exist_ok=True)
     pdf.save(salida)
-    r = pdf[0].rect
-    print(f"{salida}: {r.width:.0f}×{r.height:.0f} pt" + (" (paleta)" if a.paleta else ""))
+    extras = [x for x, on in (("paleta", a.paleta), ("sin fondo", a.sin_fondo)) if on]
+    print(f"{salida}: {caja.width:.0f}×{caja.height:.0f} pt" + (f" ({', '.join(extras)})" if extras else ""))
     return 0
 
 
@@ -266,6 +343,7 @@ def main() -> int:
     d.add_argument("svg")
     d.add_argument("-o", required=True)
     d.add_argument("--paleta", action="store_true")
+    d.add_argument("--sin-fondo", action="store_true", help="quita los rellenos casi blancos (fondos)")
     a = p.parse_args()
     return {"catalogo": cmd_catalogo, "buscar": cmd_buscar, "info": cmd_info, "descargar": cmd_descargar,
             "comprobar": cmd_comprobar, "pdf": cmd_pdf}[a.orden](a)

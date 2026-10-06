@@ -274,7 +274,10 @@ uv run <skill>/scripts/iconos.py pdf <skill>/iconos/cc-0/simple_cell1.svg -o ass
 
 1. **Pide permiso antes de cada descarga**, del catálogo o de un icono, con el nombre, el origen y el tamaño (los da `info`). Se descarga **bajo demanda**, solo lo que una figura necesita. El catálogo (`iconos.py catalogo`, unos 290 KB) se descarga una vez.
 2. **Los originales viven en `<skill>/iconos/<licencia>/`, sin tocar**, con su fila en `iconos/ICONOS.md` (autor, licencia, origen). `descargar` los registra solo. Si haces una figura con un icono modificado, cambia su columna *Modificado* (p. ej. "recoloreado a la paleta") y apunta en *Usado en* dónde se usa.
-3. **Pasa el icono a PDF** con `pdf` (y `--paleta` si sus colores no significan nada propio), dentro de la carpeta de assets del tema.
+3. **Pasa el icono a PDF** con `pdf` (y `--paleta` si sus colores no significan nada propio), dentro de la carpeta de assets del tema. El PDF sale recortado al dibujo. `--sin-fondo` quita un fondo blanco de lámina, que en modo oscuro sería un recuadro.
+   - **Mira el icono antes de elegirlo:** el nombre engaña. `Chromosome` (DBCLS) es un cromosoma circular, no uno en X, y `chromatography` es un equipo de HPLC, no una columna.
+   - Si `pdf` avisa de que el icono **no es vectorial** (es un PNG dentro de un SVG), úsalo solo si se ve nítido al tamaño de la figura.
+   - Si un icono no tiene exactamente lo que dibujó el autor (una cola en vez de dos), puedes derivarlo de un CC0 o MIT/BSD en un SVG nuevo junto al original y registrarlo con *Modificado* explicando el cambio. Si no, el recorte.
 4. **Compón la figura** como en 7.1: `\includegraphics` del PDF y las etiquetas en TikZ con `anotacion`, y compila con `tikz2svg.sh`.
 5. **Atribución en dos sitios:**
    - en el `.tex`, una línea `% iconos: simple_cell1 (Marnie-Maddock, CC0)`;
