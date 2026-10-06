@@ -12,9 +12,11 @@ Apuntes **reales** de Bioquímica (Temas 1–4, escritos a mano en tableta) conv
 
 ![Estructuras resonantes](antes-despues/tema2-resonancia.png)
 
-**Esquemas:**
+**Dibujos con iconos (v2.1).** Los iconos de [Bioicons](https://bioicons.com/) sustituyen a los dibujos y conservan todo lo de la hoja: los residuos, la hélice rodeada en la terciaria y la cadena marcada en la cuaternaria.
 
-![Niveles de estructura de las proteínas](antes-despues/tema2-niveles-estructura.png)
+![Niveles de estructura de las proteínas: a mano vs. iconos](proceso/06-niveles-a-mano-vs-iconos.png)
+
+**Esquemas:**
 
 ![Jerarquía submolecular y molecular](antes-despues/tema1-jerarquia.png)
 

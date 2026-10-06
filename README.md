@@ -10,6 +10,10 @@ No hay API ni app propia: quien lee la hoja es el agente dentro de la sesión. L
 
 ![Apunte a mano vs. figura redibujada por la skill](galeria/proceso/04-van-der-waals-a-mano-vs-tikz.png)
 
+Los dibujos figurativos se rehacen con **iconos libres de [Bioicons](https://bioicons.com/)** o con **tu propio trazo de tableta**, y las etiquetas siempre en tipografía. Se conserva todo lo que dibujaste: los residuos, la hélice rodeada, la cadena marcada.
+
+![Niveles de estructura de las proteínas: a mano vs. iconos de Bioicons con etiquetas en TikZ](galeria/proceso/06-niveles-a-mano-vs-iconos.png)
+
 👉 **[Galería](galeria/)**: 4 temas reales de Bioquímica, con las páginas originales y comparativas antes/después.
 
 **Estado: v2.0.0.** Los **4 primeros temas de Bioquímica**, 11 páginas a mano, convertidos en una nota por tema, con estética didáctica y **verificados palabra por palabra** contra la transcripción. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](galeria/) y el [CHANGELOG](CHANGELOG.md).
