@@ -15,6 +15,7 @@ Los dibujos figurativos se rehacen con **iconos libres de [Bioicons](https://bio
 ![Niveles de estructura de las proteínas: a mano vs. iconos de Bioicons con etiquetas en TikZ](docs/galeria/proceso/06-niveles-a-mano-vs-iconos.png)
 
 👉 **[Guía de uso paso a paso](docs/USO.md)**: de cero (sin saber nada de terminales) a tus apuntes en Obsidian.
+
 👉 **[Galería](docs/galeria/)**: 4 temas reales de Bioquímica, con las páginas originales y comparativas antes/después.
 
 **Estado: v3.0.1.** Los **4 primeros temas de Bioquímica** (11 páginas a mano) convertidos en una nota por tema, con estética didáctica y **verificados palabra por palabra** contra la transcripción. Los dibujos están rehechos con iconos libres o con el propio trazo del autor. Todo está ordenado en `Universidad/Química/<curso>/<Asignatura>/`, enlazado entre temas y con un índice por asignatura. Los ejercicios van en su propia nota, junto a los apuntes. Funciona con cualquier agente compatible con Agent Skills. Ver la [galería](docs/galeria/) y el [CHANGELOG](docs/CHANGELOG.md).
@@ -42,6 +43,8 @@ Los dibujos figurativos se rehacen con **iconos libres de [Bioicons](https://bio
 
 ## Requisitos (Windows)
 
+> 📘 **¿Nunca has usado una terminal?** Sigue la **[guía de uso paso a paso](docs/USO.md)**: explica cada paso desde cero, con los comandos para copiar y pegar y una tabla de problemas frecuentes.
+
 | Programa | Para qué | Instalar |
 |---|---|---|
 | **[uv](https://docs.astral.sh/uv/)** | Ejecuta los scripts de Python. Cada script declara sus dependencias (RDKit, PyMuPDF, Pillow, PyYAML) y uv las instala solo, sin venv que crear. Si no tienes **Python ≥ 3.12**, uv también lo descarga | `winget install astral-sh.uv` |
@@ -63,6 +66,8 @@ uv --version && pdflatex --version && dvisvgm --version && pdftocairo -v
 
 ## Instalación (cualquier agente)
 
+> 📘 **¿Nunca has usado una terminal?** Sigue la **[guía de uso paso a paso](docs/USO.md)**: explica cada paso desde cero, con los comandos para copiar y pegar y una tabla de problemas frecuentes.
+
 La skill sigue el formato abierto **[Agent Skills](https://agentskills.io)** (`SKILL.md` + `scripts/`), que entienden Claude Code, Gemini CLI, Codex, Cursor, Copilot y otros. Instalarla es enlazar la misma carpeta allí donde cada agente busca sus skills:
 
 ```powershell
@@ -80,6 +85,8 @@ El instalador enlaza las dos skills (`apuntes-a-md` y `enlazar-apuntes`) y crea 
 El agente tiene que poder **ver imágenes/PDF**, **ejecutar comandos** y **escribir ficheros**.
 
 ### Uso
+
+> Paso a paso, con ejemplos: [guía de uso, apartados 6–8](docs/USO.md#6-convertir-tus-apuntes).
 
 Basta con pedirle algo como *"pasa a Markdown las págs. 6–7 de este escaneo a mi vault"*. En Claude Code también vale `/apuntes-a-md`.
 
