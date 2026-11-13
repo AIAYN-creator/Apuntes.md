@@ -148,6 +148,7 @@ skills/
 docs/
   USO.md               guía paso a paso para quien no ha usado nunca una terminal
   CHANGELOG.md         qué trae cada versión
+  CONTRIBUTING.md      cómo contribuir: issues, pull requests y reglas del proyecto
   galeria/             4 temas reales de Bioquímica, antes/después y créditos de iconos
 instalar.ps1           instala las skills en tu agente
 AGENTS.md              instrucciones para agentes que trabajen en el repo (CLAUDE.md y GEMINI.md lo importan)
@@ -162,6 +163,10 @@ AGENTS.md              instrucciones para agentes que trabajen en el repo (CLAUD
 - **v2.1.0** ✅ Dibujos figurativos con iconos de [Bioicons](https://bioicons.com/) (solo CC0, MIT/BSD y CC-BY con atribución) o con recortes vectoriales del propio dibujo de tableta.
 - **v3.0.0** ✅ Vault ordenado (`Universidad/Química/<curso>/<Asignatura>/`), notas de ejercicios junto a los apuntes, enlaces internos entre temas, tags e índice por asignatura (skill `enlazar-apuntes`).
 - **v3.0.1** ✅ [Guía de uso paso a paso](docs/USO.md) para quien no ha usado nunca una terminal, y repo ordenado (documentación en `docs/`).
+
+## Contribuir
+
+¿Has encontrado un fallo o quieres probarla con otra asignatura? Lee **[cómo contribuir](docs/CONTRIBUTING.md)**. No hace falta programar: contar qué ha fallado ya ayuda.
 
 ## Licencia
 

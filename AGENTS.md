@@ -14,6 +14,7 @@ Este fichero es la fuente de verdad para cualquier agente (Claude Code, Gemini C
 - **Los scripts son de línea de comandos.** Python con dependencias inline (PEP 723) y lanzado con `uv run`; Bash para `tikz2svg.sh`. Mensajes para humanos por stderr, resultado por stdout, y códigos de salida 0/1/2 documentados en la cabecera.
 - **Fin de línea LF** (lo fuerza `.gitattributes`). Escribe los ficheros con la herramienta de ficheros y no con heredocs: en Git Bash las capas de escape se comen las `\`.
 - **`pruebas/` no se sube** (está en `.gitignore`): ahí van los escaneos y las salidas de prueba, que son apuntes personales. Créala en local si la necesitas.
-- **Documentación para personas en `docs/`** (`USO.md`, `CHANGELOG.md`, `galeria/`). En la raíz solo queda lo que tiene que estar ahí.
+- **Documentación para personas en `docs/`** (`USO.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `galeria/`). En la raíz solo queda lo que tiene que estar ahí. Las reglas para contribuir están en [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).
+- **`main` está protegida:** los cambios entran por pull request; nada de force push.
 - **Commits**: un commit por cambio coherente, en español, terminado con el trailer `Supervised-by: <agente> <correo>`. El agente figura como supervisor, no como coautor.
 - **Antes de dar una figura por buena**, mira el preview del **SVG final** (`tikz2svg.sh --preview`), no el PDF.
